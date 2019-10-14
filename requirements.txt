@@ -1,0 +1,7 @@
+Django
+djangorestframework
+django-rosetta
+drf-yasg
+packaging
+psycopg2
+tox
