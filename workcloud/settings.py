@@ -14,15 +14,10 @@ import json
 import os
 import sys
 
-
-# Frontend theme
-FRONTEND_THEME = 'samples'
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 TEMPLATES_DIR = os.path.join(FRONTEND_DIR, 'templates')
-THEME_DIR = os.path.join(FRONTEND_DIR, FRONTEND_THEME)
 
 
 # Quick-start development settings - unsuitable for production
@@ -60,9 +55,10 @@ except IOError:
 
 
 # Default configurations.
-# It is highly suggested to override in CONFIG_PATH to change values.
+# It is highly suggested to override in CONFIG_PATH to change configurations.
 # See docs/config_sample.json
 
+FRONTEND_THEME = 'wc'
 REST_PAGINATION_SIZE_DEFAULT = 20
 DJANGO_DEBUG = False
 LOCAL_SERVER = False
@@ -113,8 +109,10 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rosetta',
+    'webpack_loader',
 ]
 WORKCLOUD_APPS = [
+    'frontend',
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + WORKCLOUD_APPS
 
@@ -130,12 +128,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'workcloud.urls'
 
+FRONTEND_THEME_DIR = os.path.join(FRONTEND_DIR, FRONTEND_THEME)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(THEME_DIR),
-            os.path.join(TEMPLATES_DIR),
+            TEMPLATES_DIR,
+            FRONTEND_THEME_DIR,
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -198,9 +197,9 @@ REST_FRAMEWORK = {
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -226,9 +225,8 @@ if 'rosetta' in INSTALLED_APPS:
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (
-    STATIC_DIR,
+    os.path.join(FRONTEND_THEME_DIR, 'dist', 'static'),
 )
 
 # Static files on AWS S3
@@ -248,3 +246,17 @@ if 'storages' in INSTALLED_APPS and not LOCAL_SERVER:
 else:
     MEDIA_URL = '/upload/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+
+
+# Django webpack loader
+# https://github.com/owais/django-webpack-loader
+
+if 'webpack_loader' in INSTALLED_APPS:
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'CACHE': not LOCAL_SERVER,
+            'BUNDLE_DIR_NAME': 'dist/',
+            'STATS_FILE': os.path.join(
+                FRONTEND_THEME_DIR, 'webpack-stats.json'),
+        }
+    }
