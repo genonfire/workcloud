@@ -40,10 +40,3 @@ if settings.LOCAL_SERVER:
             url(r'^redoc/$', schema_view.with_ui(
                 'redoc', cache_timeout=0), name='schema-redoc'),
         ]
-
-if 'webpack_loader' in settings.INSTALLED_APPS:
-    from django.views.generic import TemplateView
-
-    urlpatterns += [
-        url(r'^.*$', TemplateView.as_view(template_name='index.html'))
-    ]

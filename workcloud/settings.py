@@ -58,7 +58,6 @@ except IOError:
 # It is highly suggested to override in CONFIG_PATH to change configurations.
 # See docs/config_sample.json
 
-FRONTEND_THEME = 'wc'
 REST_PAGINATION_SIZE_DEFAULT = 20
 DJANGO_DEBUG = False
 LOCAL_SERVER = False
@@ -109,7 +108,6 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rosetta',
-    'webpack_loader',
 ]
 WORKCLOUD_APPS = [
     'frontend',
@@ -128,13 +126,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'workcloud.urls'
 
-FRONTEND_THEME_DIR = os.path.join(FRONTEND_DIR, FRONTEND_THEME)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             TEMPLATES_DIR,
-            FRONTEND_THEME_DIR,
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -226,7 +222,7 @@ if 'rosetta' in INSTALLED_APPS:
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(FRONTEND_THEME_DIR, 'dist', 'static'),
+    os.path.join(FRONTEND_DIR, 'static'),
 )
 
 # Static files on AWS S3
@@ -245,18 +241,4 @@ if 'storages' in INSTALLED_APPS and not LOCAL_SERVER:
     MEDIA_URL = 'https://' + AWS_S3_CUSTOM_DOMAIN + '/'
 else:
     MEDIA_URL = '/upload/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
-
-
-# Django webpack loader
-# https://github.com/owais/django-webpack-loader
-
-if 'webpack_loader' in INSTALLED_APPS:
-    WEBPACK_LOADER = {
-        'DEFAULT': {
-            'CACHE': not LOCAL_SERVER,
-            'BUNDLE_DIR_NAME': 'dist/',
-            'STATS_FILE': os.path.join(
-                FRONTEND_THEME_DIR, 'webpack-stats.json'),
-        }
-    }
+MEDIA_ROOT = os.path.join(FRONTEND_DIR, 'upload')

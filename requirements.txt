@@ -1,7 +1,7 @@
 Django
 djangorestframework
 django-rosetta
-django-webpack-loader
+django-storages
 drf-yasg
 packaging
 psycopg2
