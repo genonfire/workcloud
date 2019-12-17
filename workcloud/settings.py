@@ -60,9 +60,11 @@ except IOError:
 # It is highly suggested to override in CONFIG_PATH to change configurations.
 # See docs/config_sample.json
 
-REST_PAGINATION_SIZE_DEFAULT = 20
-DJANGO_DEBUG = False
+DEFAULT_FROM_EMAIL = EMAIL_ADDRESS
+DEBUG = False
 LOCAL_SERVER = False
+TRACE_ENABLED = False
+REST_PAGINATION_SIZE_DEFAULT = 20
 
 # Load project configuration from CONFIG_PATH if exist. (config.json)
 try:
@@ -74,14 +76,6 @@ try:
         print(" %s : %s" % (key, value))
 except IOError:
     pass
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = DJANGO_DEBUG
-if 'DJANGO_DEBUG' in os.environ:
-    if os.environ['DJANGO_DEBUG'] == 'Debug':
-        DEBUG = True
-        LOCAL_SERVER = True
 
 
 # Security
