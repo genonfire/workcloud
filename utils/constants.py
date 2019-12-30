@@ -8,6 +8,7 @@ class _Const(object):
 
     # Constants
     NAME_MAX_LENGTH = 150
+    PASSWORD_MAX_LENGTH = 128
 
 
 Const = _Const()

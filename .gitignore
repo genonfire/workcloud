@@ -1,6 +1,9 @@
-frontend/wc
-upload/
-.tox/
 *.pyc
 secrets.json
 config.json
+
+/frontend/wc
+/upload/
+/.tox/
+/*.egg-info/
+

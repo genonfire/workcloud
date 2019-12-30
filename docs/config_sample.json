@@ -1,7 +1,0 @@
-// This is a sample file for config.json.
-// Copy content into config.json for the project to load.
-{
-    "DEBUG": true,
-    "LOCAL_SERVER": true,
-    "TRACE_ENABLED": false
-}

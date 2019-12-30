@@ -1,8 +1,11 @@
-Django==3.0
-djangorestframework
+Django>=3.0
+django-cors-headers
+djangorestframework>=3.10
 django-rosetta
 django-storages
 drf-yasg
+flake8
 packaging
 psycopg2
+setuptools
 tox

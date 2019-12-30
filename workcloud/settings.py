@@ -21,6 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 TEMPLATES_DIR = os.path.join(FRONTEND_DIR, 'templates')
 
+TEST_SETTING = False
+if 'DJANGO_SETTINGS_MODULE' in os.environ:
+    if os.environ['DJANGO_SETTINGS_MODULE'] == 'tests.test_settings':
+        TEST_SETTING = True
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -29,10 +34,14 @@ TEMPLATES_DIR = os.path.join(FRONTEND_DIR, 'templates')
 SECRETS_PATH = 'secrets.json'
 CONFIG_PATH = 'config.json'
 
+if TEST_SETTING:
+    SECRETS_PATH = 'tests/test_secrets.json'
+    CONFIG_PATH = 'tests/test_config.json'
+
 
 # Load sensitive data from SECRETS_PATH. (secrets.json)
 # Do not change below, edit your own secrets.json instead.
-# See docs/secrets_sample.json
+# See tests/test_secrets.json
 
 try:
     secrets = json.loads(open(os.path.join(BASE_DIR, SECRETS_PATH)).read())
@@ -89,6 +98,16 @@ if not LOCAL_SERVER:
 ALLOWED_HOSTS = ['*']
 
 
+# CORS headers
+# https://github.com/adamchainz/django-cors-headers
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8000",
+    "http://localhost:8080"
+]
+
+
 # Application definition
 
 DJANGO_APPS = [
@@ -100,18 +119,21 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 THIRD_PARTY_APPS = [
+    'corsheaders',
     'drf_yasg',
     'rest_framework',
     'rest_framework.authtoken',
     'rosetta',
 ]
 WORKCLOUD_APPS = [
+    'accounts',
     'frontend',
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + WORKCLOUD_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -155,8 +177,17 @@ DATABASES = {
         'PASSWORD': DB_PASSWORD,
         'HOST': DB_HOST,
         'PORT': DB_PORT,
+        'TEST': {
+            'NAME': 'wc_test',
+        },
     }
 }
+
+
+# Substituting a custom User model
+# https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
+
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Password validation
@@ -177,8 +208,6 @@ if LOCAL_SERVER:
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS':

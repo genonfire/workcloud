@@ -3,6 +3,11 @@ python:
   - "3.7"
 install:
   - pip install -r requirements.txt
+services:
+  - postgresql
+before_script:
+  - psql -c "CREATE USER wc WITH PASSWORD 'wc';" -U postgres
+  - psql -c "CREATE DATABASE wc_test;" -U postgres
 script:
   - tox
 
