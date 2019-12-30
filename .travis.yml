@@ -7,7 +7,7 @@ services:
   - postgresql
 before_script:
   - psql -c "CREATE USER wc WITH PASSWORD 'wc';" -U postgres
-  - psql -c "CREATE DATABASE wc_test;" -U postgres
+  - psql -c "CREATE DATABASE wc_test OWNER wc;" -U postgres
 script:
   - tox
 
