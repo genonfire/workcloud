@@ -15,7 +15,6 @@ def _should_surname_ahead(language_code):
 
 
 def get_call_name(first_name, last_name, language_code=None):
-
     if not language_code:
         language_code = settings.LANGUAGE_CODE
     if _should_surname_ahead(language_code):

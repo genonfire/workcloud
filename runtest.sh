@@ -23,7 +23,9 @@ fi
 
 if [ "$flake8" = true ]; then
     echo "# checking flake8..."
-    flake8 --jobs=auto
+    if flake8 --jobs=auto; then
+        echo "\nOK"
+    fi
 fi
 if [ "$unittest" = true ]; then
     echo "# running unittests..."
@@ -32,7 +34,7 @@ fi
 
 if [ "$flake8" = false ] && [ "$unittest" = false ]; then
     echo "Usage: ./runtest.sh [options] ..."
-    echo "* run unit test if no options"
+    echo "* run unit test if no options provided"
     echo "\nOptions:"
     echo "flake8\t\t\t run flake8 only"
     echo "unit, unittest\t\t run unit test only"
