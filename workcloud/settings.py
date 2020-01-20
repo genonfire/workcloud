@@ -67,13 +67,15 @@ except IOError:
 
 # Default configurations.
 # It is highly suggested to override in CONFIG_PATH to change configurations.
-# See docs/config_sample.json
+# See tests/test_config.json
 
 DEFAULT_FROM_EMAIL = EMAIL_ADDRESS
 DEBUG = False
 LOCAL_SERVER = False
 TRACE_ENABLED = False
 REST_PAGINATION_SIZE_DEFAULT = 20
+DATE_TIME_FORMAT_DEFAULT = '%Y-%m-%dT%H:%M:%S%z'
+DATE_FORMAT_DEFAULT = '%Y-%m-%d'
 
 # Load project configuration from CONFIG_PATH if exist. (config.json)
 try:
@@ -210,9 +212,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
-    'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.PageNumberPagination',
     'PAGE_SIZE': REST_PAGINATION_SIZE_DEFAULT,
+    'DATETIME_FORMAT': DATE_TIME_FORMAT_DEFAULT,
+    'DATE_FORMAT': DATE_FORMAT_DEFAULT
 }
 
 

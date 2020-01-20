@@ -2,6 +2,7 @@ SECONDS=0
 
 unittest=false
 flake8=false
+testcase=false
 
 if [ $# -eq 0 ]; then
     unittest=true
@@ -18,6 +19,12 @@ else
             unittest=true
             flake8=true
         fi
+        if [ "$argval" == "case" ]; then
+            testcase=true
+        fi
+        if [ "$testcase" = true ] && [[ "$argval" =~ ^tests.* ]]; then
+            label=$argval
+        fi
     done
 fi
 
@@ -31,8 +38,12 @@ if [ "$unittest" = true ]; then
     echo "# running unittests..."
     python manage.py test --parallel --keepdb --settings=tests.test_settings
 fi
+if [ "$testcase" = true ]; then
+    echo "# running specific case $label..."
+    python manage.py test --keepdb --settings=tests.test_settings $label --debug-mode
+fi
 
-if [ "$flake8" = false ] && [ "$unittest" = false ]; then
+if [ "$flake8" = false ] && [ "$unittest" = false ] && [ "testcase" = false ]; then
     echo "Usage: ./runtest.sh [options] ..."
     echo "* run unit test if no options provided"
     echo "\nOptions:"

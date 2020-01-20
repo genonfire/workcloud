@@ -9,8 +9,8 @@ class UserAdmin(admin.ModelAdmin):
         'id',
         'username',
         'call_name',
-        'last_login',
         'date_joined',
+        'last_login',
         'is_active',
         'is_staff'
     )
@@ -29,4 +29,32 @@ class UserAdmin(admin.ModelAdmin):
         'id',
         'username',
         'call_name'
+    )
+
+
+@admin.register(models.LoginDevice)
+class LoginDeviceAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'user',
+        'device',
+        'os',
+        'browser',
+        'ip_address',
+        'last_login',
+        'is_registered'
+    )
+    search_fields = (
+        'id',
+        'user',
+        'ip_address'
+    )
+    ordering = (
+        'id',
+        'user'
+    )
+    list_display_links = (
+        'id',
+        'user',
+        'device'
     )

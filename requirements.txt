@@ -1,6 +1,6 @@
 Django>=3.0
-django-cors-headers
 djangorestframework>=3.10
+django-cors-headers
 django-rosetta
 django-storages
 drf-yasg
@@ -9,3 +9,4 @@ packaging
 psycopg2
 setuptools
 tox
+user-agents

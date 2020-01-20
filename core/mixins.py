@@ -1,5 +1,3 @@
-from rest_framework import status
-
 from core.response import Response
 from utils.debug import Debug  # noqa
 
@@ -12,6 +10,15 @@ class ResponseMixin:
     Check rest_framework/mixins.py
     """
 
+    def _check_ownership(self, request, instance):
+        user = request.user
+        if user.is_staff:
+            return True
+        elif hasattr(instance, 'user') and user == instance.user:
+            return True
+        else:
+            return False
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -20,7 +27,7 @@ class ResponseMixin:
 
         return Response(
             serializer.data,
-            status=status.HTTP_201_CREATED,
+            status=Response.HTTP_201,
             headers=headers
         )
 
@@ -56,4 +63,4 @@ class ResponseMixin:
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=Response.HTTP_204)

@@ -1,12 +1,14 @@
+from django.contrib.auth import authenticate
 from rest_framework import serializers
 
+from utils.constants import Const
 from utils.debug import Debug  # noqa
+from utils.text import Text
 
 from . import models, tools
 
 
 class SignupSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.User
         fields = [
@@ -43,3 +45,41 @@ class SignupSerializer(serializers.ModelSerializer):
             is_approved=True
         )
         return user
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.EmailField(max_length=Const.EMAIL_MAX_LENGTH)
+    password = serializers.CharField(max_length=Const.PASSWORD_MAX_LENGTH)
+
+    def authenticate(self, **kwargs):
+        return authenticate(self.context.get('request'), **kwargs)
+
+    def validate(self, data):
+        user = self.authenticate(
+            username=data.get('username'),
+            password=data.get('password')
+        )
+
+        if not user:
+            raise serializers.ValidationError(Text.UNABLE_TO_LOGIN)
+        else:
+            if not user.is_active:
+                raise serializers.ValidationError(Text.USER_IS_DEACTIVATED)
+
+        data['user'] = user
+        return data
+
+
+class LoginDeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.LoginDevice
+        fields = [
+            'id',
+            'user',
+            'device',
+            'os',
+            'browser',
+            'ip_address',
+            'last_login',
+            'is_registered'
+        ]

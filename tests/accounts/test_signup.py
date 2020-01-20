@@ -1,19 +1,19 @@
-from django.test import TestCase
 from rest_framework.test import APIClient
-from rest_framework import status
+
+from core.response import Response
+from core.testcase import TestCase
 
 
 class SignupTests(TestCase):
-
     def setUp(self):
         self.client = APIClient(enforce_csrf_checks=True)
-        self.username = 'wc@gencode.me'
+        self.username = 'wc@workcloud-test.com'
         self.password = 'password'
         self.first_name = 'Work'
         self.last_name = 'Cloud'
 
     def test_signup_check_duplicate_username(self):
-        response = self.client.post(
+        response = self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -22,9 +22,16 @@ class SignupTests(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == status.HTTP_201_CREATED
+        assert response.status_code == Response.HTTP_201
+        assert self.data.get('username') == self.username
+        assert self.data.get('first_name') == self.first_name
+        assert self.data.get('last_name') == self.last_name
+        assert (
+            self.data.get('call_name') == self.first_name + self.last_name or
+            self.data.get('call_name') == self.last_name + self.first_name
+        )
 
-        response = self.client.post(
+        response = self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -33,10 +40,10 @@ class SignupTests(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.status_code == Response.HTTP_400
 
     def test_signup_check_no_password(self):
-        response = self.client.post(
+        response = self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -44,10 +51,10 @@ class SignupTests(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.status_code == Response.HTTP_400
 
     def test_signup_check_no_first_name(self):
-        response = self.client.post(
+        response = self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -55,10 +62,10 @@ class SignupTests(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.status_code == Response.HTTP_400
 
     def test_signup_check_no_last_name(self):
-        response = self.client.post(
+        response = self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -66,4 +73,4 @@ class SignupTests(TestCase):
                 'first_name': self.first_name
             }
         )
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.status_code == Response.HTTP_400

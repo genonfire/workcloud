@@ -10,4 +10,29 @@ urlpatterns = [
         views.UserSignupView.as_view(),
         name='signup'
     ),
+    path(
+        'login/',
+        views.UserLoginView.as_view(),
+        name='login'
+    ),
+    path(
+        'logout/',
+        views.UserLogoutView.as_view(),
+        name='logout'
+    ),
+    path(
+        'device/<int:pk>/register/', views.LoginDeviceViewSet.as_view({
+            'post': 'register'
+        }), name='register_device'
+    ),
+    path(
+        'device/<int:pk>/delete/', views.LoginDeviceViewSet.as_view({
+            'delete': 'destroy'
+        }), name='delete_device'
+    ),
+    path(
+        'devices/', views.LoginDeviceViewSet.as_view({
+            'get': 'list'
+        }), name='device'
+    ),
 ]

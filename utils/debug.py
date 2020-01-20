@@ -6,8 +6,22 @@ from django.conf import settings
 class Debug:
 
     @classmethod
-    def _debug_mode(cls):
+    def debug_mode(cls):
         if settings.DEBUG:
+            return True
+        else:
+            return False
+
+    @classmethod
+    def test_mode(cls):
+        if settings.TEST_SETTING:
+            return True
+        else:
+            return False
+
+    @classmethod
+    def debug_or_test_mode(cls):
+        if settings.DEBUG or settings.TEST_SETTING:
             return True
         else:
             return False
@@ -21,7 +35,7 @@ class Debug:
 
     @classmethod
     def _log_enabled(cls):
-        return cls._debug_mode()
+        return cls.debug_mode()
 
     @classmethod
     def trace(cls, event, *args, **kwargs):
@@ -35,5 +49,5 @@ class Debug:
 
     @classmethod
     def callstack(cls, *args, **kwargs):
-        if cls._debug_mode():
+        if cls.debug_mode():
             traceback.print_stack()
