@@ -275,3 +275,23 @@ if 'storages' in INSTALLED_APPS and not LOCAL_SERVER:
 else:
     MEDIA_URL = '/upload/'
 MEDIA_ROOT = os.path.join(FRONTEND_DIR, 'upload')
+
+
+# Logging
+# https://docs.djangoproject.com/en/3.0/topics/logging/
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'workcloud.trace': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
+    },
+}

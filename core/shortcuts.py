@@ -21,6 +21,6 @@ def get_object_or_404(klass, *args, **kwargs):
     try:
         return queryset.get(*args, **kwargs)
     except queryset.model.DoesNotExist:
-        Debug.log('No %s(%d) matches the given query.' % (
+        Debug.trace('No %s(%d) matches the given query.' % (
             queryset.model._meta.object_name, kwargs.get('pk')))
         raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)  # noqa
