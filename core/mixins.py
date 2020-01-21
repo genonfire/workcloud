@@ -6,7 +6,7 @@ class ResponseMixin:
     """
     For Custom Response
 
-    Copy of rest_framework mixins.
+    Mostly copy of rest_framework mixins.
     Check rest_framework/mixins.py
     """
 

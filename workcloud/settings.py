@@ -201,7 +201,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
 ]
-if LOCAL_SERVER:
+if LOCAL_SERVER and not TEST_SETTING:
     AUTH_PASSWORD_VALIDATORS = []
 
 

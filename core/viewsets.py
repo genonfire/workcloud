@@ -8,6 +8,7 @@ from rest_framework.viewsets import (
     ReadOnlyModelViewSet as _ReadOnlyModelViewSet
 )
 
+from core.response import Response
 from core.mixins import ResponseMixin
 
 
@@ -16,7 +17,11 @@ class CreateAPIView(ResponseMixin, _CreateAPIView):
 
 
 class GenericAPIView(ResponseMixin, _GenericAPIView):
-    pass
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=Response.HTTP_200)
 
 
 class GenericViewSet(ResponseMixin, _GenericViewSet):

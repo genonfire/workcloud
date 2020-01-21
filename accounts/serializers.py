@@ -1,4 +1,8 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import (
+    authenticate,
+    password_validation
+)
+
 from rest_framework import serializers
 
 from utils.constants import Const
@@ -83,3 +87,30 @@ class LoginDeviceSerializer(serializers.ModelSerializer):
             'last_login',
             'is_registered'
         ]
+
+
+class PasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField(max_length=Const.PASSWORD_MAX_LENGTH)
+    new_password = serializers.CharField(max_length=Const.PASSWORD_MAX_LENGTH)
+
+    def __init__(self, *args, **kwargs):
+        super(PasswordChangeSerializer, self).__init__(*args, **kwargs)
+        self.user = self.context.get('request').user
+
+    def validate(self, data):
+        if not self.user.check_password(data.get('old_password')):
+            raise serializers.ValidationError(Text.INVALID_PASSWORD)
+        if data.get('old_password') == data.get('new_password'):
+            raise serializers.ValidationError(Text.SAME_AS_OLD_PASSWORD)
+
+        password_validation.validate_password(
+            data.get('new_password'), self.user)
+
+        return data
+
+    def save(self):
+        self.user.set_password(self.validated_data.get('new_password'))
+        self.user.save(update_fields=['password'])
+        self.user.token().delete()
+        devices = models.LoginDevice.objects.filter(user=self.user)
+        devices.delete()

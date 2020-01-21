@@ -8,5 +8,6 @@ flake8
 packaging
 psycopg2
 setuptools
+tblib
 tox
 user-agents

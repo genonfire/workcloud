@@ -102,3 +102,7 @@ class LoginDeviceViewSet(ModelViewSet):
             return Response(status=Response.HTTP_200)
         else:
             return Response(status=Response.HTTP_400)
+
+
+class PasswordChangeView(GenericAPIView):
+    serializer_class = serializers.PasswordChangeSerializer
