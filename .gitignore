@@ -2,6 +2,7 @@
 secrets.json
 config.json
 .DS_Store
+.coverage
 
 /frontend/wc
 /upload/

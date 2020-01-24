@@ -10,6 +10,7 @@ before_script:
   - psql -U postgres -c "ALTER USER wc CREATEDB;"
 script:
   - tox
+after_success: codecov
 
 notifications:
   email: false
