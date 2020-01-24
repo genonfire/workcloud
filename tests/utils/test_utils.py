@@ -11,10 +11,15 @@ class UtilTest(TestCase):
     def test_set_const(self):
         try:
             Const.NAME_MAX_LENGTH = 0
+            assert False
+        except BindError:
+            self.log('Correctly raised BindError for Const.')
+
+        try:
             Text.INVALID_TOKEN = 'Invalid Token'
             assert False
         except BindError:
-            self.log('Correctly raised BindError.')
+            self.log('Correctly raised BindError for Text.')
 
     def test_trace(self):
         if Debug.test_mode():

@@ -4,6 +4,6 @@ source = .
 [report]
 show_missing = True
 omit =
-    wsgi.py
-    asgi.py
-    email.py
+    *wsgi.py*
+    *asgi.py*
+    *email.py*
