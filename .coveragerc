@@ -4,6 +4,11 @@ source = .
 [report]
 show_missing = True
 omit =
-    *wsgi.py*
-    *asgi.py*
-    *email.py*
+    **/*apps.py*
+    *manage.py*
+    *setup.py*
+    core/*testcase.py*
+    utils/*email.py*
+    workcloud/*asgi.py*
+    workcloud/*settings.py*
+    workcloud/*wsgi.py*
