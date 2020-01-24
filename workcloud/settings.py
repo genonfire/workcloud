@@ -51,8 +51,11 @@ try:
     DB_NAME = ''
     DB_USER = ''
     DB_PASSWORD = ''
-    EMAIL_USER = ''
-    EMAIL_PASSWORD = ''
+    EMAIL_HOST = ''
+    EMAIL_PORT = 25
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
     EMAIL_ADDRESS = ''
     AWS_ACCESS_KEY_ID = ''
     AWS_SECRET_ACCESS_KEY = ''
@@ -69,6 +72,8 @@ except IOError:
 # It is highly suggested to override in CONFIG_PATH to change configurations.
 # See tests/test_config.json
 
+SITE_NAME = 'Workcloud'
+FRONTEND_URL = 'http://127.0.0.1:8080'
 DEFAULT_FROM_EMAIL = EMAIL_ADDRESS
 DEBUG = False
 LOCAL_SERVER = False
@@ -76,6 +81,7 @@ TRACE_ENABLED = False
 REST_PAGINATION_SIZE_DEFAULT = 20
 DATE_TIME_FORMAT_DEFAULT = '%Y-%m-%dT%H:%M:%S%z'
 DATE_FORMAT_DEFAULT = '%Y-%m-%d'
+DO_NOT_SEND_EMAIL = False
 
 # Load project configuration from CONFIG_PATH if exist. (config.json)
 try:
@@ -125,7 +131,6 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'rest_framework',
     'rest_framework.authtoken',
-    'rosetta',
 ]
 WORKCLOUD_APPS = [
     'accounts',
@@ -239,15 +244,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Rosetta setting
-# https://github.com/mbi/django-rosetta
-
-if 'rosetta' in INSTALLED_APPS:
-    ROSETTA_AUTO_COMPILE = True
-    ROSETTA_MESSAGES_PER_PAGE = 50
-    ROSETTA_SHOW_AT_ADMIN_PANEL = True
 
 
 # Static files (CSS, JavaScript, Images)

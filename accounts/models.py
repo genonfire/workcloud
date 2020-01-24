@@ -36,6 +36,15 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    @classmethod
+    def get_email_field_name(cls):
+        """
+        Do not use. Only For Django PasswordResetForm
+
+        Check django.contrib.auth.forms.PasswordResetForm
+        """
+        return cls.USERNAME_FIELD
+
     def token(self):
         return tools.get_auth_token(self)
 

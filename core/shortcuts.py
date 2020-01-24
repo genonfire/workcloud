@@ -1,3 +1,5 @@
+import threading
+
 from django.http import Http404
 from django.shortcuts import _get_queryset
 
@@ -21,6 +23,8 @@ def get_object_or_404(klass, *args, **kwargs):
     try:
         return queryset.get(*args, **kwargs)
     except queryset.model.DoesNotExist:
-        Debug.trace('No %s(%d) matches the given query.' % (
-            queryset.model._meta.object_name, kwargs.get('pk')))
-        raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)  # noqa
+        Debug.trace(' No %s%s matches the given query.' % (
+            queryset.model._meta.object_name, kwargs)
+        )
+        if not threading.current_thread().name == 'Thread-async':
+            raise Http404('No %s matches the given query.' % queryset.model._meta.object_name)  # noqa

@@ -1,4 +1,5 @@
 from core.viewsets import (
+    APIView,
     CreateAPIView,
     GenericAPIView,
     ModelViewSet
@@ -18,13 +19,13 @@ from . import (
 
 
 class UserSignupView(CreateAPIView):
-    permission_classes = (AllowAny,)
     serializer_class = serializers.SignupSerializer
+    permission_classes = (AllowAny,)
 
 
 class UserLoginView(GenericAPIView):
-    permission_classes = (AllowAny,)
     serializer_class = serializers.LoginSerializer
+    permission_classes = (AllowAny,)
 
     def login(self, request, user):
         ip_address = tools.get_ip_address(request)
@@ -65,7 +66,7 @@ class UserLoginView(GenericAPIView):
         return self.get_response(login_device)
 
 
-class UserLogoutView(GenericAPIView):
+class UserLogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
@@ -106,3 +107,14 @@ class LoginDeviceViewSet(ModelViewSet):
 
 class PasswordChangeView(GenericAPIView):
     serializer_class = serializers.PasswordChangeSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class PasswordResetView(GenericAPIView):
+    serializer_class = serializers.PasswordResetSerializer
+    permission_classes = (AllowAny,)
+
+
+class PasswordResetConfirmView(GenericAPIView):
+    serializer_class = serializers.PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)

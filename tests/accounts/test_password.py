@@ -1,3 +1,7 @@
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+
 from rest_framework.test import APIClient
 
 from accounts import models
@@ -95,5 +99,28 @@ class PasswordTest(TestCase):
                 'new_password': 'short',
             },
             auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+    def test_reset_password(self):
+        response = self.post(
+            '/api/accounts/password_reset/',
+            {
+                'email': self.username,
+            },
+        )
+        assert response.status_code == Response.HTTP_200
+
+    def test_reset_password_confirm(self):
+        uid = urlsafe_base64_encode(force_bytes(self.user.pk))
+        token = default_token_generator.make_token(self.user)
+
+        response = self.post(
+            '/api/accounts/password_reset_confirm/',
+            {
+                'new_password': 'new_password',
+                'uid': uid,
+                'token': token
+            },
         )
         assert response.status_code == Response.HTTP_400

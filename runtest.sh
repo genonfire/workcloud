@@ -43,12 +43,13 @@ if [ "$testcase" = true ]; then
     python manage.py test --keepdb --settings=tests.test_settings $label --debug-mode
 fi
 
-if [ "$flake8" = false ] && [ "$unittest" = false ] && [ "testcase" = false ]; then
+if [ "$flake8" = false ] && [ "$unittest" = false ] && [ "$testcase" = false ]; then
     echo "Usage: ./runtest.sh [options] ..."
     echo "* run unit test if no options provided"
     echo "\nOptions:"
     echo "flake8\t\t\t run flake8 only"
     echo "unit, unittest\t\t run unit test only"
+    echo "case [case name]\t run a specific unit test in debug-mode"
     echo "all\t\t\t run both flake8 and unit test"
 else
     duration=$SECONDS

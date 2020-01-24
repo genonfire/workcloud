@@ -40,6 +40,10 @@ class _Debug:
         if self._trace_enabled():
             logger.info(*args, **kwargs)
 
+    def error(self, *args, **kwargs):
+        if self._trace_enabled():
+            logger.error(*args, **kwargs)
+
     def log(self, *args, **kwargs):
         if self._log_enabled():
             print("#", *args, **kwargs)

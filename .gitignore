@@ -1,6 +1,7 @@
 *.pyc
 secrets.json
 config.json
+.DS_Store
 
 /frontend/wc
 /upload/

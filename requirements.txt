@@ -1,7 +1,6 @@
 Django>=3.0
 djangorestframework>=3.10
 django-cors-headers
-django-rosetta
 django-storages
 drf-yasg
 flake8

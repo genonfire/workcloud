@@ -8,6 +8,9 @@ class _Text(object):
     USER_IS_DEACTIVATED = _("User is deactivated.")
     INVALID_PASSWORD = _("Invalid password.")
     SAME_AS_OLD_PASSWORD = _("Same as old password.")
+    USER_NOT_EXIST = _("User not exist.")
+    INVALID_UID = _("Invalid uid.")
+    INVALID_TOKEN = _("Invalid token.")
 
     def __setattr__(self, name, value):
         raise BindError("cannot re-bind text(%s)" % name)

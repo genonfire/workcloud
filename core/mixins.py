@@ -1,17 +1,13 @@
 from core.response import Response
-from utils.debug import Debug
 
 
-class ResponseMixin:
+class ResponseMixin():
     """
     For Custom Response
 
     Mostly copy of rest_framework mixins.
     Check rest_framework/mixins.py
     """
-
-    def trace(self, *args, **kwargs):
-        Debug.trace(*args, **kwargs)
 
     def _check_ownership(self, request, instance):
         user = request.user

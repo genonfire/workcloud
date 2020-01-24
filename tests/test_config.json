@@ -1,5 +1,6 @@
 {
     "DEBUG": false,
     "LOCAL_SERVER": true,
-    "TRACE_ENABLED": false
+    "TRACE_ENABLED": false,
+    "DO_NOT_SEND_EMAIL": true
 }

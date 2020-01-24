@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.test import TestCase as _TestCase
 
 from rest_framework.test import APIClient
@@ -8,15 +7,8 @@ from accounts.tools import Test
 
 
 class TestCase(_TestCase):
-    def _log_enabled(self):
-        if settings.DEBUG:
-            return True
-        else:
-            return False
-
     def log(self, *args, **kwargs):
-        if self._log_enabled():
-            print("#", *args, **kwargs)
+        print("#", *args, **kwargs)
 
     def get(self, path, data=None, auth=False, **extra):
         if auth:

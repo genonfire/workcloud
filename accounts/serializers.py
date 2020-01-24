@@ -1,10 +1,20 @@
+from django.conf import settings
 from django.contrib.auth import (
     authenticate,
     password_validation
 )
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
 
 from rest_framework import serializers
 
+from core.serializers import (
+    ModelSerializer,
+    Serializer
+)
+from core.shortcuts import get_object_or_404
+from core.wrapper import async_func
 from utils.constants import Const
 from utils.debug import Debug  # noqa
 from utils.text import Text
@@ -12,7 +22,7 @@ from utils.text import Text
 from . import models, tools
 
 
-class SignupSerializer(serializers.ModelSerializer):
+class SignupSerializer(ModelSerializer):
     class Meta:
         model = models.User
         fields = [
@@ -51,17 +61,17 @@ class SignupSerializer(serializers.ModelSerializer):
         return user
 
 
-class LoginSerializer(serializers.Serializer):
+class LoginSerializer(Serializer):
     username = serializers.EmailField(max_length=Const.EMAIL_MAX_LENGTH)
     password = serializers.CharField(max_length=Const.PASSWORD_MAX_LENGTH)
 
     def authenticate(self, **kwargs):
         return authenticate(self.context.get('request'), **kwargs)
 
-    def validate(self, data):
+    def validate(self, attrs):
         user = self.authenticate(
-            username=data.get('username'),
-            password=data.get('password')
+            username=attrs.get('username'),
+            password=attrs.get('password')
         )
 
         if not user:
@@ -70,11 +80,11 @@ class LoginSerializer(serializers.Serializer):
             if not user.is_active:
                 raise serializers.ValidationError(Text.USER_IS_DEACTIVATED)
 
-        data['user'] = user
-        return data
+        attrs['user'] = user
+        return attrs
 
 
-class LoginDeviceSerializer(serializers.ModelSerializer):
+class LoginDeviceSerializer(ModelSerializer):
     class Meta:
         model = models.LoginDevice
         fields = [
@@ -89,7 +99,16 @@ class LoginDeviceSerializer(serializers.ModelSerializer):
         ]
 
 
-class PasswordChangeSerializer(serializers.Serializer):
+class _PasswordChangeSerializer(Serializer):
+    def save(self):
+        self.user.set_password(self.validated_data.get('new_password'))
+        self.user.save(update_fields=['password'])
+        self.user.token().delete()
+        devices = models.LoginDevice.objects.filter(user=self.user)
+        devices.delete()
+
+
+class PasswordChangeSerializer(_PasswordChangeSerializer):
     old_password = serializers.CharField(max_length=Const.PASSWORD_MAX_LENGTH)
     new_password = serializers.CharField(max_length=Const.PASSWORD_MAX_LENGTH)
 
@@ -97,20 +116,75 @@ class PasswordChangeSerializer(serializers.Serializer):
         super(PasswordChangeSerializer, self).__init__(*args, **kwargs)
         self.user = self.context.get('request').user
 
-    def validate(self, data):
-        if not self.user.check_password(data.get('old_password')):
+    def validate(self, attrs):
+        if not self.user.check_password(attrs.get('old_password')):
             raise serializers.ValidationError(Text.INVALID_PASSWORD)
-        if data.get('old_password') == data.get('new_password'):
+        if attrs.get('old_password') == attrs.get('new_password'):
             raise serializers.ValidationError(Text.SAME_AS_OLD_PASSWORD)
 
         password_validation.validate_password(
-            data.get('new_password'), self.user)
+            attrs.get('new_password'), self.user)
 
-        return data
+        return attrs
 
+
+class PasswordResetConfirmSerializer(_PasswordChangeSerializer):
+    new_password = serializers.CharField(max_length=Const.PASSWORD_MAX_LENGTH)
+    uid = serializers.CharField()
+    token = serializers.CharField()
+
+    def validate(self, attrs):
+        try:
+            uid = urlsafe_base64_decode(attrs.get('uid')).decode()
+        except (TypeError, ValueError, OverflowError):
+            raise serializers.ValidationError(Text.INVALID_UID)
+
+        self.user = models.User.objects.get(pk=uid)
+        if not self.user:
+            raise serializers.ValidationError(Text.USER_NOT_EXIST)
+        if not default_token_generator.check_token(
+            self.user, attrs.get('token')
+        ):
+            raise serializers.ValidationError(Text.INVALID_TOKEN)
+
+        return attrs
+
+
+class PasswordResetSerializer(Serializer):
+    email = serializers.EmailField(max_length=Const.EMAIL_MAX_LENGTH)
+    form_class = PasswordResetForm
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        self.password_reset_form = self.form_class(data=self.initial_data)
+
+        if not models.User.objects.filter(username__iexact=email).exists():
+            raise serializers.ValidationError(Text.USER_NOT_EXIST)
+        elif not self.password_reset_form.is_valid():
+            raise serializers.ValidationError(self.password_reset_form.errors)
+
+        return attrs
+
+    @async_func
     def save(self):
-        self.user.set_password(self.validated_data.get('new_password'))
-        self.user.save(update_fields=['password'])
-        self.user.token().delete()
-        devices = models.LoginDevice.objects.filter(user=self.user)
-        devices.delete()
+        if settings.DO_NOT_SEND_EMAIL:
+            return
+
+        user = get_object_or_404(
+            models.User,
+            username=self.validated_data.get('email')
+        )
+        opts = {
+            'domain_override': settings.FRONTEND_URL,
+            'subject_template_name': 'password_reset_subject.txt',
+            'email_template_name': 'password_reset.html',
+            'use_https': settings.EMAIL_USE_TLS,
+            'from_email': settings.DEFAULT_FROM_EMAIL,
+            'request': self.context.get('request'),
+            'html_email_template_name': 'password_reset.html',
+            'extra_email_context': {
+                'site_name': settings.SITE_NAME,
+                'call_name': user.call_name
+            }
+        }
+        self.password_reset_form.save(**opts)

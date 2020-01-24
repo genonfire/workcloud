@@ -2,6 +2,7 @@ from rest_framework.generics import (
     CreateAPIView as _CreateAPIView,
     GenericAPIView as _GenericAPIView
 )
+from rest_framework.views import APIView as _APIView
 from rest_framework.viewsets import (
     GenericViewSet as _GenericViewSet,
     ModelViewSet as _ModelViewSet,
@@ -9,7 +10,11 @@ from rest_framework.viewsets import (
 )
 
 from core.response import Response
-from core.mixins import ResponseMixin
+from core.mixins import (ResponseMixin)
+
+
+class APIView(_APIView):
+    pass
 
 
 class CreateAPIView(ResponseMixin, _CreateAPIView):

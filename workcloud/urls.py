@@ -9,18 +9,16 @@ urlpatterns = [
     path('api/accounts/', include('accounts.urls', namespace='accounts')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if 'rosetta' in settings.INSTALLED_APPS:
-    urlpatterns += [path('trans/', include('rosetta.urls'))]
-
 if settings.LOCAL_SERVER:
-    if 'rest_framework' in settings.INSTALLED_APPS:
-        urlpatterns += [
-            path('restapi/', include(
-                'rest_framework.urls', namespace='rest_framework'))
-        ]
+    urlpatterns += [
+        path(
+            'restapi/',
+            include('rest_framework.urls', namespace='rest_framework')
+        )
+    ]
 
     if 'drf_yasg' in settings.INSTALLED_APPS:
-        from rest_framework import permissions
+        from rest_framework.permissions import AllowAny
         from drf_yasg.views import get_schema_view
         from drf_yasg import openapi
 
@@ -30,7 +28,7 @@ if settings.LOCAL_SERVER:
                 default_version='beta',
             ),
             public=True,
-            permission_classes=(permissions.AllowAny,),
+            permission_classes=(AllowAny,),
         )
 
         urlpatterns += [
