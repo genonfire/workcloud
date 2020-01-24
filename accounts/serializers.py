@@ -184,3 +184,16 @@ class PasswordResetSerializer(Serializer):
             }
         }
         self.password_reset_form.save(**opts)
+
+
+class DeactivateAccountSerializer(Serializer):
+    consent = serializers.BooleanField()
+
+    def validate(self, attrs):
+        if not self.context.get('request').user.is_active:
+            raise serializers.ValidationError(Text.USER_IS_DEACTIVATED)
+        if not attrs.get('consent'):
+            raise serializers.ValidationError(
+                {'consent': [Text.YOU_MUST_CONSENT]}
+            )
+        return attrs

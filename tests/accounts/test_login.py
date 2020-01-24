@@ -56,8 +56,23 @@ class LoginTest(TestCase):
         assert response.status_code == Response.HTTP_400
 
     def test_login_check_inactive_user(self):
-        self.user.is_active = False
-        self.user.save(update_fields=['is_active'])
+        response = self.post(
+            '/api/accounts/deactivate/',
+            {
+                'consent': True,
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_200
+
+        response = self.post(
+            '/api/accounts/deactivate/',
+            {
+                'consent': True,
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_401
 
         response = self.post(
             '/api/accounts/login/',
@@ -65,5 +80,15 @@ class LoginTest(TestCase):
                 'username': self.username,
                 'password': self.password
             }
+        )
+        assert response.status_code == Response.HTTP_400
+
+    def test_deactivate_user(self):
+        response = self.post(
+            '/api/accounts/deactivate/',
+            {
+                'consent': False,
+            },
+            auth=True
         )
         assert response.status_code == Response.HTTP_400

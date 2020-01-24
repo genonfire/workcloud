@@ -44,4 +44,8 @@ urlpatterns = [
         'password_reset_confirm/', views.PasswordResetConfirmView.as_view(),
         name='password_reset_confirm'
     ),
+    path(
+        'deactivate/', views.DeactivateAccountView.as_view(),
+        name='deactivate'
+    ),
 ]

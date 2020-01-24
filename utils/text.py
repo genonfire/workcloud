@@ -11,6 +11,7 @@ class _Text(object):
     USER_NOT_EXIST = _("User not exist.")
     INVALID_UID = _("Invalid uid.")
     INVALID_TOKEN = _("Invalid token.")
+    YOU_MUST_CONSENT = _("You must consent.")
 
     def __setattr__(self, name, value):
         raise BindError("cannot re-bind text(%s)" % name)

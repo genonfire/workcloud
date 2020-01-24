@@ -115,3 +115,13 @@ def get_auth_token(user):
         token, _ = Token.objects.get_or_create(user=user)
 
     return token
+
+
+def deactivate_account(user):
+    user.is_superuser = False
+    user.is_staff = False
+    user.is_active = False
+    user.is_approved = False
+    user.last_login = timezone.now()
+    user.save()
+    user.token().delete()

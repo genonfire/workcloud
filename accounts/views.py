@@ -85,6 +85,18 @@ class UserLogoutView(APIView):
         return Response(status=Response.HTTP_204)
 
 
+class DeactivateAccountView(GenericAPIView):
+    serializer_class = serializers.DeactivateAccountSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        tools.deactivate_account(request.user)
+        return Response(status=Response.HTTP_200)
+
+
 class LoginDeviceViewSet(ModelViewSet):
     serializer_class = serializers.LoginDeviceSerializer
     model = models.LoginDevice
