@@ -111,6 +111,15 @@ class PasswordTest(TestCase):
         )
         assert response.status_code == Response.HTTP_200
 
+    def test_reset_password_invalid_user(self):
+        response = self.post(
+            '/api/accounts/password_reset/',
+            {
+                'email': 'p.queen@a.com',
+            },
+        )
+        assert response.status_code == Response.HTTP_400
+
     def test_reset_password_confirm(self):
         uid = urlsafe_base64_encode(force_bytes(self.user.pk))
         token = default_token_generator.make_token(self.user)
@@ -120,6 +129,16 @@ class PasswordTest(TestCase):
             {
                 'new_password': 'new_password',
                 'uid': uid,
+                'token': token
+            },
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/accounts/password_reset_confirm/',
+            {
+                'new_password': 'new_password',
+                'uid': 'ABC',
                 'token': token
             },
         )

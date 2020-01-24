@@ -76,8 +76,16 @@ class TestCase(_TestCase):
         self.data = response.data.get('data')
         return response
 
+    def get_client(self, device=None):
+        if device == 'PC':
+            user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36'  # noqa
+        else:
+            user_agent = None
+
+        return APIClient(enforce_csrf_checks=True, HTTP_USER_AGENT=user_agent)
+
     def create_user(self):
-        self.client = APIClient(enforce_csrf_checks=True)
+        self.client = self.get_client()
         self.username = Test.USERNAME
         self.password = Test.PASSWORD
         self.first_name = Test.FIRST_NAME

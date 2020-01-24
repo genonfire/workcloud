@@ -10,28 +10,16 @@ logger = logging.getLogger('workcloud.trace')
 class _Debug:
 
     def debug_mode(self):
-        if settings.DEBUG:
-            return True
-        else:
-            return False
+        return settings.DEBUG
 
     def test_mode(self):
-        if settings.TEST_SETTING:
-            return True
-        else:
-            return False
+        return settings.TEST_SETTING
 
     def debug_or_test_mode(self):
-        if settings.DEBUG or settings.TEST_SETTING:
-            return True
-        else:
-            return False
+        return bool(settings.DEBUG or settings.TEST_SETTING)
 
     def _trace_enabled(self):
-        if settings.TRACE_ENABLED:
-            return True
-        else:
-            return False
+        return settings.TRACE_ENABLED
 
     def _log_enabled(self):
         return self.debug_mode()
@@ -50,7 +38,7 @@ class _Debug:
 
     def callstack(self, *args, **kwargs):
         if self.debug_mode():
-            traceback.print_stack()
+            traceback.print_stack(*args, **kwargs)
 
 
 Debug = _Debug()

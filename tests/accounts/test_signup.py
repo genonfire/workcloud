@@ -4,7 +4,7 @@ from core.response import Response
 from core.testcase import TestCase
 
 
-class SignupTests(TestCase):
+class SignupTest(TestCase):
     def setUp(self):
         self.client = APIClient(enforce_csrf_checks=True)
         self.username = 'wc@workcloud-test.com'

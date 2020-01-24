@@ -136,12 +136,10 @@ class PasswordResetConfirmSerializer(_PasswordChangeSerializer):
     def validate(self, attrs):
         try:
             uid = urlsafe_base64_decode(attrs.get('uid')).decode()
+            self.user = models.User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError):
             raise serializers.ValidationError(Text.INVALID_UID)
 
-        self.user = models.User.objects.get(pk=uid)
-        if not self.user:
-            raise serializers.ValidationError(Text.USER_NOT_EXIST)
         if not default_token_generator.check_token(
             self.user, attrs.get('token')
         ):
@@ -160,8 +158,6 @@ class PasswordResetSerializer(Serializer):
 
         if not models.User.objects.filter(username__iexact=email).exists():
             raise serializers.ValidationError(Text.USER_NOT_EXIST)
-        elif not self.password_reset_form.is_valid():
-            raise serializers.ValidationError(self.password_reset_form.errors)
 
         return attrs
 

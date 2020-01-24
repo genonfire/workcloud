@@ -3,7 +3,7 @@ from core.testcase import TestCase
 from utils.datautils import search_dict
 
 
-class DeviceTests(TestCase):
+class DeviceTest(TestCase):
     def setUp(self):
         self.create_user()
         self.post(
@@ -31,6 +31,23 @@ class DeviceTests(TestCase):
         )
         device = search_dict('id', device_id, self.data)
         assert device.get('is_registered')
+
+    def test_device_register_different_device(self):
+        device_id = self.login_device.get('id')
+        self.client = self.get_client('PC')
+        self.post(
+            '/api/accounts/login/',
+            {
+                'username': self.username,
+                'password': self.password
+            }
+        )
+
+        response = self.post(
+            '/api/accounts/device/%d/register/' % device_id,
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
 
     def test_device_delete(self):
         device_id = self.login_device.get('id')
