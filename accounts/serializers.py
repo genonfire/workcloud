@@ -197,3 +197,24 @@ class DeactivateAccountSerializer(Serializer):
                 {'consent': [Text.YOU_MUST_CONSENT]}
             )
         return attrs
+
+
+class UserSettingSerializer(ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'call_name',
+            'email',
+            'is_approved',
+            'date_joined'
+        ]
+        read_only_fields = [
+            'id',
+            'username',
+            'is_approved',
+            'date_joined'
+        ]

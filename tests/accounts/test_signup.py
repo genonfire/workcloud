@@ -22,10 +22,12 @@ class SignupTest(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == Response.HTTP_201
-        assert self.data.get('username') == self.username
-        assert self.data.get('first_name') == self.first_name
-        assert self.data.get('last_name') == self.last_name
+        assert (
+            response.status_code == Response.HTTP_201 and
+            self.data.get('username') == self.username and
+            self.data.get('first_name') == self.first_name and
+            self.data.get('last_name') == self.last_name
+        )
         assert (
             self.data.get('call_name') == self.first_name + self.last_name or
             self.data.get('call_name') == self.last_name + self.first_name

@@ -130,3 +130,15 @@ class PasswordResetView(GenericAPIView):
 class PasswordResetConfirmView(GenericAPIView):
     serializer_class = serializers.PasswordResetConfirmSerializer
     permission_classes = (AllowAny,)
+
+
+class UserSettingViewSet(ModelViewSet):
+    serializer_class = serializers.UserSettingSerializer
+    model = models.User
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def get_object(self):
+        return self.request.user

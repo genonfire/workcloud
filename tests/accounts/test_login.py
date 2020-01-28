@@ -14,8 +14,10 @@ class LoginTest(TestCase):
                 'password': self.password
             }
         )
-        assert response.status_code == Response.HTTP_200
-        assert self.data.get('key') == self.key
+        assert (
+            response.status_code == Response.HTTP_200 and
+            self.data.get('key') == self.key
+        )
 
     def test_login_check_useragent(self):
         self.client = self.get_client('PC')
@@ -26,10 +28,10 @@ class LoginTest(TestCase):
                 'password': self.password
             }
         )
-        assert response.status_code == Response.HTTP_200
 
         login_device = self.data.get('login_device')
         assert (
+            response.status_code == Response.HTTP_200 and
             login_device.get('device') == 'PC' and
             login_device.get('os') == 'Mac OS X' and
             login_device.get('browser') == 'Chrome'

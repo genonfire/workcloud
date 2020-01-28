@@ -45,6 +45,12 @@ urlpatterns = [
         name='password_reset_confirm'
     ),
     path(
+        'setting/', views.UserSettingViewSet.as_view({
+            'get': 'retrieve',
+            'patch': 'update',
+        }), name='setting'
+    ),
+    path(
         'deactivate/', views.DeactivateAccountView.as_view(),
         name='deactivate'
     ),
