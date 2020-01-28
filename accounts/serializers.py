@@ -148,7 +148,7 @@ class PasswordResetConfirmSerializer(_PasswordChangeSerializer):
         return attrs
 
 
-class PasswordResetSerializer(Serializer):
+class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=Const.EMAIL_MAX_LENGTH)
     form_class = PasswordResetForm
 
@@ -158,6 +158,8 @@ class PasswordResetSerializer(Serializer):
 
         if not models.User.objects.filter(username__iexact=email).exists():
             raise serializers.ValidationError(Text.USER_NOT_EXIST)
+        if not self.password_reset_form.is_valid():
+            raise serializers.ValidationError(self.password_reset_form.errors)
 
         return attrs
 
