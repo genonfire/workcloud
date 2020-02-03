@@ -89,6 +89,28 @@ class LoginTest(TestCase):
         response = self.post(
             '/api/accounts/deactivate/',
             {
+                'consent': True,
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_200
+
+        response = self.post(
+            '/api/accounts/deactivate/',
+            {
+                'consent': True,
+            },
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_401 or
+            response.status_code == Response.HTTP_400
+        )
+
+    def test_deactivate_user_no_consent(self):
+        response = self.post(
+            '/api/accounts/deactivate/',
+            {
                 'consent': False,
             },
             auth=True

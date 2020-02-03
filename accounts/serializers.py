@@ -76,9 +76,6 @@ class LoginSerializer(Serializer):
 
         if not user:
             raise serializers.ValidationError(Text.UNABLE_TO_LOGIN)
-        else:
-            if not user.is_active:
-                raise serializers.ValidationError(Text.USER_IS_DEACTIVATED)
 
         attrs['user'] = user
         return attrs
@@ -148,7 +145,7 @@ class PasswordResetConfirmSerializer(_PasswordChangeSerializer):
         return attrs
 
 
-class PasswordResetSerializer(serializers.Serializer):
+class PasswordResetSerializer(Serializer):
     email = serializers.EmailField(max_length=Const.EMAIL_MAX_LENGTH)
     form_class = PasswordResetForm
 
