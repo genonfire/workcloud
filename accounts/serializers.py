@@ -217,3 +217,20 @@ class UserSettingSerializer(ModelSerializer):
             'is_approved',
             'date_joined'
         ]
+
+
+class IAmSerializer(ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'call_name',
+            'email',
+            'is_staff',
+            'is_approved',
+            'date_joined',
+            'last_login',
+        ]

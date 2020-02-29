@@ -6,6 +6,17 @@ class ProfileTest(TestCase):
     def setUp(self):
         self.create_user()
 
+    def test_connect(self):
+        response = self.post(
+            '/api/accounts/connect/',
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_200 and
+            self.data.get('key') == self.key and
+            self.data.get('user').get('username') == self.user.username
+        )
+
     def test_get_profile(self):
         response = self.get(
             '/api/accounts/setting/',

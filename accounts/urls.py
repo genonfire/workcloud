@@ -14,6 +14,10 @@ urlpatterns = [
         name='login'
     ),
     path(
+        'connect/', views.ConnectView.as_view(),
+        name='connect'
+    ),
+    path(
         'logout/', views.UserLogoutView.as_view(),
         name='logout'
     ),

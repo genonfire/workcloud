@@ -25,7 +25,13 @@ class UserSignupView(CreateAPIView):
 
 class UserLoginView(GenericAPIView):
     serializer_class = serializers.LoginSerializer
+    user_serializer_class = serializers.IAmSerializer
     permission_classes = (AllowAny,)
+
+    def get_user_serializer(self, *args, **kwargs):
+        serializer_class = self.user_serializer_class
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
 
     def login(self, request, user):
         ip_address = tools.get_ip_address(request)
@@ -42,9 +48,10 @@ class UserLoginView(GenericAPIView):
         tools.set_last_login(login_device)
         return login_device
 
-    def get_response(self, login_device):
+    def get_response(self, user, login_device):
         data = {
             'key': login_device.user.key(),
+            'user': user,
             'login_device': {
                 'id': login_device.id,
                 'device': login_device.device,
@@ -61,9 +68,10 @@ class UserLoginView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         user = serializer.validated_data.get('user')
+        user_serializer = self.get_user_serializer(user)
         login_device = self.login(request, user)
 
-        return self.get_response(login_device)
+        return self.get_response(user_serializer.data, login_device)
 
 
 class UserLogoutView(APIView):
@@ -145,3 +153,14 @@ class UserSettingViewSet(ModelViewSet):
 
     def get_object(self):
         return self.request.user
+
+
+class ConnectView(UserLoginView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        user_serializer = self.get_user_serializer(user)
+        login_device = self.login(request, user)
+
+        return self.get_response(user_serializer.data, login_device)
