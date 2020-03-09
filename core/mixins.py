@@ -1,4 +1,5 @@
 from core.response import Response
+from utils.debug import Debug
 
 
 class ResponseMixin():
@@ -19,6 +20,9 @@ class ResponseMixin():
             return False
 
     def create(self, request, *args, **kwargs):
+        if Debug.debug_mode():
+            Debug.log(request.data)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -47,6 +51,9 @@ class ResponseMixin():
         return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
+        if Debug.debug_mode():
+            Debug.log(request.data)
+
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         serializer = self.get_serializer(
