@@ -31,6 +31,22 @@ class User(AbstractUser):
         blank=True,
         null=True
     )
+    photo = models.ImageField(
+        upload_to="photo/",
+        max_length=Const.FILE_MAX_LENGTH,
+        blank=True,
+        null=True
+    )
+    tel = models.CharField(
+        max_length=Const.TEL_MAX_LENGTH,
+        blank=True,
+        null=True
+    )
+    address = models.CharField(
+        max_length=Const.ADDRESS_MAX_LENGTH,
+        blank=True,
+        null=True
+    )
     # For later use such as Email confirmation
     is_approved = models.BooleanField(default=False)
 

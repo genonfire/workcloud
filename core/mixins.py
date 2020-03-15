@@ -20,7 +20,7 @@ class ResponseMixin():
             return False
 
     def create(self, request, *args, **kwargs):
-        if Debug.debug_mode():
+        if Debug.debug_mode() and not Debug.test_mode():
             Debug.log(request.data)
 
         serializer = self.get_serializer(data=request.data)
@@ -51,7 +51,7 @@ class ResponseMixin():
         return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
-        if Debug.debug_mode():
+        if Debug.debug_mode() and not Debug.test_mode():
             Debug.log(request.data)
 
         partial = kwargs.pop('partial', False)

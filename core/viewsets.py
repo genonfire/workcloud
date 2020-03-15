@@ -24,7 +24,7 @@ class CreateAPIView(ResponseMixin, _CreateAPIView):
 
 class GenericAPIView(ResponseMixin, _GenericAPIView):
     def post(self, request, *args, **kwargs):
-        if Debug.debug_mode():
+        if Debug.debug_mode() and not Debug.test_mode():
             Debug.log(request.data)
 
         serializer = self.get_serializer(data=request.data)

@@ -208,6 +208,9 @@ class UserSettingSerializer(ModelSerializer):
             'last_name',
             'call_name',
             'email',
+            'photo',
+            'tel',
+            'address',
             'is_approved',
             'date_joined'
         ]
@@ -229,6 +232,9 @@ class IAmSerializer(ModelSerializer):
             'last_name',
             'call_name',
             'email',
+            'photo',
+            'tel',
+            'address',
             'is_staff',
             'is_approved',
             'date_joined',

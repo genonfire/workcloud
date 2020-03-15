@@ -6,6 +6,7 @@ config.json
 coverage.xml
 
 /frontend/wc
+/frontend/upload
 /upload/
 /.tox/
 /*.egg-info/

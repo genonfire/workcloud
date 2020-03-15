@@ -6,8 +6,10 @@ django-storages
 drf-yasg
 flake8
 packaging
+pillow
 psycopg2
 setuptools
 tblib
+six>=1.14.0
 tox
 user-agents

@@ -41,6 +41,8 @@ class ProfileTest(TestCase):
                 'last_name': 'Boy',
                 'call_name': 'B-Boy',
                 'email': 'b-boy@b.com',
+                'tel': '+82-10-1234-5678',
+                'address': '3245 146th PL SE',
                 'is_approved': not self.user.is_approved,
             },
             auth=True
@@ -52,5 +54,7 @@ class ProfileTest(TestCase):
             self.data.get('last_name') == 'Boy' and
             self.data.get('call_name') == 'B-Boy' and
             self.data.get('email') == 'b-boy@b.com' and
+            self.data.get('tel') == '+82-10-1234-5678' and
+            self.data.get('address') == '3245 146th PL SE' and
             self.data.get('is_approved') == self.user.is_approved
         )
