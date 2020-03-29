@@ -19,6 +19,10 @@ class ResponseMixin():
         else:
             return False
 
+    def set_serializer(self, serializer_class, *args, **kwargs):
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         if Debug.debug_mode() and not Debug.test_mode():
             Debug.log(request.data)

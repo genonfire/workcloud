@@ -25,13 +25,7 @@ class UserSignupView(CreateAPIView):
 
 class UserLoginView(GenericAPIView):
     serializer_class = serializers.LoginSerializer
-    user_serializer_class = serializers.IAmSerializer
     permission_classes = (AllowAny,)
-
-    def get_user_serializer(self, *args, **kwargs):
-        serializer_class = self.user_serializer_class
-        kwargs['context'] = self.get_serializer_context()
-        return serializer_class(*args, **kwargs)
 
     def login(self, request, user):
         ip_address = tools.get_ip_address(request)
@@ -68,7 +62,7 @@ class UserLoginView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         user = serializer.validated_data.get('user')
-        user_serializer = self.get_user_serializer(user)
+        user_serializer = self.set_serializer(serializers.IAmSerializer, user)
         login_device = self.login(request, user)
 
         return self.get_response(user_serializer.data, login_device)
@@ -160,7 +154,7 @@ class ConnectView(UserLoginView):
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        user_serializer = self.get_user_serializer(user)
+        user_serializer = self.set_serializer(serializers.IAmSerializer, user)
         login_device = self.login(request, user)
 
         return self.get_response(user_serializer.data, login_device)
