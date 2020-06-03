@@ -7,7 +7,7 @@ from rest_framework.status import (
     HTTP_401_UNAUTHORIZED,
     HTTP_403_FORBIDDEN,
     HTTP_404_NOT_FOUND,
-    HTTP_501_NOT_IMPLEMENTED
+    HTTP_501_NOT_IMPLEMENTED,
 )
 
 

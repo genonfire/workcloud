@@ -12,23 +12,23 @@ class UserAdmin(admin.ModelAdmin):
         'date_joined',
         'last_login',
         'is_active',
-        'is_staff'
+        'is_staff',
     )
     search_fields = (
         'id',
         'username',
         'call_name',
         'first_name',
-        'last_name'
+        'last_name',
     )
     ordering = (
         'id',
-        'username'
+        'username',
     )
     list_display_links = (
         'id',
         'username',
-        'call_name'
+        'call_name',
     )
 
 
@@ -42,19 +42,19 @@ class LoginDeviceAdmin(admin.ModelAdmin):
         'browser',
         'ip_address',
         'last_login',
-        'is_registered'
+        'is_registered',
     )
     search_fields = (
         'id',
         'user',
-        'ip_address'
+        'ip_address',
     )
     ordering = (
         'id',
-        'user'
+        'user',
     )
     list_display_links = (
         'id',
         'user',
-        'device'
+        'device',
     )

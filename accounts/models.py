@@ -19,28 +19,28 @@ class User(AbstractUser):
     first_name = models.CharField(
         max_length=Const.NAME_MAX_LENGTH,
         blank=True,
-        null=True
+        null=True,
     )
     last_name = models.CharField(
         max_length=Const.NAME_MAX_LENGTH,
         blank=True,
-        null=True
+        null=True,
     )
     call_name = models.CharField(
         max_length=Const.NAME_MAX_LENGTH,
         blank=True,
-        null=True
+        null=True,
     )
     photo = models.ImageField(
         upload_to="photo/",
         max_length=Const.FILE_MAX_LENGTH,
         blank=True,
-        null=True
+        null=True,
     )
     tel = models.CharField(
         max_length=Const.TEL_MAX_LENGTH,
         blank=True,
-        null=True
+        null=True,
     )
     address = models.CharField(
         max_length=Const.ADDRESS_MAX_LENGTH,
@@ -48,7 +48,7 @@ class User(AbstractUser):
         null=True
     )
     # For later use such as Email confirmation
-    is_approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False,)
 
     objects = UserManager()
 
@@ -77,31 +77,31 @@ class LoginDevice(models.Model):
         'User',
         related_name="device_user",
         on_delete=models.CASCADE,
-        null=True
+        null=True,
     )
     device = models.CharField(
         max_length=Const.NAME_MAX_LENGTH,
         blank=True,
-        null=True
+        null=True,
     )
     os = models.CharField(
         max_length=Const.NAME_MAX_LENGTH,
         blank=True,
-        null=True
+        null=True,
     )
     browser = models.CharField(
         max_length=Const.NAME_MAX_LENGTH,
         blank=True,
-        null=True
+        null=True,
     )
     ip_address = models.CharField(
         max_length=Const.IP_ADDRESS_MAX_LENGTH,
         null=True,
-        blank=True
+        blank=True,
     )
-    created_at = models.DateTimeField(default=timezone.now)
-    last_login = models.DateTimeField(default=timezone.now)
-    is_registered = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=timezone.now,)
+    last_login = models.DateTimeField(default=timezone.now,)
+    is_registered = models.BooleanField(default=False,)
 
     objects = LoginDeviceManager()
 

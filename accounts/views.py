@@ -52,8 +52,8 @@ class UserLoginView(GenericAPIView):
                 'os': login_device.os,
                 'browser': login_device.browser,
                 'ip_address': login_device.ip_address,
-                'is_registered': login_device.is_registered
-            }
+                'is_registered': login_device.is_registered,
+            },
         }
         return Response(data)
 

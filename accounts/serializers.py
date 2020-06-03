@@ -31,13 +31,15 @@ class SignupSerializer(ModelSerializer):
             'password',
             'first_name',
             'last_name',
-            'call_name'
+            'call_name',
         ]
-        read_only_fields = ['call_name']
+        read_only_fields = [
+            'call_name',
+        ]
         extra_kwargs = {
             'password': {'write_only': True},
             'first_name': {'required': True},
-            'last_name': {'required': True}
+            'last_name': {'required': True},
         }
 
     def create(self, validated_data):
@@ -46,7 +48,7 @@ class SignupSerializer(ModelSerializer):
         call_name = tools.get_call_name(
             validated_data.get('first_name'),
             validated_data.get('last_name'),
-            request.LANGUAGE_CODE
+            request.LANGUAGE_CODE,
         )
 
         user = self.Meta.model.objects.create_user(
@@ -56,7 +58,7 @@ class SignupSerializer(ModelSerializer):
             first_name=validated_data.get('first_name'),
             last_name=validated_data.get('last_name'),
             call_name=call_name,
-            is_approved=True
+            is_approved=True,
         )
         return user
 
@@ -71,7 +73,7 @@ class LoginSerializer(Serializer):
     def validate(self, attrs):
         user = self.authenticate(
             username=attrs.get('username'),
-            password=attrs.get('password')
+            password=attrs.get('password'),
         )
 
         if not user:
@@ -92,7 +94,7 @@ class LoginDeviceSerializer(ModelSerializer):
             'browser',
             'ip_address',
             'last_login',
-            'is_registered'
+            'is_registered',
         ]
 
 
@@ -179,8 +181,8 @@ class PasswordResetSerializer(Serializer):
             'html_email_template_name': 'password_reset.html',
             'extra_email_context': {
                 'site_name': settings.SITE_NAME,
-                'call_name': user.call_name
-            }
+                'call_name': user.call_name,
+            },
         }
         self.password_reset_form.save(**opts)
 
@@ -212,13 +214,13 @@ class UserSettingSerializer(ModelSerializer):
             'tel',
             'address',
             'is_approved',
-            'date_joined'
+            'date_joined',
         ]
         read_only_fields = [
             'id',
             'username',
             'is_approved',
-            'date_joined'
+            'date_joined',
         ]
 
 
