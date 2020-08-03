@@ -69,7 +69,7 @@ class _EmailHelper(object):
         to send html subject, pass return of render_to_string
         """
         if not user and not email:
-            raise "Either user or email should be presented."
+            raise AssertionError("Either user or email should be presented.")
         elif not email:
             email = user.email
         Debug.trace(" Sending mail to %s" % email)

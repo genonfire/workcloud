@@ -23,8 +23,7 @@ class Response(_Response):
 
     def __init__(self, data=None, status=None,
                  template_name=None, headers=None,
-                 exception=False, content_type=None,
-                 message=None,):
+                 exception=False, content_type=None):
 
         response_data = {
             'data': data

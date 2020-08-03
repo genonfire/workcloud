@@ -4,6 +4,12 @@ from core.exceptions import BindError
 
 
 class _Text(object):
+    """
+    Common text
+
+    Reuseable text as a boilerplate
+    """
+
     UNABLE_TO_LOGIN = _("Unable to login.")
     USER_IS_DEACTIVATED = _("User is deactivated.")
     INVALID_PASSWORD = _("Invalid password.")
@@ -17,4 +23,12 @@ class _Text(object):
         raise BindError("cannot re-bind text(%s)" % name)
 
 
-Text = _Text()
+class _TextProject(_Text):
+    """
+    Project text
+
+    Just for this project
+    """
+
+
+Text = _TextProject()
