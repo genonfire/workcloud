@@ -15,7 +15,9 @@ class UserManager(DjangoUserManager):
 
 
 class User(AbstractUser):
-    username = models.EmailField(unique=True)
+    username = models.EmailField(
+        unique=True,
+    )
     first_name = models.CharField(
         max_length=Const.NAME_MAX_LENGTH,
         blank=True,
@@ -48,7 +50,7 @@ class User(AbstractUser):
         null=True
     )
     # For later use such as Email confirmation
-    is_approved = models.BooleanField(default=False,)
+    is_approved = models.BooleanField(default=False)
 
     objects = UserManager()
 
@@ -99,9 +101,9 @@ class LoginDevice(models.Model):
         null=True,
         blank=True,
     )
-    created_at = models.DateTimeField(default=timezone.now,)
-    last_login = models.DateTimeField(default=timezone.now,)
-    is_registered = models.BooleanField(default=False,)
+    created_at = models.DateTimeField(default=timezone.now)
+    last_login = models.DateTimeField(default=timezone.now)
+    is_registered = models.BooleanField(default=False)
 
     objects = LoginDeviceManager()
 
