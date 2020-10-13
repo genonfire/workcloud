@@ -110,7 +110,7 @@ ALLOWED_HOSTS = ['*']
 # https://github.com/adamchainz/django-cors-headers
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = [
+CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8080"
 ]
@@ -132,11 +132,11 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 ]
-WORKCLOUD_APPS = [
+LOCAL_APPS = [
     'accounts',
     'frontend',
 ]
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + WORKCLOUD_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

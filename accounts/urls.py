@@ -51,7 +51,7 @@ urlpatterns = [
     path(
         'setting/', views.UserSettingViewSet.as_view({
             'get': 'retrieve',
-            'patch': 'update',
+            'patch': 'partial_update',
         }), name='setting'
     ),
     path(

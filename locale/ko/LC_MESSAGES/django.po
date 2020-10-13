@@ -74,7 +74,7 @@ msgstr "토큰 오류"
 
 #: utils/text.py:20
 msgid "You must consent."
-msgstr ""
+msgstr "동의해야 합니다."
 
 #: workcloud/settings.py:235
 msgid "Korean"

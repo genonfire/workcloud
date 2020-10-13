@@ -50,6 +50,7 @@ if [ "$flake8" = false ] && [ "$unittest" = false ] && [ "$testcase" = false ]; 
     echo "flake8\t\t\t run flake8 only"
     echo "unit, unittest\t\t run unit test only"
     echo "case [case name]\t run a specific unit test in debug-mode"
+    echo " - example of case name\t [tests.accounts.test_login.LoginTest]"
     echo "all\t\t\t run both flake8 and unit test"
 else
     duration=$SECONDS

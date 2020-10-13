@@ -9,7 +9,7 @@ class _Const(object):
     """
 
     NAME_MAX_LENGTH = 150
-    KEY_MAX_LENGTH = 8
+    KEY_MAX_LENGTH = 4
     PASSWORD_MAX_LENGTH = 128
     EMAIL_MAX_LENGTH = 254
     FILE_MAX_LENGTH = 128
@@ -17,6 +17,7 @@ class _Const(object):
     ADDRESS_MAX_LENGTH = 254
     IP_ADDRESS_MAX_LENGTH = 45
     DESC_MAX_LENGTH = 1024
+    TITLE_MAX_LENGTH = 100
     DEFAULT_LINK_COUNT = 10
 
     def __setattr__(self, name, value):

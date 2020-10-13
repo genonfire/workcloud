@@ -1,5 +1,5 @@
 """
-ASGI config for wc3 project.
+ASGI config for workcloud project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
