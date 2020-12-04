@@ -77,7 +77,7 @@ class LoginDeviceManager(models.Manager):
 class LoginDevice(models.Model):
     user = models.ForeignKey(
         'User',
-        related_name="device_user",
+        related_name='device_user',
         on_delete=models.CASCADE,
         null=True,
     )

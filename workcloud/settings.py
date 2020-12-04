@@ -109,7 +109,7 @@ ALLOWED_HOSTS = ['*']
 # CORS headers
 # https://github.com/adamchainz/django-cors-headers
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8080"
@@ -185,7 +185,7 @@ DATABASES = {
         'HOST': DB_HOST,
         'PORT': DB_PORT,
         'TEST': {
-            'NAME': 'wc_test',
+            'NAME': DB_NAME,
         },
     }
 }

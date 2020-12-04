@@ -30,3 +30,16 @@ class Response(_Response):
         }
 
         super().__init__(response_data, status=status)
+
+
+class PaginatedResponse(_Response):
+    def __init__(self, data=None, pagination=None, status=None,
+                 template_name=None, headers=None,
+                 exception=False, content_type=None):
+
+        response_data = {
+            'pagination': pagination,
+            'data': data
+        }
+
+        super().__init__(response_data, status=status)
