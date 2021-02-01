@@ -23,6 +23,9 @@ class ResponseMixin():
         kwargs['context'] = self.get_serializer_context()
         return serializer_class(*args, **kwargs)
 
+    def perform_delete(self, instance):
+        pass
+
     def create(self, request, *args, **kwargs):
         Debug.trace(request.data)
 
@@ -74,4 +77,12 @@ class ResponseMixin():
             'Destroying %s' % instance
         )
         self.perform_destroy(instance)
+        return Response(status=Response.HTTP_204)
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        Debug.trace(
+            'Deleting %s' % instance
+        )
+        self.perform_delete(instance)
         return Response(status=Response.HTTP_204)

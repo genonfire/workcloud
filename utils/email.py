@@ -1,4 +1,8 @@
+import smtplib
+
 from smtplib import SMTPException
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from django.conf import settings
 from django.core.mail import (
@@ -86,6 +90,49 @@ class _EmailHelper(object):
             mimetype=mimetype,
             context=context
         )
+
+    def send_direct(
+        self, subject, body, from_email=None, user=None, email=None,
+        html_subject=None, html_body=None, attachment=None, filename=None,
+        mimetype=None, context=None
+    ):
+        """
+        Send a single email to a single user or email
+
+        using smtplib send directly
+        """
+        if not user and not email:
+            raise AssertionError("Either user or email should be presented.")
+        elif not email:
+            email = user.email
+        Debug.trace(" Sending smtp mail to %s" % email)
+
+        if settings.DO_NOT_SEND_EMAIL:
+            return
+        if not from_email:
+            from_email = settings.DEFAULT_FROM_EMAIL
+
+        if html_subject:
+            subject = render_to_string(html_subject, context)
+        subject = ''.join(subject.splitlines())
+
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = subject
+        msg['From'] = from_email
+        msg['To'] = email
+
+        if html_body:
+            html_email = render_to_string(html_body, context)
+            msg.attach(MIMEText(html_email, 'html'))
+        else:
+            msg.attach(MIMEText(body, 'plain'))
+
+        mail = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
+        mail.ehlo()
+        mail.starttls()
+        mail.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+        mail.sendmail(from_email, email, msg.as_string())
+        mail.quit()
 
     def send_bcc(
         self, subject, body, from_email=None, to=None, recipients=None,

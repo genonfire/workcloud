@@ -6,6 +6,7 @@ django-storages
 drf-yasg
 flake8
 importlib-metadata<3,>=0.12; python_version<'3.8'
+mysqlclient
 packaging
 pillow>=8.0
 psycopg2

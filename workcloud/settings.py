@@ -46,6 +46,7 @@ if TEST_SETTING:
 try:
     secrets = json.loads(open(os.path.join(BASE_DIR, SECRETS_PATH)).read())
 
+    DB_ENGINE = 'django.db.backends.postgresql'
     DB_HOST = ''
     DB_PORT = ''
     DB_NAME = ''
@@ -77,7 +78,7 @@ FRONTEND_URL = 'http://127.0.0.1:8080'
 DEFAULT_FROM_EMAIL = EMAIL_ADDRESS
 DEBUG = False
 LOCAL_SERVER = False
-TRACE_ENABLED = False
+TRACE_ENABLED = True
 REST_PAGINATION_SIZE_DEFAULT = 20
 DATE_TIME_FORMAT_DEFAULT = '%Y-%m-%dT%H:%M:%S%z'
 DATE_FORMAT_DEFAULT = '%Y-%m-%d'
@@ -112,7 +113,7 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
-    "http://127.0.0.1:8080"
+    FRONTEND_URL,
 ]
 
 
@@ -178,7 +179,7 @@ WSGI_APPLICATION = 'workcloud.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': DB_ENGINE,
         'NAME': DB_NAME,
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
