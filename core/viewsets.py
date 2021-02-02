@@ -19,6 +19,7 @@ class APIView(_APIView):
 
 
 class CreateAPIView(ResponseMixin, _CreateAPIView):
+    # lgtm [py/conflicting-attributes]
     pass
 
 
@@ -37,8 +38,10 @@ class GenericViewSet(ResponseMixin, _GenericViewSet):
 
 
 class ModelViewSet(ResponseMixin, _ModelViewSet):
+    # lgtm [py/conflicting-attributes]
     pass
 
 
 class ReadOnlyModelViewSet(ResponseMixin, _ReadOnlyModelViewSet):
+    # lgtm [py/conflicting-attributes]
     pass
