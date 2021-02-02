@@ -1,0 +1,30 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/repos/workcloud/frontend/wc
+    docker:
+      - image: vuejs/ci
+    steps:
+      - checkout:
+          path: ~/repos/workcloud
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-dependencies-{{ .Branch }}-
+      - run:
+          command: npm install
+      - save_cache:
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          command: npm run lint
+      - run:
+          command: npm run build
+
+workflows:
+  version: 2
+  workcloud:
+    jobs:
+      - build
