@@ -12,3 +12,4 @@ omit =
     workcloud/*asgi.py*
     workcloud/*settings.py*
     workcloud/*wsgi.py*
+    frontend/*
