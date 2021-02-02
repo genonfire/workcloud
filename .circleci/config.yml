@@ -13,8 +13,6 @@ jobs:
             - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
             - v1-dependencies-{{ .Branch }}-
       - run:
-          command: ls -al ~/repos/workcloud/frontend/wc
-      - run:
           command: npm install
       - save_cache:
           key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
