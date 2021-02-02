@@ -1,6 +1,5 @@
 import smtplib
 
-from smtplib import SMTPException
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -59,7 +58,7 @@ class _EmailHelper(object):
             email.send(fail_silently=False)
         except BadHeaderError:
             Debug.error("BadHeaderError")
-        except SMTPException:
+        except smtplib.SMTPException:
             Debug.error("SMTPException")
 
     def send_to(

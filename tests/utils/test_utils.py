@@ -1,6 +1,5 @@
 from django.conf import settings
 
-from core.exceptions import BindError
 from core.testcase import TestCase
 from utils.constants import Const
 from utils.debug import Debug
@@ -12,13 +11,13 @@ class UtilTest(TestCase):
         result = False
         try:
             Const.NAME_MAX_LENGTH = 0
-        except BindError:
+        except AttributeError:
             result = True
             self.log('Correctly raised BindError for Const.')
 
         try:
             Text.INVALID_TOKEN = 'Invalid Token'
-        except BindError:
+        except AttributeError:
             result = True
             self.log('Correctly raised BindError for Text.')
 

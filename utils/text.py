@@ -1,7 +1,5 @@
 from django.utils.translation import gettext as _
 
-from core.exceptions import BindError
-
 
 class _Text(object):
     """
@@ -20,7 +18,7 @@ class _Text(object):
     YOU_MUST_CONSENT = _("You must consent.")
 
     def __setattr__(self, name, value):
-        raise BindError("cannot re-bind text(%s)" % name)
+        raise AttributeError("cannot re-bind text(%s)" % name)
 
 
 class _TextProject(_Text):

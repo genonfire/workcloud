@@ -1,5 +1,3 @@
-from core.exceptions import BindError
-
 
 class _Const(object):
     """
@@ -21,7 +19,7 @@ class _Const(object):
     DEFAULT_LINK_COUNT = 10
 
     def __setattr__(self, name, value):
-        raise BindError("cannot re-bind const(%s)" % name)
+        raise AttributeError("cannot re-bind const(%s)" % name)
 
 
 class _ConstProject(_Const):
