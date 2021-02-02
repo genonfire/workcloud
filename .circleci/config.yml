@@ -5,6 +5,7 @@ jobs:
     working_directory: ~/repos/workcloud/frontend/wc
     docker:
       - image: vuejs/ci
+    parallelism: 1
     steps:
       - checkout:
           path: ~/repos/workcloud
