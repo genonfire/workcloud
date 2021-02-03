@@ -61,8 +61,8 @@
         var vm = this
 
         axios({
-          method: 'post',
-          url: '/accounts/logout/',
+          method: this.$api('ACCOUNTS_LOGOUT').method,
+          url: this.$api('ACCOUNTS_LOGOUT').url,
         })
         .then(function () {
           vm.$store.commit({

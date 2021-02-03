@@ -91,8 +91,8 @@
         }
 
         axios({
-          method: 'post',
-          url: '/accounts/password_reset_confirm/',
+          method: this.$api('ACCOUNTS_PASSWORD_RESET_CONFIRM').method,
+          url: this.$api('ACCOUNTS_PASSWORD_RESET_CONFIRM').url,
           data: {
             new_password: this.password1,
             uid: this.$route.params.uid,

@@ -219,8 +219,8 @@ export default {
     var vm = this
 
     axios({
-      method: 'get',
-      url: '/accounts/setting/'
+      method: this.$api('ACCOUNTS_SETTING_GET').method,
+      url: this.$api('ACCOUNTS_SETTING_GET').url
     })
     .then(function (response) {
       var data = response.data['data']
@@ -251,8 +251,8 @@ export default {
       }
 
       axios({
-        method: 'patch',
-        url: '/accounts/setting/',
+        method: this.$api('ACCOUNTS_SETTING_SET').method,
+        url: this.$api('ACCOUNTS_SETTING_SET').url,
         data: {
           first_name: this.user.first_name,
           last_name: this.user.last_name,
@@ -291,8 +291,8 @@ export default {
       var vm = this
 
       axios({
-        method: 'patch',
-        url: '/accounts/setting/',
+        method: this.$api('ACCOUNTS_SETTING_SET').method,
+        url: this.$api('ACCOUNTS_SETTING_SET').url,
         data: data,
       })
       .then(function (response) {

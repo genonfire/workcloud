@@ -118,8 +118,8 @@
         }
 
         axios({
-          method: 'post',
-          url: '/accounts/login/',
+          method: this.$api('ACCOUNTS_LOGIN').method,
+          url: this.$api('ACCOUNTS_LOGIN').url,
           data: {
             username: this.username,
             password: this.password,

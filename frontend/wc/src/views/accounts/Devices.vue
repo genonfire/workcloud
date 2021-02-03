@@ -86,8 +86,8 @@ export default {
     var vm = this
 
     axios({
-      method: 'get',
-      url: '/accounts/devices/'
+      method: this.$api('ACCOUNTS_DEVICES').method,
+      url: this.$api('ACCOUNTS_DEVICES').url
     })
     .then(function (response) {
       var data = response.data['data']
@@ -105,11 +105,12 @@ export default {
       }
 
       var vm = this
-      var url = '/accounts/device/' + device.id + '/delete/'
 
       axios({
-        method: 'delete',
-        url: url
+        method: this.$api('ACCOUNTS_DEVICE_DELETE').method,
+        url: this.$api('ACCOUNTS_DEVICE_DELETE').url.replace(
+          '{pk}', device.id
+        )
       })
       .then(function () {
         var index = vm.devices.indexOf(device)

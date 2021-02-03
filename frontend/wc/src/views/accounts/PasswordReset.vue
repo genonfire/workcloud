@@ -94,8 +94,8 @@
         }
 
         axios({
-          method: 'post',
-          url: '/accounts/password_reset/',
+          method: this.$api('ACCOUNTS_PASSWORD_RESET').method,
+          url: this.$api('ACCOUNTS_PASSWORD_RESET').url,
           data: {
             email: this.email
           },

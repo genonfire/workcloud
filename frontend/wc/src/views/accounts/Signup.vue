@@ -123,8 +123,8 @@
         }
 
         axios({
-          method: 'post',
-          url: '/accounts/signup/',
+          method: this.$api('ACCOUNTS_SIGNUP').method,
+          url: this.$api('ACCOUNTS_SIGNUP').url,
           data: {
             username: this.username,
             password: this.password1,

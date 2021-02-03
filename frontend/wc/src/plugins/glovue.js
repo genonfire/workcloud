@@ -14,7 +14,6 @@ const Const = {
 
 Const.install = function (Vue) {
   Vue.prototype.$const = (key) => Const[key]
-  Vue.prototype.$apiURL = () => process.env.VUE_APP_API_SERVER
 };
 
 export default Const

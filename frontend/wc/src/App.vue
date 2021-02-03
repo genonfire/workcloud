@@ -68,12 +68,12 @@ export default {
 
     var vm = this
     var local_key = localStorage.getItem('token')
-    axios.defaults.baseURL = this.$apiURL()
+    axios.defaults.baseURL = this.$baseURL()
 
     if (local_key) {
       axios({
-        method: 'post',
-        url: '/accounts/connect/',
+        method: this.$api('ACCOUNTS_CONNECT').method,
+        url: this.$api('ACCOUNTS_CONNECT').url,
         headers: {
           Authorization: 'Token ' + local_key
         }

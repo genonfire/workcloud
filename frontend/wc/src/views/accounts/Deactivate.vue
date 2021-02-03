@@ -89,8 +89,8 @@
         }
 
         axios({
-          method: 'post',
-          url: '/accounts/deactivate/',
+          method: this.$api('ACCOUNTS_DEACTIVATE').method,
+          url: this.$api('ACCOUNTS_DEACTIVATE').url,
           data: {
             consent: this.consent
           }

@@ -103,8 +103,8 @@ export default {
       }
 
       axios({
-        method: 'post',
-        url: '/accounts/password_change/',
+        method: this.$api('ACCOUNTS_PASSWORD_CHANGE').method,
+        url: this.$api('ACCOUNTS_PASSWORD_CHANGE').url,
         data: {
           old_password: this.old_password,
           new_password: this.new_password

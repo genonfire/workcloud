@@ -67,8 +67,10 @@
         var vm = this
 
         axios({
-          method: 'post',
-          url: '/accounts/device/' + this.login_device.id + '/register/',
+          method: this.$api('ACCOUNTS_DEVICE_REGISTER').method,
+          url: this.$api('ACCOUNTS_DEVICE_REGISTER').url.replace(
+            '{pk}', this.login_device.id
+          )
         })
         .then(function () {
           localStorage.setItem('token', vm.key)
