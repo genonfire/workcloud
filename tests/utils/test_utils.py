@@ -13,13 +13,11 @@ class UtilTest(TestCase):
             Const.NAME_MAX_LENGTH = 0
         except AttributeError:
             result = True
-            self.log('Correctly raised BindError for Const.')
 
         try:
             Text.INVALID_TOKEN = 'Invalid Token'
         except AttributeError:
             result = True
-            self.log('Correctly raised BindError for Text.')
 
         assert result
 
