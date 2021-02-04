@@ -11,6 +11,7 @@ from rest_framework.pagination import (
 from rest_framework.response import Response
 
 from utils.constants import Const
+from utils.debug import Debug  # noqa
 
 
 class PageNumberPagination(_BasePagination):
@@ -76,7 +77,7 @@ class PageNumberPagination(_BasePagination):
         link_count = self.link_count
 
         page_total = int(ceil(float(item_total) / page_size))
-        page_from = int(current_page / link_count) * link_count + 1
+        page_from = int((current_page - 1) / link_count) * link_count + 1
         page_to = page_total
         if page_to - page_from >= link_count:
             page_to = page_from + link_count - 1

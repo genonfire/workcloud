@@ -18,6 +18,8 @@ class _Const(object):
     TITLE_MAX_LENGTH = 100
     DEFAULT_LINK_COUNT = 10
 
+    QUERY_PARAM_SEARCH_QUERY = 'q'
+
     def __setattr__(self, name, value):
         raise AttributeError("cannot re-bind const(%s)" % name)
 
