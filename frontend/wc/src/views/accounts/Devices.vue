@@ -59,8 +59,8 @@ thead.device_management th {
 </style>
 
 <script>
-import SettingMenu from '../../components/SettingMenu'
 import axios from 'axios'
+import SettingMenu from '@/components/SettingMenu'
 import { mapState } from 'vuex';
 
 export default {
