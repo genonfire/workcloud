@@ -21,7 +21,10 @@
         "DELETE": "Delete",
         "REMOVE": "Remove",
         "CREATE": "Create",
-        "SAVE": "Save"
+        "SAVE": "Save",
+        "APPLY": "Apply",
+        "CLOSE": "Close",
+        "BACK": "Back"
     },
     "accounts": {
         "USERNAME": "Username",
@@ -75,6 +78,13 @@
         "CONSENT": "I consent.",
         "CONSENT_HINT": "You must consent."
     },
+    "editor": {
+        "ADD_LINK": "Add link",
+        "CHANGE_LINK": "Change link",
+        "REMOVE_LINK": "Remove link",
+        "QUIT_EDITING": "Are you sure to quit editing?",
+        "LAST_UPDATED_AT": "Last updated at {date_or_time}"
+     },
     "info": {
         "SITENAME": "Workcloud"
     },

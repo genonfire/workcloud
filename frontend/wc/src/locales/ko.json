@@ -21,7 +21,10 @@
         "DELETE": "삭제",
         "REMOVE": "제거",
         "CREATE": "만들기",
-        "SAVE": "저장"
+        "SAVE": "저장",
+        "APPLY": "적용",
+        "CLOSE": "닫기",
+        "BACK": "뒤로가기"
     },
     "accounts": {
         "USERNAME": "아이디",
@@ -74,6 +77,13 @@
         "DEACTIVATE_DESCRIPTION": "회원 탈퇴 후에는 해당 이메일 주소로 로그인 및 회원 가입이 불가능합니다.",
         "CONSENT": "동의합니다",
         "CONSENT_HINT": "동의해아 합니다."
+    },
+    "editor": {
+        "ADD_LINK": "링크 추가하기",
+        "CHANGE_LINK": "링크 변경하기",
+        "REMOVE_LINK": "링크 제거",
+        "QUIT_EDITING": "글 작성을 그만두시겠습니까?",
+        "LAST_UPDATED_AT": "{date_or_time}에 저장됨"
     },
     "info": {
         "SITENAME": "Workcloud"
