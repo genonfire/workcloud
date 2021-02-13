@@ -34,6 +34,9 @@ class ResponseMixin():
         kwargs['context'] = self.get_serializer_context()
         return serializer_class(*args, **kwargs)
 
+    def sync_update(self, instance, partial):
+        pass
+
     def perform_delete(self, instance):
         pass
 
@@ -72,6 +75,8 @@ class ResponseMixin():
 
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
+        self.sync_update(instance, partial)
+
         serializer = self.get_serializer(
             instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)

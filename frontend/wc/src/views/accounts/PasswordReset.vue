@@ -107,7 +107,7 @@
           if (error.response && error.response.data) {
             for (var field in error.response.data) {
               vm.$dialog.notify.info(
-                error.response.data[field], {
+                field + ': ' + error.response.data[field], {
                   position: 'top-right'
                 }
               )
