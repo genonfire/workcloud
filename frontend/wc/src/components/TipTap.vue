@@ -1,7 +1,7 @@
 <template>
   <div class="editor">
 
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, getMarkAttrs, menu }">
+    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
       <div class="menubar">
 
         <button
