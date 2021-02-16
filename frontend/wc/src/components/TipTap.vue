@@ -241,9 +241,7 @@ export default {
   },
   data () {
     return {
-      editor: null,
-      linkUrl: null,
-      linkMenuIsActive: false
+      editor: null
     }
   },
   mounted () {
