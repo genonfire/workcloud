@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from math import ceil
 
 from django.core.paginator import InvalidPage
 
@@ -9,6 +8,7 @@ from rest_framework.pagination import (
     PageNumberPagination as _BasePagination
 )
 from rest_framework.response import Response
+from rest_framework.utils.urls import remove_query_param
 
 from utils.constants import Const
 from utils.debug import Debug  # noqa
@@ -72,11 +72,10 @@ class PageNumberPagination(_BasePagination):
 
     def get_paginated_response(self, data):
         item_total = self.page.paginator.count
-        page_size = self.page.paginator.per_page
+        page_total = self.page.paginator.num_pages
         current_page = self.current_page
         link_count = self.link_count
 
-        page_total = int(ceil(float(item_total) / page_size))
         page_from = int((current_page - 1) / link_count) * link_count + 1
         page_to = page_total
         if page_to - page_from >= link_count:
@@ -89,6 +88,32 @@ class PageNumberPagination(_BasePagination):
                 ('page_from', page_from),
                 ('page_to', page_to),
                 ('current_page', current_page),
+            ])),
+            ('data', data)
+        ]))
+
+
+class PrevNextPagination(PageNumberPagination):
+    def get_first_link(self):
+        if not self.page.has_previous():
+            return None
+
+        url = self.request.build_absolute_uri()
+        return remove_query_param(url, self.page_query_param)
+
+    def get_paginated_response(self, data):
+        item_total = self.page.paginator.count
+        page_total = self.page.paginator.num_pages
+        current_page = self.current_page
+
+        return Response(OrderedDict([
+            ('pagination', OrderedDict([
+                ('item_total', item_total),
+                ('page_total', page_total),
+                ('current_page', current_page),
+                ('next_link', self.get_next_link()),
+                ('prev_link', self.get_previous_link()),
+                ('first_link', self.get_first_link()),
             ])),
             ('data', data)
         ]))
