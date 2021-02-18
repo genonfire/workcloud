@@ -35,6 +35,13 @@
               {{ $t('accounts.THIS_DEVICE') }}
             </v-btn>
             <v-btn
+              text
+              disabled
+              v-else-if="!device.device"
+            >
+              {{ $t('common.DELETED') }}
+            </v-btn>
+            <v-btn
               :model="device.id"
               small
               @click="deleteDevice(device)"
@@ -48,30 +55,38 @@
     </v-simple-table>
   </div>
 
+  <Pagination
+    :pagination="pagination"
+    :first="firstPage"
+    :prev="prevPage"
+    :next="nextPage"
+  />
+
 </v-container>
 </template>
 
-<style lang="scss">
-thead.device_management th {
-  text-align: center !important;
-  background-color: #eee;
-}
-</style>
-
 <script>
 import axios from 'axios'
+import Pagination from '@/components/Pagination'
 import SettingMenu from '@/components/SettingMenu'
 import { mapState } from 'vuex';
 
 export default {
   components: {
+    Pagination,
     SettingMenu,
   },
-
   data () {
     return {
-      firstInit: false,
+      pagination: {
+        pageTotal: 1,
+        currentPage: 1,
+        firstLink: null,
+        prevLink: null,
+        nextLink: null
+      },
       devices: [],
+      firstInit: false
     }
   },
   computed: {
@@ -83,24 +98,57 @@ export default {
     }
   },
   mounted () {
-    var vm = this
-
-    axios({
-      method: this.$api('ACCOUNTS_DEVICES').method,
-      url: this.$api('ACCOUNTS_DEVICES').url
-    })
-    .then(function (response) {
-      var data = response.data['data']
-      vm.devices = data
-
-      vm.firstInit = true
-    })
-    .catch(function () {
-    })
+    this.getDevices()
   },
   methods: {
-    deleteDevice(device) {
-      if (!confirm(this.$t("accounts.LOGOUT_DEVICE"))) {
+    firstPage: function () {
+      this.getDevices(this.pagination.firstLink)
+    },
+    prevPage: function () {
+      this.getDevices(this.pagination.prevLink)
+    },
+    nextPage: function () {
+      this.getDevices(this.pagination.nextLink)
+    },
+    getDevices: function (url=null) {
+      var vm = this
+      var method = 'get'
+
+      if (!url) {
+        method = this.$api('ACCOUNTS_DEVICES').method
+        url = this.$api('ACCOUNTS_DEVICES').url
+      }
+
+      axios({
+        method: method,
+        url: url
+      })
+      .then(function (response) {
+        var pagination = response.data['pagination']
+        vm.pagination.pageTotal = pagination['page_total']
+        vm.pagination.currentPage = pagination['current_page']
+        vm.pagination.prevLink = pagination['prev_link']
+        vm.pagination.nextLink = pagination['next_link']
+        vm.pagination.firstLink = pagination['first_link']
+
+        vm.devices = response.data['data']
+        vm.firstInit = true
+      })
+      .catch(function () {
+      })
+    },
+    deleteDevice: async function (device) {
+      let res = await this.$dialog.warning({
+        text: this.$t("accounts.LOGOUT_DEVICE"),
+        actions: {
+          false: this.$t('common.CANCEL'),
+          true: {
+            color: 'error',
+            text: this.$t('accounts.LOGOUT')
+          }
+        }
+      })
+      if (!res) {
         return
       }
 
@@ -114,7 +162,7 @@ export default {
       })
       .then(function () {
         var index = vm.devices.indexOf(device)
-        vm.devices.splice(index, 1)
+        vm.devices[index].device = null
       })
       .catch(function () {
       })
@@ -122,3 +170,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+thead.device_management th {
+  text-align: center !important;
+  background-color: #eee;
+}
+</style>

@@ -56,58 +56,58 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import router from '@/router'
-  import { mapState } from 'vuex'
+import axios from 'axios'
+import router from '@/router'
+import { mapState } from 'vuex'
 
-  export default {
-    data () {
-      return {
-        validation: false,
-        consent: false,
-      }
-    },
-    computed: {
-      ...mapState([
-        'user'
-      ])
-    },
-    methods: {
-      submit: function () {
-        var vm = this
-        if (!this.validation) {
-          this.$dialog.notify.info(
-            this.$t('common.INPUT_ERROR'), {
-              position: 'top-right'
-            }
-          )
-          return
-        }
-
-        if (!confirm(this.$t("accounts.DEACTIVATE_ACCOUNT"))) {
-          return
-        }
-
-        axios({
-          method: this.$api('ACCOUNTS_DEACTIVATE').method,
-          url: this.$api('ACCOUNTS_DEACTIVATE').url,
-          data: {
-            consent: this.consent
-          }
-        })
-        .then(function () {
-          vm.$store.commit({
-            type: 'removeUser'
-          })
-
-          localStorage.clear()
-
-          axios.defaults.headers.common['Authorization'] = ''
-          router.push({ name: 'home' })
-        })
-        .catch(function () {
-        })
-      },
+export default {
+  data () {
+    return {
+      validation: false,
+      consent: false,
     }
+  },
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  },
+  methods: {
+    submit: function () {
+      var vm = this
+      if (!this.validation) {
+        this.$dialog.notify.info(
+          this.$t('common.INPUT_ERROR'), {
+            position: 'top-right'
+          }
+        )
+        return
+      }
+
+      if (!confirm(this.$t("accounts.DEACTIVATE_ACCOUNT"))) {
+        return
+      }
+
+      axios({
+        method: this.$api('ACCOUNTS_DEACTIVATE').method,
+        url: this.$api('ACCOUNTS_DEACTIVATE').url,
+        data: {
+          consent: this.consent
+        }
+      })
+      .then(function () {
+        vm.$store.commit({
+          type: 'removeUser'
+        })
+
+        localStorage.clear()
+
+        axios.defaults.headers.common['Authorization'] = ''
+        router.push({ name: 'home' })
+      })
+      .catch(function () {
+      })
+    },
   }
+}
 </script>
