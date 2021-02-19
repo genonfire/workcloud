@@ -73,20 +73,31 @@ export default {
     ])
   },
   methods: {
-    submit: function () {
-      var vm = this
+    submit: async function () {
       if (!this.validation) {
         this.$dialog.notify.info(
-          this.$t('common.INPUT_ERROR'), {
+          this.$t('accounts.CONSENT_HINT'), {
             position: 'top-right'
           }
         )
         return
       }
 
-      if (!confirm(this.$t("accounts.DEACTIVATE_ACCOUNT"))) {
+      let res = await this.$dialog.warning({
+        text: this.$t('accounts.DEACTIVATE_ACCOUNT'),
+        actions: {
+          false: this.$t('common.CANCEL'),
+          true: {
+            color: 'error',
+            text: this.$t('accounts.DEACTIVATE')
+          }
+        }
+      })
+      if (!res) {
         return
       }
+
+      var vm = this
 
       axios({
         method: this.$api('ACCOUNTS_DEACTIVATE').method,
