@@ -24,7 +24,8 @@
         "SAVE": "Save",
         "APPLY": "Apply",
         "CLOSE": "Close",
-        "BACK": "Back"
+        "BACK": "Back",
+        "DOWNLOAD": "Download"
     },
     "accounts": {
         "USERNAME": "Username",

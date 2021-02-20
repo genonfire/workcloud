@@ -24,7 +24,8 @@
         "SAVE": "저장",
         "APPLY": "적용",
         "CLOSE": "닫기",
-        "BACK": "뒤로가기"
+        "BACK": "뒤로가기",
+        "DOWNLOAD": "다운로드"
     },
     "accounts": {
         "USERNAME": "아이디",

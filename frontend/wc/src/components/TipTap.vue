@@ -1,7 +1,11 @@
 <template>
   <div class="editor">
 
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
+    <editor-menu-bar
+      :editor="editor"
+      v-slot="{ commands, isActive, getMarkAttrs }"
+      v-if="!options.readonly"
+    >
       <div class="menubar">
 
         <button
@@ -237,7 +241,7 @@ export default {
   props: {
     options: Object
     // content: initial text
-    // editable: read only if false
+    // readonly: read only if true
   },
   data () {
     return {
@@ -246,7 +250,7 @@ export default {
   },
   mounted () {
     this.editor = new Editor ({
-      editable: this.options.editable,
+      editable: !this.options.readonly,
       extensions: [
         new Blockquote(),
         new CodeBlock(),
