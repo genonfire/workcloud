@@ -9,6 +9,14 @@ export const store = new Vuex.Store({
     user: '',
     login_device: ''
   },
+  getters: {
+    isApproved: state => {
+      return state.user && state.user.is_approved
+    },
+    isStaff: state => {
+      return state.user && state.user.is_staff
+    }
+  },
   mutations: {
     updateUser(state, payload) {
       if (payload.key) {

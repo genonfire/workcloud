@@ -23,6 +23,7 @@ export default [
   {
     path: '/accounts/device/register',
     name: 'accounts.register_device',
+    meta: { requiresAuth: true },
     component: () => import(
       /* webpackChunkName: "accounts" */ '../views/accounts/RegisterDevice.vue'
     )
@@ -30,6 +31,7 @@ export default [
   {
     path: '/accounts/profile',
     name: 'accounts.profile',
+    meta: { requiresAuth: true },
     component: () => import(
       /* webpackChunkName: "accounts" */ '../views/accounts/Profile.vue'
     )
@@ -37,6 +39,7 @@ export default [
   {
     path: '/accounts/devices',
     name: 'accounts.devices',
+    meta: { requiresAuth: true },
     component: () => import(
       /* webpackChunkName: "accounts" */ '../views/accounts/Devices.vue'
     )
@@ -44,6 +47,7 @@ export default [
   {
     path: '/accounts/change_password',
     name: 'accounts.change_password',
+    meta: { requiresAuth: true },
     component: () => import(
       /* webpackChunkName: "accounts" */ '../views/accounts/ChangePassword.vue'
     )
@@ -65,6 +69,7 @@ export default [
   {
     path: '/accounts/deactivate',
     name: 'accounts.deactivate',
+    meta: { requiresAuth: true },
     component: () => import(
       /* webpackChunkName: "accounts" */ '../views/accounts/Deactivate.vue'
     )

@@ -48,38 +48,38 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import router from '@/router'
-  import { mapState } from 'vuex'
+import axios from 'axios'
+import router from '@/router'
+import { mapState } from 'vuex'
 
-  export default {
-    computed: {
-      ...mapState([
-        'key',
-        'login_device'
-      ]),
-      get_device: function () {
-        return this.login_device.device + '(' + this.login_device.os + ') ' + this.login_device.browser + ' ' + this.login_device.ip_address
-      }
-    },
-    methods: {
-      register: function () {
-        var vm = this
-
-        axios({
-          method: this.$api('ACCOUNTS_DEVICE_REGISTER').method,
-          url: this.$api('ACCOUNTS_DEVICE_REGISTER').url.replace(
-            '{pk}', this.login_device.id
-          )
-        })
-        .then(function () {
-          localStorage.setItem('token', vm.key)
-          router.push({ name: 'home' })
-        })
-        .catch(function () {
-          router.push({ name: 'home' })
-        })
-      },
+export default {
+  computed: {
+    ...mapState([
+      'key',
+      'login_device'
+    ]),
+    get_device: function () {
+      return this.login_device.device + '(' + this.login_device.os + ') ' + this.login_device.browser + ' ' + this.login_device.ip_address
     }
+  },
+  methods: {
+    register: function () {
+      var vm = this
+
+      axios({
+        method: this.$api('ACCOUNTS_DEVICE_REGISTER').method,
+        url: this.$api('ACCOUNTS_DEVICE_REGISTER').url.replace(
+          '{pk}', this.login_device.id
+        )
+      })
+      .then(function () {
+        localStorage.setItem('token', vm.key)
+        router.push({ name: 'home' })
+      })
+      .catch(function () {
+        router.push({ name: 'home' })
+      })
+    },
   }
+}
 </script>

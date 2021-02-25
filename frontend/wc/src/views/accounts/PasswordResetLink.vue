@@ -60,72 +60,72 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import router from '@/router'
+import axios from 'axios'
+import router from '@/router'
 
-  export default {
-    data () {
-      return {
-        validation: false,
-        password1: '',
-        password2: '',
-        show1: false,
-        show2: false,
-        rules: {
-          required: v => !!v || this.$t('common.REQUIRED'),
-          min: v => v.length >= this.$const('PASSWORD_MIN') || this.$t('common.REQUIRED_MIN', { min: this.$const('PASSWORD_MIN') }),
-          passwordMatch: () => this.password1 === this.password2 || this.$t('accounts.PASSWORD_NOT_MATCH'),
-        },
-      }
-    },
-    methods: {
-      submit: function () {
-        var vm = this
-        if (!this.validation) {
-          this.$dialog.notify.info(
-            this.$t('common.INPUT_ERROR'), {
-              position: 'top-right'
-            }
-          )
-          return
-        }
-
-        axios({
-          method: this.$api('ACCOUNTS_PASSWORD_RESET_CONFIRM').method,
-          url: this.$api('ACCOUNTS_PASSWORD_RESET_CONFIRM').url,
-          data: {
-            new_password: this.password1,
-            uid: this.$route.params.uid,
-            token: this.$route.params.token
-          },
-        })
-        .then(function () {
-          vm.$store.commit({
-            type: 'removeUser'
-          })
-
-          localStorage.clear()
-
-          axios.defaults.headers.common['Authorization'] = ''
-          vm.$dialog.notify.success(
-            vm.$t('accounts.PASSWORD_RESET_COMPLETED'), {
-              position: 'top-right'
-            }
-          )
-          router.push({ name: 'accounts.login' })
-        })
-        .catch(function (error) {
-          if (error.response && error.response.data) {
-            for (var field in error.response.data) {
-              vm.$dialog.notify.info(
-                field + ': ' + error.response.data[field], {
-                  position: 'top-right'
-                }
-              )
-            }
+export default {
+  data () {
+    return {
+      validation: false,
+      password1: '',
+      password2: '',
+      show1: false,
+      show2: false,
+      rules: {
+        required: v => !!v || this.$t('common.REQUIRED'),
+        min: v => v.length >= this.$const('PASSWORD_MIN') || this.$t('common.REQUIRED_MIN', { min: this.$const('PASSWORD_MIN') }),
+        passwordMatch: () => this.password1 === this.password2 || this.$t('accounts.PASSWORD_NOT_MATCH'),
+      },
+    }
+  },
+  methods: {
+    submit: function () {
+      var vm = this
+      if (!this.validation) {
+        this.$dialog.notify.info(
+          this.$t('common.INPUT_ERROR'), {
+            position: 'top-right'
           }
-        })
+        )
+        return
       }
+
+      axios({
+        method: this.$api('ACCOUNTS_PASSWORD_RESET_CONFIRM').method,
+        url: this.$api('ACCOUNTS_PASSWORD_RESET_CONFIRM').url,
+        data: {
+          new_password: this.password1,
+          uid: this.$route.params.uid,
+          token: this.$route.params.token
+        },
+      })
+      .then(function () {
+        vm.$store.commit({
+          type: 'removeUser'
+        })
+
+        localStorage.clear()
+
+        axios.defaults.headers.common['Authorization'] = ''
+        vm.$dialog.notify.success(
+          vm.$t('accounts.PASSWORD_RESET_COMPLETED'), {
+            position: 'top-right'
+          }
+        )
+        router.push({ name: 'accounts.login' })
+      })
+      .catch(function (error) {
+        if (error.response && error.response.data) {
+          for (var field in error.response.data) {
+            vm.$dialog.notify.info(
+              field + ': ' + error.response.data[field], {
+                position: 'top-right'
+              }
+            )
+          }
+        }
+      })
     }
   }
+}
 </script>

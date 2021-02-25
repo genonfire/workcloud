@@ -66,29 +66,29 @@
   </v-footer>
 </template>
 
+<script>
+export default {
+  data () {
+    return {
+      dialog: false,
+      locale: this.$root.$i18n.locale,
+      languages: this.$const('LANGUAGES')
+    }
+  },
+  methods: {
+    changeLocale: function () {
+      if (this.$root.$i18n.locale != this.locale) {
+        this.$root.$i18n.locale = this.locale
+        localStorage.setItem('locale', this.locale)
+      }
+      this.dialog = false
+    }
+  }
+}
+</script>
+
 <style lang="scss">
 .v-card__text {
   padding: 0 24px 0;
 }
 </style>
-
-<script>
-  export default {
-    data () {
-      return {
-        dialog: false,
-        locale: this.$root.$i18n.locale,
-        languages: this.$const('LANGUAGES')
-      }
-    },
-    methods: {
-      changeLocale: function () {
-        if (this.$root.$i18n.locale != this.locale) {
-          this.$root.$i18n.locale = this.locale
-          localStorage.setItem('locale', this.locale)
-        }
-        this.dialog = false
-      }
-    }
-  }
-</script>

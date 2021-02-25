@@ -4,6 +4,12 @@ var Mobile = {
       isMobile: false
     }
   },
+  beforeDestroy () {
+    if (typeof window === 'undefined') {
+      return
+    }
+    window.removeEventListener('resize', this.onResize, { passive: true })
+  },
   mounted () {
     this.onResize()
     window.addEventListener('resize', this.onResize, { passive: true })

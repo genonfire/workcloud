@@ -62,59 +62,59 @@
 </template>
 
 <script>
-  import axios from 'axios'
+import axios from 'axios'
 
-  export default {
-    data () {
-      return {
-        validation: false,
-        email_sent: false,
-        email: '',
-        rules: {
-          required: v => !!v || this.$t('common.REQUIRED'),
-          emailRules: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('common.INVALID_EMAIL'),
-        },
-      }
-    },
-    computed: {
-      done () {
-        return this.email_sent
-      }
-    },
-    methods: {
-      submit: function () {
-        var vm = this
-        if (!this.validation) {
-          this.$dialog.notify.info(
-            this.$t('common.INPUT_ERROR'), {
-              position: 'top-right'
-            }
-          )
-          return
-        }
-
-        axios({
-          method: this.$api('ACCOUNTS_PASSWORD_RESET').method,
-          url: this.$api('ACCOUNTS_PASSWORD_RESET').url,
-          data: {
-            email: this.email
-          },
-        })
-        .then(function () {
-          vm.email_sent = true
-        })
-        .catch(function (error) {
-          if (error.response && error.response.data) {
-            for (var field in error.response.data) {
-              vm.$dialog.notify.info(
-                field + ': ' + error.response.data[field], {
-                  position: 'top-right'
-                }
-              )
-            }
+export default {
+  data () {
+    return {
+      validation: false,
+      email_sent: false,
+      email: '',
+      rules: {
+        required: v => !!v || this.$t('common.REQUIRED'),
+        emailRules: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('common.INVALID_EMAIL'),
+      },
+    }
+  },
+  computed: {
+    done () {
+      return this.email_sent
+    }
+  },
+  methods: {
+    submit: function () {
+      var vm = this
+      if (!this.validation) {
+        this.$dialog.notify.info(
+          this.$t('common.INPUT_ERROR'), {
+            position: 'top-right'
           }
-        })
+        )
+        return
       }
+
+      axios({
+        method: this.$api('ACCOUNTS_PASSWORD_RESET').method,
+        url: this.$api('ACCOUNTS_PASSWORD_RESET').url,
+        data: {
+          email: this.email
+        },
+      })
+      .then(function () {
+        vm.email_sent = true
+      })
+      .catch(function (error) {
+        if (error.response && error.response.data) {
+          for (var field in error.response.data) {
+            vm.$dialog.notify.info(
+              field + ': ' + error.response.data[field], {
+                position: 'top-right'
+              }
+            )
+          }
+        }
+      })
     }
   }
+}
 </script>

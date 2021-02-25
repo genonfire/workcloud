@@ -23,23 +23,6 @@
 
 </template>
 
-<style lang="scss">
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-.content {
-  padding: 20px;
-}
-
-.uninitialized {
-  text-align:center;
-  margin:5em;
-}
-</style>
-
 <script>
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
@@ -103,3 +86,20 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+.content {
+  padding: 20px;
+}
+
+.uninitialized {
+  text-align:center;
+  margin:5em;
+}
+</style>

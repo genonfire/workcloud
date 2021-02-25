@@ -81,90 +81,90 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import router from '@/router'
-  import { mapState } from 'vuex'
+import axios from 'axios'
+import router from '@/router'
+import { mapState } from 'vuex'
 
-  export default {
-    data () {
-      return {
-        validation: false,
-        username: '',
-        password: '',
-        show: false,
-        rules: {
-          required: v => !!v || this.$t('common.REQUIRED'),
-          min: v => v.length >= 8 || this.$t('common.MIN_8'),
-          emailRules: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('common.INVALID_EMAIL'),
-        },
+export default {
+  data () {
+    return {
+      validation: false,
+      username: '',
+      password: '',
+      show: false,
+      rules: {
+        required: v => !!v || this.$t('common.REQUIRED'),
+        min: v => v.length >= 8 || this.$t('common.MIN_8'),
+        emailRules: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('common.INVALID_EMAIL'),
+      },
+    }
+  },
+  computed: {
+    ...mapState([
+      'user'
+    ])
+  },
+  methods: {
+    submit: function () {
+      var vm = this
+
+      if (!this.validation) {
+        this.$dialog.notify.info(
+          this.$t('common.INPUT_ERROR'), {
+            position: 'top-right'
+          }
+        )
+        return
       }
-    },
-    computed: {
-      ...mapState([
-        'user'
-      ])
-    },
-    methods: {
-      submit: function () {
-        var vm = this
 
-        if (!this.validation) {
-          this.$dialog.notify.info(
-            this.$t('common.INPUT_ERROR'), {
+      axios({
+        method: this.$api('ACCOUNTS_LOGIN').method,
+        url: this.$api('ACCOUNTS_LOGIN').url,
+        data: {
+          username: this.username,
+          password: this.password,
+        },
+      })
+      .then(function (response) {
+        var key = response.data['data']['key']
+        var user = response.data['data']['user']
+        var login_device = response.data['data']['login_device']
+
+        vm.$store.commit({
+          type: 'updateUser',
+          key: key,
+          user: user,
+          login_device: login_device
+        })
+
+        axios.defaults.headers.common['Authorization'] = 'Token ' + key
+
+        if (login_device.is_registered) {
+          localStorage.setItem('token', key)
+          router.push({ name: 'home' })
+        }
+        else {
+          router.push({ name: 'accounts.register_device' })
+        }
+      })
+      .catch(function (error) {
+        if (error.response) {
+          vm.$dialog.notify.warning(
+            vm.$t('accounts.LOGIN_FAILED'), {
               position: 'top-right'
             }
           )
-          return
         }
-
-        axios({
-          method: this.$api('ACCOUNTS_LOGIN').method,
-          url: this.$api('ACCOUNTS_LOGIN').url,
-          data: {
-            username: this.username,
-            password: this.password,
-          },
-        })
-        .then(function (response) {
-          var key = response.data['data']['key']
-          var user = response.data['data']['user']
-          var login_device = response.data['data']['login_device']
-
-          vm.$store.commit({
-            type: 'updateUser',
-            key: key,
-            user: user,
-            login_device: login_device
-          })
-
-          axios.defaults.headers.common['Authorization'] = 'Token ' + key
-
-          if (login_device.is_registered) {
-            localStorage.setItem('token', key)
-            router.push({ name: 'home' })
-          }
-          else {
-            router.push({ name: 'accounts.register_device' })
-          }
-        })
-        .catch(function (error) {
-          if (error.response) {
-            vm.$dialog.notify.warning(
-              vm.$t('accounts.LOGIN_FAILED'), {
-                position: 'top-right'
-              }
-            )
-          }
-          else {
-            vm.$dialog.notify.error(
-              vm.$t('error.LOGIN_LOGIC'), {
-                position: 'top-right',
-                timeout: 0
-              }
-            )
-          }
-        })
-      }
+        else {
+          vm.$dialog.notify.error(
+            vm.$t('error.LOGIN_LOGIC'), {
+              position: 'top-right',
+              timeout: 0
+            }
+          )
+        }
+      })
     }
   }
+}
 </script>

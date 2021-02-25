@@ -16,9 +16,15 @@ class _Const(object):
     IP_ADDRESS_MAX_LENGTH = 45
     DESC_MAX_LENGTH = 1024
     TITLE_MAX_LENGTH = 100
-    DEFAULT_LINK_COUNT = 10
+    LENGTH_16 = 16
+    LENGTH_32 = 32
+    LENGTH_64 = 64
+    LENGTH_128 = 128
 
-    QUERY_PARAM_SEARCH_QUERY = 'q'
+    DEFAULT_LINK_COUNT = 10
+    QUERY_PARAM_SEARCH = 'q'
+
+    TIME_FORMAT_DEFAULT = '%I:%M %p'
 
     def __setattr__(self, name, value):
         raise AttributeError("cannot re-bind const(%s)" % name)

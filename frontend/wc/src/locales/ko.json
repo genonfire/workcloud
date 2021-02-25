@@ -77,7 +77,8 @@
         "DEACTIVATE_ACCOUNT": "탈퇴하시겠습니까?",
         "DEACTIVATE_DESCRIPTION": "회원 탈퇴 후에는 해당 이메일 주소로 로그인 및 회원 가입이 불가능합니다.",
         "CONSENT": "동의합니다",
-        "CONSENT_HINT": "동의해아 합니다."
+        "CONSENT_HINT": "동의해아 합니다.",
+        "DATE_FORMAT_LABEL": "날짜 표시 형식"
     },
     "editor": {
         "ADD_LINK": "링크 추가하기",
