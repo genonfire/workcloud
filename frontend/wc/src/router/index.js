@@ -11,12 +11,12 @@ const routes = [
   {
     path: '/',
     name: 'landing',
-    component: () => import('../views/Landing.vue')
+    component: () => import('@/views/Landing.vue')
   },
   {
     path: '/home',
     name: 'home',
-    component: () => import('../views/Home.vue')
+    component: () => import('@/views/Home.vue')
   },
   ...AccountsRoutes,
 ]

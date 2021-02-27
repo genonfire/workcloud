@@ -95,8 +95,7 @@ class DeactivateAccountView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        devices = models.LoginDevice.objects.filter(user=request.user)
-        devices.delete()
+        models.LoginDevice.objects.filter(user=request.user).delete()
         tools.deactivate_account(request.user)
 
         return Response(status=Response.HTTP_200)

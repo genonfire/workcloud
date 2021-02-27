@@ -69,7 +69,7 @@
 import axios from 'axios'
 import Pagination from '@/components/Pagination'
 import SettingMenu from '@/components/SettingMenu'
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -134,8 +134,6 @@ export default {
         vm.devices = response.data['data']
         vm.firstInit = true
       })
-      .catch(function () {
-      })
     },
     deleteDevice: async function (device) {
       let res = await this.$dialog.warning({
@@ -163,8 +161,6 @@ export default {
       .then(function () {
         var index = vm.devices.indexOf(device)
         vm.devices[index].device = null
-      })
-      .catch(function () {
       })
     }
   }

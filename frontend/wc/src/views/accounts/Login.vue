@@ -82,7 +82,6 @@
 
 <script>
 import axios from 'axios'
-import router from '@/router'
 import { mapState } from 'vuex'
 
 export default {
@@ -141,10 +140,10 @@ export default {
 
         if (login_device.is_registered) {
           localStorage.setItem('token', key)
-          router.push({ name: 'home' })
+          vm.$router.push({ name: 'home' })
         }
         else {
-          router.push({ name: 'accounts.register_device' })
+          vm.$router.push({ name: 'accounts.register_device' })
         }
       })
       .catch(function (error) {

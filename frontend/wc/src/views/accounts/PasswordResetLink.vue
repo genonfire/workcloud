@@ -61,7 +61,6 @@
 
 <script>
 import axios from 'axios'
-import router from '@/router'
 
 export default {
   data () {
@@ -109,10 +108,10 @@ export default {
         axios.defaults.headers.common['Authorization'] = ''
         vm.$dialog.notify.success(
           vm.$t('accounts.PASSWORD_RESET_COMPLETED'), {
-            position: 'top-right'
+            position: 'bottom-right'
           }
         )
-        router.push({ name: 'accounts.login' })
+        vm.$router.push({ name: 'accounts.login' })
       })
       .catch(function (error) {
         if (error.response && error.response.data) {

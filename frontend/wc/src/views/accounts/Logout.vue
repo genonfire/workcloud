@@ -43,7 +43,6 @@
 
 <script>
 import axios from 'axios'
-import router from '@/router'
 import { mapState } from 'vuex'
 
 export default {
@@ -74,15 +73,12 @@ export default {
         axios.defaults.headers.common['Authorization'] = ''
         vm.$dialog.notify.success(
           vm.$t('accounts.LOGOUT_COMPLETED'), {
-            position: 'top-right'
+            position: 'bottom-right'
           }
         )
-        router.push({ name: 'home' })
+        vm.$router.push({ name: 'home' })
       })
-      .catch(function () {
-        router.push({ name: 'home' })
-      })
-    },
+    }
   }
 }
 </script>

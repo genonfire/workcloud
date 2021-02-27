@@ -5,7 +5,11 @@
 
     <v-main>
       <v-container fluid>
-        <router-view/>
+        <v-fade-transition appear
+          :hide-on-leave="true"
+        >
+          <router-view/>
+        </v-fade-transition>
       </v-container>
     </v-main>
 

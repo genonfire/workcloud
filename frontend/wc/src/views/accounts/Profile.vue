@@ -188,7 +188,7 @@
 <script>
 import axios from 'axios'
 import SettingMenu from '@/components/SettingMenu'
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -235,8 +235,6 @@ export default {
 
       vm.firstInit = true
     })
-    .catch(function () {
-    })
   },
   methods: {
     submit: function () {
@@ -271,7 +269,7 @@ export default {
         })
         vm.$dialog.notify.success(
           vm.$t('common.UPDATED'), {
-            position: 'top-right'
+            position: 'bottom-right'
           }
         )
       })

@@ -32,6 +32,12 @@
         color="error"
         @click="submit"
       >
+        <v-icon
+          small
+          class="mr-2"
+        >
+          mdi-human-greeting
+        </v-icon>
         {{ $t('accounts.DEACTIVATE') }}
       </v-btn>
     </v-form>
@@ -57,7 +63,6 @@
 
 <script>
 import axios from 'axios'
-import router from '@/router'
 import { mapState } from 'vuex'
 
 export default {
@@ -112,13 +117,16 @@ export default {
         })
 
         localStorage.clear()
-
         axios.defaults.headers.common['Authorization'] = ''
-        router.push({ name: 'home' })
+
+        vm.$dialog.notify.info(
+          vm.$t('accounts.DEACTIVATED_FAREWELL'), {
+            position: 'bottom-right'
+          }
+        )
+        vm.$router.push({ name: 'home' })
       })
-      .catch(function () {
-      })
-    },
+    }
   }
 }
 </script>

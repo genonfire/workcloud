@@ -25,6 +25,7 @@
         "APPLY": "Apply",
         "CLOSE": "Close",
         "BACK": "Back",
+        "MOVE": "Move",
         "DOWNLOAD": "Download"
     },
     "accounts": {
@@ -75,9 +76,10 @@
         "LOGOUT_DEVICE": "Are you sure to logout this device?",
         "DEACTIVATE": "Deactivate",
         "DEACTIVATE_ACCOUNT": "Are you sure to deactivate account?",
-        "DEACTIVATE_DESCRIPTION": "Once deactivate account, you are not able to neither login nor signup with current email address.",
+        "DEACTIVATE_DESCRIPTION": "Once deactivate account, Not only all of your data will be deleted and cannot be restored but you are not able to neither login nor signup with current email address.",
         "CONSENT": "I consent.",
         "CONSENT_HINT": "You must consent.",
+        "DEACTIVATED_FAREWELL": "Farewell",
         "DATE_FORMAT_LABEL": "Date format"
     },
     "editor": {
