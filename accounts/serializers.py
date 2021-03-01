@@ -242,3 +242,11 @@ class IAmSerializer(ModelSerializer):
             'date_joined',
             'last_login',
         ]
+
+
+class StaffSerializer(ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = [
+            'username',
+        ]

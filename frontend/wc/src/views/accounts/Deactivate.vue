@@ -28,7 +28,6 @@
       </v-row>
 
       <v-btn
-        large
         color="error"
         @click="submit"
       >

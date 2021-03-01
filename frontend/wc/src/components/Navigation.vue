@@ -81,31 +81,30 @@
 
       <router-link :to="{ name: 'home' }">
         <v-img
-          src="@/assets/logo.png"
+          src="@/assets/images/logo.png"
           max-width="50"
         ></v-img>
       </router-link>
 
       <v-spacer></v-spacer>
 
-      <v-responsive>
-        <v-text-field
-          id="search"
-          ref="search"
-          v-model="search"
-          outlined
-          dense
-          single-line
-          clearable
-          hide-details
-          prepend-inner-icon="mdi-magnify"
-          :placeholder="$t('common.SEARCH')"
-          @blur="onBlur"
-          @keydown.esc="onEsc"
-          @keydown.enter="onEnter"
-        >
-        </v-text-field>
-      </v-responsive>
+      <v-text-field
+        id="search"
+        ref="search"
+        v-model="search"
+        outlined
+        dense
+        single-line
+        clearable
+        hide-details
+        prepend-inner-icon="mdi-magnify"
+        :placeholder="$t('common.SEARCH')"
+        @blur="onBlur"
+        @keydown.esc="onEsc"
+        @keydown.enter="onEnter"
+        accesskey="/"
+      >
+      </v-text-field>
 
     </v-app-bar>
 
@@ -171,9 +170,10 @@ export default {
       this.searchAnything(this.search)
     },
     searchAnything(anything) {
-      // TODO: implement search
-      window.console.log(anything)
-      this.onBlur()
+      if (!anything) {
+        this.onEsc()
+        return
+      }
     }
   }
 }

@@ -34,10 +34,10 @@ class ResponseMixin():
         kwargs['context'] = self.get_serializer_context()
         return serializer_class(*args, **kwargs)
 
-    def sync_update(self, instance, partial):
+    def perform_delete(self, instance):
         pass
 
-    def perform_delete(self, instance):
+    def sync_update(self, instance, partial):
         pass
 
     def create(self, request, *args, **kwargs):

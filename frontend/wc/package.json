@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
+    "staging": "vue-cli-service build --mode staging",
     "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
@@ -15,6 +16,7 @@
     "tiptap-extensions": "^1.35.1",
     "vue": "^2.6.12",
     "vue-i18n": "^8.22.3",
+    "vue-meta": "^2.4.0",
     "vue-router": "^3.4.9",
     "vuetify": "^2.4.2",
     "vuetify-dialog": "^2.0.13",

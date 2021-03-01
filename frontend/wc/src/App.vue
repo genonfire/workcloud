@@ -34,12 +34,15 @@ import axios from 'axios'
 
 export default {
   name: 'App',
-
   components: {
     Navigation,
     Footer,
   },
-
+  metaInfo () {
+    return {
+      title: this.$t('info.SITENAME')
+    }
+  },
   data () {
     return {
       firstInit: false,
@@ -51,9 +54,8 @@ export default {
     }
   },
   mounted () {
-    document.title = this.$t('info.SITENAME')
-
     var vm = this
+
     var local_key = localStorage.getItem('token')
     axios.defaults.baseURL = this.$baseURL()
 

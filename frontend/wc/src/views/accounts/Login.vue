@@ -103,6 +103,15 @@ export default {
       'user'
     ])
   },
+  mounted () {
+    var nextURL = this.$route.query.nextURL
+    if (this.$store.getters.isApproved && nextURL) {
+      this.$router.replace({
+        path: nextURL,
+        params: this.$route.params
+      })
+    }
+  },
   methods: {
     submit: function () {
       var vm = this
