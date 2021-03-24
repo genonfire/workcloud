@@ -1,5 +1,5 @@
 """
-WSGI config for notecloud project.
+WSGI config for workcloud project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

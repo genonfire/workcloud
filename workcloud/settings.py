@@ -220,6 +220,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'core.pagination.PrevNextPagination',
+    'EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',
     'PAGE_SIZE': REST_PAGINATION_SIZE_DEFAULT,
     'DATETIME_FORMAT': DATE_TIME_FORMAT_DEFAULT,
     'DATE_FORMAT': DATE_FORMAT_DEFAULT,
