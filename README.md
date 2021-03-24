@@ -14,12 +14,14 @@ Template for building web apps with Django REST framework + Vue.js
 
 # Getting started with workcloud
 
-    $ git clone https://github.com/genonfire/workcloud.git  # skip in case of template
+    $ git clone https://github.com/genonfire/workcloud.git  # skip in case of template respository
     $ pip install -r requirements.txt
     $ cd frontend/wc
     $ npm install
 
-- It is highly suggested to start your project with workcloud template
+- It is highly suggested to create your repository with workcloud template as below
+
+![screenshot](docs/template_repository.png?raw=true "screenshot")
 
 
 # Initialize project
