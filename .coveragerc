@@ -7,6 +7,7 @@ omit =
     **/*apps.py*
     *manage.py*
     *setup.py*
+    *init.py*
     core/*testcase.py*
     utils/*email.py*
     workcloud/*asgi.py*
