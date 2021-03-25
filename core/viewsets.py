@@ -15,18 +15,20 @@ from utils.debug import Debug
 
 
 class APIView(_APIView):
-    pass
+    http_method_names = ['post']
 
 
 class CreateAPIView(
     ResponseMixin, _CreateAPIView
 ):  # lgtm [py/conflicting-attributes]
-    pass
+    http_method_names = ['post']
 
 
 class GenericAPIView(
     ResponseMixin, _GenericAPIView
 ):  # lgtm [py/conflicting-attributes]
+    http_method_names = ['post']
+
     def post(self, request, *args, **kwargs):
         Debug.trace(request.data)
 

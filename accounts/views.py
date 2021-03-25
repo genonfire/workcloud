@@ -110,7 +110,10 @@ class LoginDeviceViewSet(ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-        return self.model.objects.filter(user=self.request.user)
+        if self.request.user.is_authenticated:
+            return self.model.objects.filter(user=self.request.user)
+        else:
+            return self.model.objects.none()
 
     def register(self, request, *args, **kwargs):
         instance = self.get_object()
