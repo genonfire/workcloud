@@ -46,6 +46,14 @@ Template for building web apps with Django REST framework + Vue.js
     $ ./runtest.sh  # This has more options for convenience. check more with ./runtest.sh --help
 
 
+# Swagger
+
+    http://localhost:8000/redoc/
+    http://localhost:8000/swagger/
+
+- Available on localserver
+
+
 # API Docs
 
 http://wiki.gencode.me/display/WC/API+docs
