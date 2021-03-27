@@ -1,9 +1,8 @@
+import accounts
+
 from django.test import TestCase as _TestCase
 
 from rest_framework.test import APIClient
-
-from accounts.models import User
-from accounts.tools import Test
 
 
 class TestCase(_TestCase):
@@ -84,20 +83,30 @@ class TestCase(_TestCase):
 
         return APIClient(enforce_csrf_checks=True, HTTP_USER_AGENT=user_agent)
 
-    def create_user(self):
+    def create_user(
+        self,
+        username=None,
+        is_staff=False
+    ):
         self.client = self.get_client()
-        self.username = Test.USERNAME
-        self.password = Test.PASSWORD
-        self.first_name = Test.FIRST_NAME
-        self.last_name = Test.LAST_NAME
-        self.user = User.objects.create_user(
+
+        if not username:
+            username = accounts.tools.Test.USERNAME
+
+        self.username = username
+        self.password = accounts.tools.Test.PASSWORD
+        self.first_name = accounts.tools.Test.FIRST_NAME
+        self.last_name = accounts.tools.Test.LAST_NAME
+        self.user = accounts.models.User.objects.create_user(
             username=self.username,
             email=self.username,
             password=self.password,
             first_name=self.first_name,
             last_name=self.last_name,
-            is_approved=True
+            is_approved=True,
+            is_staff=is_staff
         )
 
         self.key = self.user.key()
         self.auth_header = 'Token ' + self.key
+        return self.user

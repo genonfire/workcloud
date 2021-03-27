@@ -11,7 +11,8 @@ from . import tools
 
 
 class UserManager(DjangoUserManager):
-    pass
+    def staff(self):
+        return self.filter(is_active=True).filter(is_staff=True)
 
 
 class User(AbstractUser):

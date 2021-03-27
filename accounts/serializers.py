@@ -217,7 +217,6 @@ class UserSettingSerializer(ModelSerializer):
             'date_joined',
         ]
         read_only_fields = [
-            'id',
             'username',
             'is_approved',
             'date_joined',
@@ -245,8 +244,17 @@ class IAmSerializer(ModelSerializer):
 
 
 class StaffSerializer(ModelSerializer):
+    id = serializers.PrimaryKeyRelatedField(
+        queryset=models.User.objects.staff(),
+        required=False
+    )
+
     class Meta:
         model = models.User
         fields = [
+            'id',
+            'username',
+        ]
+        read_only_fields = [
             'username',
         ]

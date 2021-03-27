@@ -6,25 +6,32 @@ class _Const(object):
     Reuseable constants as a boilerplate
     """
 
-    NAME_MAX_LENGTH = 150
     KEY_MAX_LENGTH = 4
-    PASSWORD_MAX_LENGTH = 128
-    EMAIL_MAX_LENGTH = 254
-    FILE_MAX_LENGTH = 128
-    TEL_MAX_LENGTH = 100
-    ADDRESS_MAX_LENGTH = 254
+    FIELD_MAX_LENGTH = 20
     IP_ADDRESS_MAX_LENGTH = 45
-    DESC_MAX_LENGTH = 1024
+    TEL_MAX_LENGTH = 100
     TITLE_MAX_LENGTH = 100
+    PASSWORD_MAX_LENGTH = 128
+    FILE_MAX_LENGTH = 128
+    NAME_MAX_LENGTH = 150
+    EMAIL_MAX_LENGTH = 254
+    ADDRESS_MAX_LENGTH = 254
+    DESC_MAX_LENGTH = 1024
+
     LENGTH_16 = 16
     LENGTH_32 = 32
     LENGTH_64 = 64
     LENGTH_128 = 128
+    LENGTH_256 = 256
+    LENGTH_512 = 512
+    LENGTH_1024 = 1024
 
     DEFAULT_LINK_COUNT = 10
     QUERY_PARAM_SEARCH = 'q'
 
     TIME_FORMAT_DEFAULT = '%I:%M %p'
+
+    PERMISSION_TYPE = ['all', 'member', 'staff']
 
     def __setattr__(self, name, value):
         raise AttributeError("cannot re-bind const(%s)" % name)

@@ -17,6 +17,9 @@ class _Text(object):
     INVALID_TOKEN = _("Invalid token.")
     YOU_MUST_CONSENT = _("You must consent.")
 
+    INVALID_PERMISSION_TYPE = _("Invalid permission type")
+    ALPHABETS_NUMBER_ONLY = _("alphabets and number only")
+
     def __setattr__(self, name, value):
         raise AttributeError("cannot re-bind text(%s)" % name)
 

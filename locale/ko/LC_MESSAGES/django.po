@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-03 10:04+0900\n"
+"POT-Creation-Date: 2021-03-29 15:01+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,42 +44,50 @@ msgstr ""
 "만약 비밀번호 초기화 요청을 한적이 없다면, 이 메일은 무시하셔도 됩니다. 비밀"
 "번호를 새로 설정하지 않는한 기존 비밀번호는 변경되지 않습니다."
 
-#: utils/text.py:13
+#: utils/text.py:11
 msgid "Unable to login."
 msgstr "로그인 실패"
 
-#: utils/text.py:14
+#: utils/text.py:12
 msgid "User is deactivated."
 msgstr "탈퇴한 사용자입니다."
 
-#: utils/text.py:15
+#: utils/text.py:13
 msgid "Invalid password."
 msgstr "비밀번호가 잘못되었습니다."
 
-#: utils/text.py:16
+#: utils/text.py:14
 msgid "Same as old password."
 msgstr "이전 비밀번호와 동일합니다."
 
-#: utils/text.py:17
+#: utils/text.py:15
 msgid "User not exist."
 msgstr "존재하지 않는 사용자입니다."
 
-#: utils/text.py:18
+#: utils/text.py:16
 msgid "Invalid uid."
 msgstr "사용자 아이디 오류"
 
-#: utils/text.py:19
+#: utils/text.py:17
 msgid "Invalid token."
 msgstr "토큰 오류"
 
-#: utils/text.py:20
+#: utils/text.py:18
 msgid "You must consent."
 msgstr "동의해야 합니다."
 
-#: workcloud/settings.py:235
+#: utils/text.py:20
+msgid "Invalid permission type"
+msgstr "권한이 잘못되었습니다."
+
+#: utils/text.py:21
+msgid "alphabets and number only"
+msgstr "알파벳 대소문자와 숫자만 가능합니다."
+
+#: workcloud/settings.py:239
 msgid "Korean"
 msgstr "한국어"
 
-#: workcloud/settings.py:236
+#: workcloud/settings.py:240
 msgid "English"
 msgstr "영어"
