@@ -13,7 +13,7 @@ class OptionAdmin(admin.ModelAdmin):
         'permission_reply',
     )
     search_fields = (
-        '-id',
+        'id',
     )
     ordering = (
         '-id',
@@ -74,10 +74,24 @@ class ThreadAdmin(admin.ModelAdmin):
 class ReplyAdmin(admin.ModelAdmin):
     list_display = (
         'id',
+        'user',
+        'name',
         'thread',
         'reply_id',
-        'user',
         'content',
         'is_deleted',
         'modified_at',
+    )
+    search_fields = (
+        'user',
+        'name',
+        'content',
+    )
+    ordering = (
+        '-id',
+    )
+    list_display_links = (
+        'id',
+        'user',
+        'name',
     )
