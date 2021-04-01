@@ -19,10 +19,7 @@ from . import (
 class ForumViewSet(ModelViewSet):
     serializer_class = serializers.ForumSerializer
     model = models.Forum
-
-    def get_permissions(self):
-        permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+    permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
         return self.model.objects.all()
@@ -38,10 +35,7 @@ class ForumUpdateViewSet(ForumViewSet):
 class ForumReadOnlyViewSet(ReadOnlyModelViewSet):
     serializer_class = serializers.ForumSerializer
     model = models.Forum
-
-    def get_permissions(self):
-        permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+    permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
         q = self.request.query_params.get(Const.QUERY_PARAM_SEARCH)

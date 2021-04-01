@@ -104,10 +104,7 @@ class DeactivateAccountView(GenericAPIView):
 class LoginDeviceViewSet(ModelViewSet):
     serializer_class = serializers.LoginDeviceSerializer
     model = models.LoginDevice
-
-    def get_permissions(self):
-        permission_classes = [IsAuthenticated]
-        return [permission() for permission in permission_classes]
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -142,10 +139,7 @@ class PasswordResetConfirmView(GenericAPIView):
 class UserSettingViewSet(ModelViewSet):
     serializer_class = serializers.UserSettingSerializer
     model = models.User
-
-    def get_permissions(self):
-        permission_classes = [IsAuthenticated]
-        return [permission() for permission in permission_classes]
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         return self.request.user
