@@ -1,3 +1,5 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 from core.response import Response
 from core.testcase import TestCase
 
@@ -33,6 +35,12 @@ class ProfileTest(TestCase):
         )
 
     def test_update_profile(self):
+        gif = (
+            b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9'
+            b'\x04\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00'
+            b'\x00\x02\x02\x4c\x01\x00\x3b'
+        )
+        photo = SimpleUploadedFile('photo.gif', gif, 'image/gif')
         response = self.patch(
             '/api/accounts/setting/',
             {
@@ -40,6 +48,7 @@ class ProfileTest(TestCase):
                 'first_name': 'B',
                 'last_name': 'Boy',
                 'call_name': 'B-Boy',
+                'photo': photo,
                 'email': 'b-boy@b.com',
                 'tel': '+82-10-1234-5678',
                 'address': '3245 146th PL SE',
