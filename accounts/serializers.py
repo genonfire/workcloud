@@ -258,3 +258,12 @@ class StaffSerializer(ModelSerializer):
         read_only_fields = [
             'username',
         ]
+
+
+class UsernameSerializer(ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = [
+            'id',
+            'username'
+        ]

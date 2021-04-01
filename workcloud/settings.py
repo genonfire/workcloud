@@ -79,6 +79,7 @@ DEFAULT_FROM_EMAIL = EMAIL_ADDRESS
 DEBUG = False
 LOCAL_SERVER = False
 TRACE_ENABLED = True
+UPLOAD_MAX_SIZE = 20 * 1024 * 1024
 REST_PAGINATION_SIZE_DEFAULT = 20
 DATE_TIME_FORMAT_DEFAULT = '%Y-%m-%dT%H:%M:%S%z'
 DATE_FORMAT_DEFAULT = '%Y-%m-%d'
@@ -137,6 +138,7 @@ LOCAL_APPS = [
     'accounts',
     'communities',
     'frontend',
+    'things',
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -270,7 +272,6 @@ if 'storages' in INSTALLED_APPS and not LOCAL_SERVER:
     AWS_STORAGE_BUCKET_NAME = 'media'
     AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME + AWS_DOMAIN
     AWS_QUERYSTRING_AUTH = False
-    AWS_DEFAULT_ACL = 'public-read'
     MEDIA_URL = 'https://' + AWS_S3_CUSTOM_DOMAIN + '/'
 else:
     MEDIA_URL = '/upload/'

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-29 15:01+0900\n"
+"POT-Creation-Date: 2021-04-01 20:24+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,10 +84,18 @@ msgstr "권한이 잘못되었습니다."
 msgid "alphabets and number only"
 msgstr "알파벳 대소문자와 숫자만 가능합니다."
 
-#: workcloud/settings.py:239
+#: utils/text.py:23
+msgid "Invalid value"
+msgstr "유효하지 않은 값입니다."
+
+#: utils/text.py:24
+msgid "File too large"
+msgstr "파일이 너무 큽니다."
+
+#: workcloud/settings.py:241
 msgid "Korean"
 msgstr "한국어"
 
-#: workcloud/settings.py:240
+#: workcloud/settings.py:242
 msgid "English"
 msgstr "영어"

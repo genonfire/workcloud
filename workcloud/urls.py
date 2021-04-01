@@ -11,6 +11,7 @@ urlpatterns = [
         'api/communities/',
         include('communities.urls', namespace='communities')
     ),
+    path('api/things/', include('things.urls', namespace='things')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.LOCAL_SERVER:

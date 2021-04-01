@@ -1,0 +1,62 @@
+import uuid
+
+from django.db import models
+from django.db.models import Q
+from django.utils import timezone
+
+from utils.constants import Const
+from utils.debug import Debug  # noqa
+
+
+def app_directory_path(instance, filename):
+    if not instance.app:
+        return 'files/etc/{0}-{1}'.format(uuid.uuid4(), filename)
+    return 'files/{0}/{1}-{2}'.format(instance.app, uuid.uuid4(), filename)
+
+
+class AttachmentManager(models.Manager):
+    def attached(self, app, key, q):
+        filename = Q()
+        if q:
+            filename = Q(file__icontains=q)
+        return self.filter(app=app).filter(key=key).filter(filename)
+
+    def search(self, q):
+        filename = Q()
+        if q:
+            filename = Q(file__icontains=q)
+        return self.filter(filename)
+
+
+class Attachment(models.Model):
+    user = models.ForeignKey(
+        'accounts.User',
+        related_name='attachment_user',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    file = models.FileField(
+        upload_to=app_directory_path,
+        max_length=Const.FILE_MAX_LENGTH,
+        blank=True,
+        null=True,
+    )
+    content_type = models.CharField(
+        max_length=Const.FILE_MAX_LENGTH,
+        blank=True,
+        null=True,
+    )
+    size = models.BigIntegerField(default=0)
+    app = models.CharField(
+        max_length=Const.NAME_MAX_LENGTH,
+        blank=True,
+        null=True,
+    )
+    key = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    objects = AttachmentManager()
+
+    class Meta:
+        ordering = ('-id',)

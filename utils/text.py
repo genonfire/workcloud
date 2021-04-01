@@ -20,6 +20,9 @@ class _Text(object):
     INVALID_PERMISSION_TYPE = _("Invalid permission type")
     ALPHABETS_NUMBER_ONLY = _("alphabets and number only")
 
+    INVALID_VALUE = _("Invalid value")
+    FILE_TOO_LARGE = _("File too large")
+
     def __setattr__(self, name, value):
         raise AttributeError("cannot re-bind text(%s)" % name)
 

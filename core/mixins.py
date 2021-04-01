@@ -34,6 +34,14 @@ class ResponseMixin():
         kwargs['context'] = self.get_serializer_context()
         return serializer_class(*args, **kwargs)
 
+    def has_ownership(self, instance):
+        return True
+
+    def has_permission(self, instance):
+        if self.request.user and self.request.user.is_staff:
+            return True
+        return self.has_ownership(instance)
+
     def perform_delete(self, instance):
         pass
 
@@ -92,13 +100,21 @@ class ResponseMixin():
         Debug.trace(
             'Destroying %s' % instance
         )
-        self.perform_destroy(instance)
-        return Response(status=Response.HTTP_204)
+
+        if self.has_permission(instance):
+            self.perform_destroy(instance)
+            return Response(status=Response.HTTP_204)
+        else:
+            return Response(status=Response.HTTP_403)
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         Debug.trace(
             'Deleting %s' % instance
         )
-        self.perform_delete(instance)
-        return Response(status=Response.HTTP_204)
+
+        if self.has_permission(instance):
+            self.perform_delete(instance)
+            return Response(status=Response.HTTP_204)
+        else:
+            return Response(status=Response.HTTP_403)
