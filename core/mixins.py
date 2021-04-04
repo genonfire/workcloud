@@ -1,6 +1,7 @@
 from core.response import Response
 from core.shortcuts import get_object_or_404
-from utils.debug import Debug
+from utils.constants import Const
+from utils.debug import Debug  # noqa
 
 
 class ResponseMixin():
@@ -10,6 +11,8 @@ class ResponseMixin():
     Mostly copy of rest_framework mixins.
     Check rest_framework/mixins.py
     """
+
+    q = ''
 
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
@@ -63,6 +66,7 @@ class ResponseMixin():
         )
 
     def list(self, request, *args, **kwargs):
+        self.q = request.query_params.get(Const.QUERY_PARAM_SEARCH)
         queryset = self.filter_queryset(self.get_queryset())
 
         page = self.paginate_queryset(queryset)

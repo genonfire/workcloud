@@ -42,7 +42,6 @@
               {{ $t('common.DELETED') }}
             </v-btn>
             <v-btn
-              :model="device.id"
               small
               @click="deleteDevice(device)"
               v-else

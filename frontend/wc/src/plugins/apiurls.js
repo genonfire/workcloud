@@ -50,6 +50,35 @@ const APIs = {
   ACCOUNTS_DEACTIVATE: {
     'method': 'post',
     'url': '/accounts/deactivate/'
+  },
+  ACCOUNTS_USER_SEARCH: {
+    'method': 'get',
+    'url': '/accounts/users/'
+  },
+  ACCOUNTS_STAFF_SEARCH: {
+    'method': 'get',
+    'url': '/accounts/users/staff/'
+  },
+
+  FORUM_CREATE: {
+    'method': 'post',
+    'url': '/communities/forum/'
+  },
+  FORUM_EDIT: {
+    'method': 'patch',
+    'url': '/communities/forum/{pk}/'
+  },
+  FORUM_DELETE: {
+    'method': 'delete',
+    'url': '/communities/forum/{pk}/'
+  },
+  FORUM_LIST: {
+    'method': 'get',
+    'url': 'communities/forums/?q='
+  },
+  FORUM_RETRIEVE: {
+    'method': 'get',
+    'url': 'communities/forums/{pk}/'
   }
 }
 

@@ -53,10 +53,14 @@ class ForumSerializer(ModelSerializer):
             'description',
             'managers',
             'option',
+            'thread_count',
+            'reply_count',
         ]
         read_only_fields = [
             'managers',
             'option',
+            'thread_count',
+            'reply_count',
         ]
         extra_kwargs = {
             'name': {'required': True},
@@ -124,3 +128,18 @@ class ForumUpdateSerializer(ForumSerializer):
 
         instance.save()
         return instance
+
+
+class ForumListSerializer(ForumSerializer):
+    class Meta:
+        model = models.Forum
+        fields = [
+            'id',
+            'name',
+            'title',
+            'description',
+            'managers',
+            'option',
+            'thread_count',
+            'reply_count',
+        ]

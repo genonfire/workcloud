@@ -58,4 +58,14 @@ urlpatterns = [
         'deactivate/', views.DeactivateAccountView.as_view(),
         name='deactivate'
     ),
+    path(
+        'users/', views.UserListViewSet.as_view({
+            'get': 'list',
+        }), name='user_list'
+    ),
+    path(
+        'users/staff/', views.StaffListViewSet.as_view({
+            'get': 'list',
+        }), name='staff_list'
+    ),
 ]

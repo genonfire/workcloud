@@ -6,9 +6,11 @@ from core.viewsets import (
 )
 from core.permissions import (
     AllowAny,
+    IsAdminUser,
     IsAuthenticated
 )
 from core.response import Response
+from utils.constants import Const
 from utils.debug import Debug  # noqa
 
 from . import (
@@ -154,3 +156,17 @@ class ConnectView(UserLoginView):
         login_device = self.login(request, user)
 
         return self.get_response(user_serializer.data, login_device)
+
+
+class UserListViewSet(ModelViewSet):
+    serializer_class = serializers.UsernameSerializer
+    model = models.User
+    permission_classes = (IsAdminUser,)
+
+    def get_queryset(self):
+        return self.model.objects.user_serach(self.q)
+
+
+class StaffListViewSet(UserListViewSet):
+    def get_queryset(self):
+        return self.model.objects.staff_search(self.q)

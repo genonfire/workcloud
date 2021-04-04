@@ -135,6 +135,16 @@ export default {
     menu: function () {
       var menuList = []
 
+      if (this.user.is_staff) {
+        menuList.push(
+          {
+            text: this.$t('forum.MANAGE_FORUM'),
+            icon: 'mdi-forum-outline',
+            to: { name: 'communities.forum' }
+          }
+        )
+      }
+
       if (this.user) {
         menuList.push(
           {
@@ -174,6 +184,14 @@ export default {
         this.onEsc()
         return
       }
+
+      this.$router.push({
+        name: 'search',
+        params: {
+          name: this.$route.name,
+          q: anything
+        }
+      })
     }
   }
 }

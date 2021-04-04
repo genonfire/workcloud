@@ -40,8 +40,7 @@ class AttachmentListViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         app = self.kwargs[Const.QUERY_PARAM_APP]
         key = self.kwargs[Const.QUERY_PARAM_KEY]
-        q = self.request.query_params.get(Const.QUERY_PARAM_SEARCH)
-        return self.model.objects.attached(app, key, q)
+        return self.model.objects.attached(app, key, self.q)
 
 
 class AttachmentManageViewSet(AttachmentListViewSet):
@@ -49,5 +48,4 @@ class AttachmentManageViewSet(AttachmentListViewSet):
     permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
-        q = self.request.query_params.get(Const.QUERY_PARAM_SEARCH)
-        return self.model.objects.search(q)
+        return self.model.objects.search(self.q)

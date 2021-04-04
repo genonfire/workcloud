@@ -3,6 +3,7 @@ from django.contrib.auth.models import (
     UserManager as DjangoUserManager
 )
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 
 from utils.constants import Const
@@ -13,6 +14,18 @@ from . import tools
 class UserManager(DjangoUserManager):
     def staff(self):
         return self.filter(is_active=True).filter(is_staff=True)
+
+    def staff_search(self, q):
+        name = Q()
+        if q:
+            name = Q(username__icontains=q)
+        return self.staff().filter(name)
+
+    def user_serach(self, q):
+        name = Q()
+        if q:
+            name = Q(username__icontains=q)
+        return self.filter(is_active=True).filter(name)
 
 
 class User(AbstractUser):
@@ -54,6 +67,9 @@ class User(AbstractUser):
     is_approved = models.BooleanField(default=False)
 
     objects = UserManager()
+
+    class Meta:
+        ordering = ('-id',)
 
     @classmethod
     def get_email_field_name(cls):

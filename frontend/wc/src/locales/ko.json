@@ -8,6 +8,7 @@
         "CHANGE": "변경",
         "REQUIRED": "필수 항목",
         "REQUIRED_MIN": "{min}글자 이상 입력하세요.",
+        "ALPHA_NUMBER_ONLY": "알파벳 대소문자와 숫자만 가능합니다.",
         "INPUT_ERROR": "입력 오류를 확인해 주세요.",
         "EMAIL_TYPE": "이메일 주소",
         "INVALID_EMAIL": "올바른 이메일 주소가 아닙니다.",
@@ -26,7 +27,8 @@
         "CLOSE": "닫기",
         "BACK": "뒤로가기",
         "MOVE": "이동",
-        "DOWNLOAD": "다운로드"
+        "DOWNLOAD": "다운로드",
+        "GENERAL": "일반"
     },
     "accounts": {
         "USERNAME": "아이디",
@@ -81,6 +83,25 @@
         "CONSENT_HINT": "동의해아 합니다.",
         "DEACTIVATED_FAREWELL": "그동안 이용해 주셔서 감사합니다.",
         "DATE_FORMAT_LABEL": "날짜 표시 형식"
+    },
+    "forum": {
+        "MANAGE_FORUM": "포럼 관리",
+        "FORUM_ID": "ID",
+        "FORUM_NAME": "포럼명",
+        "FORUM_TITLE": "포럼 타이틀",
+        "FORUM_DESCRIPTION": "포럼 설명",
+        "FORUM_EDIT": "설정",
+        "THREAD_COUNT": "게시글 수",
+        "REPLY_COUNT": "댓글 수",
+        "ACTIVE": "활성",
+        "INACTIVE": "비활성 (포럼을 사용할 수 없게 됩니다.)",
+        "OPTION": "설정",
+        "PERMISSION_READ": "읽기 권한",
+        "PERMISSION_WRITE": "쓰기 권한",
+        "PERMISSION_REPLY": "댓글 권한",
+        "MANAGERS": "관리자",
+        "DELETE_FORUM": "포럼 삭제",
+        "DELETE_FORUM_DESCRIPTION": "포럼을 삭제하면 되돌릴 수 없습니다."
     },
     "editor": {
         "ADD_LINK": "링크 추가하기",

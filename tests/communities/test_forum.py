@@ -246,8 +246,8 @@ class ForumEditTest(TestCase):
 
         assert (
             response.status_code == Response.HTTP_200 and
-            self.data.get('managers')[0].get('id') == user.id and
-            self.data.get('managers')[1].get('id') == self.user.id
+            self.data.get('managers')[0].get('id') == self.user.id and
+            self.data.get('managers')[1].get('id') == user.id
         )
 
     def test_edit_forum_all_fields(self):
@@ -336,5 +336,7 @@ class ForumListTest(TestCase):
             assert (
                 forum.id == self.data[index].get('id') and
                 forum.name == self.data[index].get('name') and
-                forum.title == self.data[index].get('title')
+                forum.title == self.data[index].get('title') and
+                self.data[index].get('thread_count') == 0 and
+                self.data[index].get('reply_count') == 0
             )

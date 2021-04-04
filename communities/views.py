@@ -6,7 +6,6 @@ from core.permissions import (
     IsAdminUser,
 )
 
-from utils.constants import Const
 from utils.debug import Debug  # noqa
 
 from . import (
@@ -33,12 +32,9 @@ class ForumUpdateViewSet(ForumViewSet):
 
 
 class ForumReadOnlyViewSet(ReadOnlyModelViewSet):
-    serializer_class = serializers.ForumSerializer
+    serializer_class = serializers.ForumListSerializer
     model = models.Forum
     permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
-        q = self.request.query_params.get(Const.QUERY_PARAM_SEARCH)
-        if q:
-            return self.model.objects.search(q)
-        return self.model.objects.all()
+        return self.model.objects.search(self.q)

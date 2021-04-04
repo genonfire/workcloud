@@ -35,12 +35,15 @@ class Option(models.Model):
 
 class ForumManager(models.Manager):
     def search(self, q):
-        query = (
-            Q(name__icontains=q) |
-            Q(title__icontains=q) |
-            Q(description__icontains=q) |
-            Q(managers__username__iexact=q)
-        )
+        if q:
+            query = (
+                Q(name__icontains=q) |
+                Q(title__icontains=q) |
+                Q(description__icontains=q) |
+                Q(managers__username__iexact=q)
+            )
+        else:
+            query = Q()
         return self.filter(query)
 
 
@@ -77,9 +80,16 @@ class Forum(models.Model):
     class Meta:
         ordering = ('-id',)
 
+    def thread_count(self):
+        return Thread.objects.forum(self).count()
+
+    def reply_count(self):
+        return Reply.objects.filter(thread__forum=self).count()
+
 
 class ThreadManager(models.Manager):
-    pass
+    def forum(self, forum):
+        return self.filter(forum=forum)
 
 
 class Thread(models.Model):

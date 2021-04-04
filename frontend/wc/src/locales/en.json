@@ -8,6 +8,7 @@
         "CHANGE": "Change",
         "REQUIRED": "Required",
         "REQUIRED_MIN": "At least {min} characters.",
+        "ALPHA_NUMBER_ONLY": "Alphabets and number only",
         "INPUT_ERROR": "Please check input error.",
         "EMAIL_TYPE": "Email address",
         "INVALID_EMAIL": "Invalid Email address.",
@@ -26,7 +27,9 @@
         "CLOSE": "Close",
         "BACK": "Back",
         "MOVE": "Move",
-        "DOWNLOAD": "Download"
+        "DOWNLOAD": "Download",
+        "GENERAL": "General",
+        "NAME": "Name"
     },
     "accounts": {
         "USERNAME": "Username",
@@ -81,6 +84,25 @@
         "CONSENT_HINT": "You must consent.",
         "DEACTIVATED_FAREWELL": "Farewell",
         "DATE_FORMAT_LABEL": "Date format"
+    },
+    "forum": {
+        "MANAGE_FORUM": "Manage forum",
+        "FORUM_ID": "ID",
+        "FORUM_NAME": "Name",
+        "FORUM_TITLE": "Title",
+        "FORUM_DESCRIPTION": "Description",
+        "FORUM_EDIT": "Edit",
+        "THREAD_COUNT": "Thread",
+        "REPLY_COUNT": "Reply",
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive (Forum will be unavailable)",
+        "OPTION": "Option",
+        "PERMISSION_READ": "Permission Read",
+        "PERMISSION_WRITE": "Permission Write",
+        "PERMISSION_REPLY": "Permission Reply",
+        "MANAGERS": "Managers",
+        "DELETE_FORUM": "Delete forum",
+        "DELETE_FORUM_DESCRIPTION": "Once you delete a forum, there is no going back."
     },
     "editor": {
         "ADD_LINK": "Add link",
