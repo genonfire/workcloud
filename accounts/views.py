@@ -10,7 +10,6 @@ from core.permissions import (
     IsAuthenticated
 )
 from core.response import Response
-from utils.constants import Const
 from utils.debug import Debug  # noqa
 
 from . import (
