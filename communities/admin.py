@@ -50,9 +50,10 @@ class ForumAdmin(admin.ModelAdmin):
 class ThreadAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'forum',
         'title',
         'user',
+        'name',
+        'forum_name',
         'is_deleted',
         'created_at',
         'modified_at',

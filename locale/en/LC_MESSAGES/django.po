@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 20:24+0900\n"
+"POT-Creation-Date: 2021-04-05 12:17+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,10 +83,14 @@ msgid "alphabets and number only"
 msgstr ""
 
 #: utils/text.py:23
-msgid "Invalid value"
+msgid "This field is required."
 msgstr ""
 
 #: utils/text.py:24
+msgid "Invalid value"
+msgstr ""
+
+#: utils/text.py:25
 msgid "File too large"
 msgstr ""
 

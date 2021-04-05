@@ -92,7 +92,7 @@ try:
 
     for key, value in config.items():
         setattr(sys.modules[__name__], key, value)
-        print(" %s : %s" % (key, value))
+        print(" %s: %s" % (key, value))
 except IOError:
     pass
 

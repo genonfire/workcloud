@@ -1,5 +1,4 @@
 from core.response import Response
-
 from things.tests import TestCase
 
 

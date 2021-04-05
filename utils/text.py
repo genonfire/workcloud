@@ -20,6 +20,7 @@ class _Text(object):
     INVALID_PERMISSION_TYPE = _("Invalid permission type")
     ALPHABETS_NUMBER_ONLY = _("alphabets and number only")
 
+    REQUIRED_FIELD = _("This field is required.")
     INVALID_VALUE = _("Invalid value")
     FILE_TOO_LARGE = _("File too large")
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 20:24+0900\n"
+"POT-Creation-Date: 2021-04-05 12:17+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,10 +85,14 @@ msgid "alphabets and number only"
 msgstr "알파벳 대소문자와 숫자만 가능합니다."
 
 #: utils/text.py:23
+msgid "This field is required."
+msgstr "이 필드는 필수 항목입니다."
+
+#: utils/text.py:24
 msgid "Invalid value"
 msgstr "유효하지 않은 값입니다."
 
-#: utils/text.py:24
+#: utils/text.py:25
 msgid "File too large"
 msgstr "파일이 너무 큽니다."
 

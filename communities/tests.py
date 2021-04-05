@@ -37,3 +37,25 @@ class TestCase(CoreTestCase):
         )
         self.forum.managers.add(self.user)
         return self.forum
+
+    def create_thread(
+        self,
+        forum=None,
+        user=None,
+        name=None,
+        title='Hello',
+        content='Kitty'
+    ):
+        if not forum:
+            forum = self.forum
+        if not user and not name:
+            user = self.user
+
+        self.thread = models.Thread.objects.create(
+            forum=forum,
+            user=user,
+            name=name,
+            title=title,
+            content=content
+        )
+        return self.thread

@@ -89,7 +89,48 @@ class Forum(models.Model):
 
 class ThreadManager(models.Manager):
     def forum(self, forum):
-        return self.filter(forum=forum)
+        return self.filter(forum=forum).filter(is_deleted=False)
+
+    def deleted(self, name):
+        return self.filter(forum__name=name).filter(is_deleted=True)
+
+    def forum_name(self, name, user=None):
+        if user and user.is_staff:
+            return self.filter(forum__name=name)
+        else:
+            return self.filter(forum__name=name).filter(is_deleted=False)
+
+    def my(self, name, user):
+        if user.is_staff:
+            return self.forum_name(name, user)
+        elif user.is_authenticated:
+            return self.forum_name(name).filter(user=user)
+        else:
+            return self.none()
+
+    def search(self, name, q):
+        if q:
+            query = (
+                Q(title__icontains=q) |
+                Q(content__icontains=q) |
+                Q(name__icontains=q) |
+                Q(user__username__icontains=q)
+            )
+        else:
+            query = Q()
+        return self.forum_name(name).filter(query)
+
+    def trash(self, name, q):
+        if q:
+            query = (
+                Q(title__icontains=q) |
+                Q(content__icontains=q) |
+                Q(name__icontains=q) |
+                Q(user__username__icontains=q)
+            )
+        else:
+            query = Q()
+        return self.deleted(name).filter(query)
 
 
 class Thread(models.Model):
@@ -127,6 +168,12 @@ class Thread(models.Model):
 
     class Meta:
         ordering = ('-id',)
+
+    def forum_name(self):
+        if self.forum:
+            return self.forum.name
+        else:
+            return None
 
 
 class ReplyManager(models.Manager):

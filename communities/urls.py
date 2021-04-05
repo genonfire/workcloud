@@ -26,4 +26,30 @@ urlpatterns = [
             'get': 'retrieve',
         }), name='retrieve_forum'
     ),
+    path(
+        'f/<str:forum>/write/', views.ThreadViewSet.as_view({
+            'post': 'create',
+        }), name='new_thread'
+    ),
+    path(
+        'f/<str:forum>/<int:pk>/', views.ThreadUpdateViewSet.as_view({
+            'patch': 'partial_update',
+            'delete': 'delete',
+        }), name='thread'
+    ),
+    path(
+        'f/<str:forum>/read/<int:pk>/', views.ThreadReadOnlyViewSet.as_view({
+            'get': 'retrieve',
+        }), name='retrieve_thread'
+    ),
+    path(
+        'f/<str:forum>/', views.ThreadListViewSet.as_view({
+            'get': 'list',
+        }), name='threads'
+    ),
+    path(
+        'f/<str:forum>/trash/', views.ThreadTrashViewSet.as_view({
+            'get': 'list',
+        }), name='threads_trash'
+    ),
 ]

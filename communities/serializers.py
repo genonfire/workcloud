@@ -143,3 +143,105 @@ class ForumListSerializer(ForumSerializer):
             'thread_count',
             'reply_count',
         ]
+
+
+class ForumThreadSerializer(ForumSerializer):
+    class Meta:
+        model = models.Forum
+        fields = [
+            'id',
+            'name',
+            'title',
+            'description',
+            'managers',
+        ]
+
+
+class ThreadSerializer(ModelSerializer):
+    forum = ForumThreadSerializer(required=False)
+    user = accounts.serializers.UsernameSerializer(required=False)
+
+    class Meta:
+        model = models.Thread
+        fields = [
+            'id',
+            'forum',
+            'user',
+            'name',
+            'title',
+            'content',
+            'is_deleted',
+            'created_at',
+            'modified_at',
+        ]
+        read_only_fields = [
+            'forum',
+            'user',
+            'is_deleted',
+            'created_at',
+            'modified_at',
+        ]
+        extra_kwargs = {
+            'title': {'required': True},
+            'content': {'required': True},
+        }
+
+    def validate(self, attrs):
+        if self.context.get('request').user.is_authenticated:
+            attrs['user'] = self.context.get('request').user
+        else:
+            if not attrs.get('name'):
+                raise serializers.ValidationError(
+                    {'name': [Text.REQUIRED_FIELD]}
+                )
+
+        return attrs
+
+    def create(self, validated_data):
+        instance = self.Meta.model.objects.create(
+            forum=self.context.get('view').forum,
+            user=validated_data.get('user'),
+            name=validated_data.get('name'),
+            title=validated_data.get('title'),
+            content=validated_data.get('content'),
+        )
+        return instance
+
+
+class ThreadUpdateSerializer(ThreadSerializer):
+    class Meta:
+        model = models.Thread
+        fields = [
+            'id',
+            'forum',
+            'user',
+            'name',
+            'title',
+            'content',
+            'is_deleted',
+            'created_at',
+            'modified_at',
+        ]
+        read_only_fields = [
+            'forum',
+            'user',
+            'is_deleted',
+            'created_at',
+            'modified_at',
+        ]
+
+
+class ThreadListSerializer(ModelSerializer):
+    user = accounts.serializers.UsernameSerializer()
+
+    class Meta:
+        model = models.Thread
+        fields = [
+            'id',
+            'user',
+            'name',
+            'title',
+            'is_deleted',
+            'created_at',
+            'modified_at',
+        ]

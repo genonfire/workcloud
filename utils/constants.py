@@ -30,10 +30,15 @@ class _Const(object):
     QUERY_PARAM_SEARCH = 'q'
     QUERY_PARAM_APP = 'app'
     QUERY_PARAM_KEY = 'key'
+    QUERY_PARAM_FORUM = 'forum'
 
     TIME_FORMAT_DEFAULT = '%I:%M %p'
 
     PERMISSION_TYPE = ['all', 'member', 'staff']
+    P_READ = 'read'
+    P_WRITE = 'write'
+    P_REPLY = 'reply'
+
     ATTACHABLE_MODEL_LIST = [
         'thread',
     ]

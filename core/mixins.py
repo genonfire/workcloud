@@ -87,6 +87,10 @@ class ResponseMixin():
 
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
+
+        if not self.has_permission(instance):
+            return Response(status=Response.HTTP_403)
+
         self.sync_update(instance, partial)
 
         serializer = self.get_serializer(
