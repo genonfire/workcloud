@@ -105,11 +105,27 @@ class ThreadListViewSet(ThreadReadOnlyViewSet):
             self.q
         )
 
+    def list(self, request, *args, **kwargs):
+        self.q = request.query_params.get(Const.QUERY_PARAM_SEARCH)
+        queryset = self.filter_queryset(self.get_queryset())
 
-class ThreadTrashViewSet(ThreadListViewSet):
-    def get_permissions(self):
-        permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+        forum_serializer = self.set_serializer(
+            serializers.ForumSerializer,
+            self.forum
+        )
+        data = {
+            'forum': forum_serializer.data,
+            'threads': serializer.data
+        }
+        return self.get_paginated_response(data)
+
+
+class ThreadTrashViewSet(ReadOnlyModelViewSet):
+    serializer_class = serializers.ThreadListSerializer
+    model = models.Thread
+    permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
         return self.model.objects.trash(

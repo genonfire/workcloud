@@ -357,6 +357,20 @@ class ThreadModelTest(TestCase):
             not self.data.get('user')
         )
 
+    def test_thread_date_or_time(self):
+        self.create_thread()
+
+        response = self.get(
+            '/api/communities/f/%s/' % self.forum.name,
+            auth=True
+        )
+
+        date_or_time = self.data.get('threads')[0].get('date_or_time')
+        assert (
+            response.status_code == Response.HTTP_200 and
+            self.thread.date_or_time() == date_or_time
+        )
+
 
 class ThreadListTest(TestCase):
     def setUp(self):
@@ -393,9 +407,14 @@ class ThreadListTest(TestCase):
 
         for index, thread in enumerate(reversed(thread_list)):
             assert (
-                thread.id == self.data[index].get('id') and
-                thread.title == self.data[index].get('title')
+                thread.id == self.data.get('threads')[index].get('id') and
+                thread.title == self.data.get('threads')[index].get('title')
             )
+        assert (
+            self.data.get('forum').get('id') == self.forum.id and
+            self.data.get('forum').get('name') == self.forum.name and
+            self.data.get('forum').get('title') == self.forum.title
+        )
 
         response = self.get(
             '/api/communities/f/%s/?q=black' % self.forum.name,
@@ -404,15 +423,15 @@ class ThreadListTest(TestCase):
         assert (
             response.status_code == Response.HTTP_200 and
             len(self.data) == 2 and
-            self.data[1].get('title') == 'black' and
-            self.data[0].get('title') == 'white'
+            self.data.get('threads')[1].get('title') == 'black' and
+            self.data.get('threads')[0].get('title') == 'white'
         )
 
-        trash = self.data[0]
+        trash = self.data.get('threads')[0]
         self.delete(
             '/api/communities/f/%s/%d/' % (
                 self.forum.name,
-                self.data[0].get('id')
+                self.data.get('threads')[0].get('id')
             ),
             auth=True
         )
@@ -421,8 +440,8 @@ class ThreadListTest(TestCase):
             auth=True
         )
         assert (
-            len(self.data) == 1 and
-            self.data[0].get('title') == 'black'
+            len(self.data.get('threads')) == 1 and
+            self.data.get('threads')[0].get('title') == 'black'
         )
 
         response = self.get(

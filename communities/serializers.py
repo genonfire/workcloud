@@ -242,6 +242,5 @@ class ThreadListSerializer(ModelSerializer):
             'name',
             'title',
             'is_deleted',
-            'created_at',
-            'modified_at',
+            'date_or_time',
         ]

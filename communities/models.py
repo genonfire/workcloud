@@ -175,6 +175,21 @@ class Thread(models.Model):
         else:
             return None
 
+    def date_or_time(self):
+        today = timezone.localtime(timezone.now())
+        created_at = timezone.localtime(self.created_at)
+
+        if created_at.date() == today.date():
+            return {
+                'date': None,
+                'time': created_at.time().strftime(Const.TIME_FORMAT_DEFAULT),
+            }
+        else:
+            return {
+                'date': created_at.date(),
+                'time': None,
+            }
+
 
 class ReplyManager(models.Manager):
     pass
