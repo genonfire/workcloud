@@ -256,9 +256,9 @@
 
       <Pagination
         :pagination="pagination"
-        :first="firstPage"
-        :prev="prevPage"
-        :next="nextPage"
+        :first="getForums"
+        :prev="getForums"
+        :next="getForums"
       />
 
     </div>
@@ -330,15 +330,6 @@ export default {
     this.getManagers()
   },
   methods: {
-    firstPage: function () {
-      this.getForums(this.pagination.firstLink)
-    },
-    prevPage: function () {
-      this.getForums(this.pagination.prevLink)
-    },
-    nextPage: function () {
-      this.getForums(this.pagination.nextLink)
-    },
     getForums: function (url=null, q='') {
       var vm = this
 

@@ -56,9 +56,9 @@
 
   <Pagination
     :pagination="pagination"
-    :first="firstPage"
-    :prev="prevPage"
-    :next="nextPage"
+    :first="getDevices"
+    :prev="getDevices"
+    :next="getDevices"
   />
 
 </v-container>
@@ -100,15 +100,6 @@ export default {
     this.getDevices()
   },
   methods: {
-    firstPage: function () {
-      this.getDevices(this.pagination.firstLink)
-    },
-    prevPage: function () {
-      this.getDevices(this.pagination.prevLink)
-    },
-    nextPage: function () {
-      this.getDevices(this.pagination.nextLink)
-    },
     getDevices: function (url=null) {
       var vm = this
       var method = 'get'

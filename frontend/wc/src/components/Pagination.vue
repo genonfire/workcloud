@@ -11,7 +11,7 @@
         v-if="pagination.firstLink"
       >
         <v-btn
-          @click="first()"
+          @click="first(pagination.firstLink)"
         >
           <v-icon>mdi-page-first</v-icon>
         </v-btn>
@@ -23,7 +23,7 @@
       >
         <v-btn
           color="primary"
-          @click="prev()"
+          @click="prev(pagination.prevLink)"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -45,7 +45,7 @@
       >
         <v-btn
           color="primary"
-          @click="next()"
+          @click="next(pagination.nextLink)"
         >
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
