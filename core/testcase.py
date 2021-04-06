@@ -97,12 +97,14 @@ class TestCase(_TestCase):
         self.password = accounts.tools.Test.PASSWORD
         self.first_name = accounts.tools.Test.FIRST_NAME
         self.last_name = accounts.tools.Test.LAST_NAME
+        self.call_name = accounts.tools.Test.CALL_NAME
         self.user = accounts.models.User.objects.create_user(
             username=self.username,
             email=self.username,
             password=self.password,
             first_name=self.first_name,
             last_name=self.last_name,
+            call_name=self.call_name,
             is_approved=True,
             is_staff=is_staff
         )

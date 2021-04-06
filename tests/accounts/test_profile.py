@@ -67,3 +67,14 @@ class ProfileTest(TestCase):
             self.data.get('address') == '3245 146th PL SE' and
             self.data.get('is_approved') == self.user.is_approved
         )
+
+    def test_callname_not_allow_null(self):
+        response = self.patch(
+            '/api/accounts/setting/',
+            {
+                'first_name': 'B',
+                'call_name': '',
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400

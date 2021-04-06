@@ -201,6 +201,8 @@ class DeactivateAccountSerializer(Serializer):
 
 
 class UserSettingSerializer(ModelSerializer):
+    call_name = serializers.CharField(allow_null=False)
+
     class Meta:
         model = models.User
         fields = [
@@ -254,9 +256,11 @@ class StaffSerializer(ModelSerializer):
         fields = [
             'id',
             'username',
+            'call_name',
         ]
         read_only_fields = [
             'username',
+            'call_name',
         ]
 
 
@@ -265,5 +269,6 @@ class UsernameSerializer(ModelSerializer):
         model = models.User
         fields = [
             'id',
-            'username'
+            'username',
+            'call_name',
         ]

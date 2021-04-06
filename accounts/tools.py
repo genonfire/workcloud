@@ -13,6 +13,7 @@ class _Test:
     PASSWORD = 'password'
     FIRST_NAME = 'Work'
     LAST_NAME = 'Cloud'
+    CALL_NAME = 'Work Cloud'
     KEY = 'e6e02990878c735f790f251561788bf44f15e7ed'
 
 

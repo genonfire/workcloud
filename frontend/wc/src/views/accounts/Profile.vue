@@ -131,6 +131,7 @@
           <v-text-field
             v-model="user.call_name"
             :counter="40"
+            :rules="[rules.required]"
             :label="$t('accounts.CALLNAME')"
           >
           </v-text-field>
