@@ -180,7 +180,10 @@ export default {
       this.searchAnything(this.search)
     },
     searchAnything(anything) {
-      if (!anything) {
+      if (
+        !anything ||
+        !(this.$route.name in this.$const('SEARCH_ROUTES'))
+      ) {
         this.onEsc()
         return
       }

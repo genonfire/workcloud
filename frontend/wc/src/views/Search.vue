@@ -15,15 +15,11 @@
 export default {
   data () {
     return {
-      routerList: {
-        // router name from: router name to
-        'communities.forum': 'communities.forum'
-      }
     }
   },
   mounted () {
     this.$router.replace({
-      name: this.routerList[this.$route.params.name],
+      name: this.$const('SEARCH_ROUTES')[this.$route.params.name],
       query: {
         q: this.$route.params.q
       }

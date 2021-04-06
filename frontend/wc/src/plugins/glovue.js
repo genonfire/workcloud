@@ -9,7 +9,11 @@ const Const = {
       name: '한국어'
     },
   ],
-  PASSWORD_MIN: 8
+  PASSWORD_MIN: 8,
+  SEARCH_ROUTES: {
+    // router name from: router name to
+    'communities.forum': 'communities.forum',
+  }
 }
 
 Const.install = function (Vue) {
