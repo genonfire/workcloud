@@ -2,6 +2,7 @@ from django.utils import timezone
 
 from core.permissions import (
     AllowAny,
+    DenyAll,
     IsAdminUser,
     IsApproved,
 )
@@ -45,12 +46,21 @@ def permission(forum, action):
 
 
 def read_permission(forum):
+    if not forum.option.is_active:
+        return [IsAdminUser]
+
     return permission(forum, Const.P_READ)
 
 
 def write_permission(forum):
+    if not forum.option.is_active:
+        return [DenyAll]
+
     return permission(forum, Const.P_WRITE)
 
 
 def reply_permission(forum):
+    if not forum.option.is_active:
+        return [DenyAll]
+
     return permission(forum, Const.P_REPLY)

@@ -67,6 +67,7 @@
         "PROFILE": "Profile",
         "PHOTO": "Photo",
         "UPLOAD_PHOTO": "Upload photo",
+        "DELETE_PHOTO": "Delete photo",
         "TEL": "Phone number",
         "ADDRESS": "Address",
         "DEVICE": "Device",

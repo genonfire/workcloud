@@ -4,7 +4,7 @@
     v-if="user"
   >
     <v-row justify="space-around">
-      <v-col md=6>
+      <v-col md=7>
         <v-sheet
           color="#eee"
           elevation="3"

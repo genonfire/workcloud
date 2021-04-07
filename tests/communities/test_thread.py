@@ -6,6 +6,50 @@ class ThreadPermissionTest(TestCase):
     def setUp(self):
         self.create_user(is_staff=True)
 
+    def test_permission_inactive_forum(self):
+        option = self.create_option(is_active=False)
+        self.create_forum(option=option)
+        self.create_thread(forum=self.forum)
+
+        response = self.get(
+            '/api/communities/f/%s/' % self.forum.name
+        )
+        assert response.status_code == Response.HTTP_401
+
+        response = self.post(
+            '/api/communities/f/%s/write/' % self.forum.name,
+            {
+                'title': 'test',
+                'content': 'test"'
+            }
+        )
+        assert response.status_code == Response.HTTP_401
+
+        response = self.get(
+            '/api/communities/f/%s/' % self.forum.name,
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_200
+
+        response = self.post(
+            '/api/communities/f/%s/write/' % self.forum.name,
+            {
+                'title': 'test',
+                'content': 'test"'
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_403
+
+        response = self.patch(
+            '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
+            {
+                'title': 'test patch',
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_403
+
     def test_permission_read_all_write_all(self):
         self.create_forum()
 

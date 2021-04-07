@@ -162,15 +162,16 @@ export default {
       return menuList
     }
   },
+  created () {
+    this.$root.$refs.Navigation = this
+  },
   beforeDestroy () {
     document.onkeydown = null
   },
   methods: {
     onBlur () {
-      this.resetSearch()
     },
     onEsc () {
-      this.resetSearch()
       this.$refs.search.blur()
     },
     resetSearch () {
@@ -180,11 +181,10 @@ export default {
       this.searchAnything(this.search)
     },
     searchAnything(anything) {
-      if (
-        !anything ||
-        !(this.$route.name in this.$const('SEARCH_ROUTES'))
-      ) {
-        this.onEsc()
+      this.onEsc()
+
+      if (!(this.$route.name in this.$const('SEARCH_ROUTES'))) {
+        this.resetSearch()
         return
       }
 
@@ -192,6 +192,7 @@ export default {
         name: 'search',
         params: {
           name: this.$route.name,
+          forum: this.$route.params.forum,
           q: anything
         }
       })

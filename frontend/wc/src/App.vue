@@ -105,7 +105,11 @@ export default {
 }
 
 .uninitialized {
-  text-align:center;
-  margin:5em;
+  text-align: center;
+  margin: 5em;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>

@@ -5,6 +5,11 @@ class AllowAny(rest_permission.AllowAny):
     pass
 
 
+class DenyAll(rest_permission.BasePermission):
+    def has_permission(self, request, view):
+        return False
+
+
 class IsAuthenticated(rest_permission.IsAuthenticated):
     pass
 
@@ -12,6 +17,16 @@ class IsAuthenticated(rest_permission.IsAuthenticated):
 class IsApproved(IsAuthenticated):
     def has_permission(self, request, view):
         return bool(
+            request.user and
+            request.user.is_authenticated and
+            request.user.is_approved
+        )
+
+
+class IsApprovedOrReadOnly():
+    def has_permission(self, request, view):
+        return bool(
+            request.method in rest_permission.SAFE_METHODS or
             request.user and
             request.user.is_authenticated and
             request.user.is_approved

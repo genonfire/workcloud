@@ -20,6 +20,10 @@ export default {
   mounted () {
     this.$router.replace({
       name: this.$const('SEARCH_ROUTES')[this.$route.params.name],
+      params: {
+        forum: this.$route.params.forum,
+        page: 1
+      },
       query: {
         q: this.$route.params.q
       }

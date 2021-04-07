@@ -12,7 +12,7 @@ class TestCase(CoreTestCase):
         permission_reply='all'
     ):
         self.option = models.Option.objects.create(
-            is_active=True,
+            is_active=is_active,
             permission_read=permission_read,
             permission_write=permission_write,
             permission_reply=permission_reply

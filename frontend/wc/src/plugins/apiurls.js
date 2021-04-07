@@ -79,6 +79,30 @@ const APIs = {
   FORUM_RETRIEVE: {
     'method': 'get',
     'url': 'communities/forums/{pk}/'
+  },
+  THREAD_WRITE: {
+    'method': 'post',
+    'url': 'communities/f/{forum}/write/'
+  },
+  THREAD_EDIT: {
+    'method': 'patch',
+    'url': 'communities/f/{forum}/{pk}/'
+  },
+  THREAD_DELETE: {
+    'method': 'delete',
+    'url': 'communities/f/{forum}/{pk}/'
+  },
+  THREAD_RETRIEVE: {
+    'method': 'get',
+    'url': 'communities/f/{forum}/read/{pk}/'
+  },
+  THREAD_LIST: {
+    'method': 'get',
+    'url': 'communities/f/{forum}/?page={page}&page_size=5&q='
+  },
+  THREAD_TRASH: {
+    'method': 'get',
+    'url': 'communities/f/{forum}/trash/'
   }
 }
 

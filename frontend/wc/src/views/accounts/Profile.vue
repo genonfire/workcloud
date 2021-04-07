@@ -17,7 +17,7 @@
         >
           <v-row justify="space-around">
             <v-col
-              class="mb-3"
+              class="mb-7"
             >
               <v-card
                 flat
@@ -37,10 +37,11 @@
                   <v-btn
                     text
                     color="deep-purple accent-4"
+                    class="pa-0"
                     @click="removePhoto"
                     v-if="photo"
                   >
-                    {{ $t('common.REMOVE') }}
+                    {{ $t('accounts.DELETE_PHOTO') }}
                 </v-btn>
                 </v-card-actions>
               </v-card>

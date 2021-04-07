@@ -5,7 +5,7 @@
   <div class="content text-center">
     <v-container>
       <v-row justify="space-around">
-        <v-col md=6>
+        <v-col md=8>
           <v-sheet
             color="#eee"
             elevation="3"

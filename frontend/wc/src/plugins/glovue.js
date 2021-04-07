@@ -13,6 +13,7 @@ const Const = {
   SEARCH_ROUTES: {
     // router name from: router name to
     'communities.forum': 'communities.forum',
+    'communities.threadPage': 'communities.threadPage',
   }
 }
 

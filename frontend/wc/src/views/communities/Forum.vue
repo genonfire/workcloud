@@ -45,7 +45,8 @@
               <tr
                 v-for="forum in forums"
                 :key="forum.id"
-                class="text-center pa-0"
+                class="pa-0 text-center"
+                @click="openThread(forum)"
               >
                 <td>{{ forum.id }}</td>
                 <td>{{ forum.name }}</td>
@@ -490,6 +491,14 @@ export default {
         managers.push(manager)
       }
       return managers
+    },
+    openThread: function (forum) {
+      this.$router.push({
+        name: 'communities.thread',
+        params: {
+          forum: forum.name
+        }
+      })
     }
   }
 }

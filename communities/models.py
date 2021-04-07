@@ -113,8 +113,8 @@ class ThreadManager(models.Manager):
             query = (
                 Q(title__icontains=q) |
                 Q(content__icontains=q) |
-                Q(name__icontains=q) |
-                Q(user__username__icontains=q)
+                (Q(user__isnull=True) & Q(name__icontains=q)) |
+                Q(user__call_name__icontains=q)
             )
         else:
             query = Q()
