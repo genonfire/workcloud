@@ -10,8 +10,6 @@ class AttachmentAdmin(admin.ModelAdmin):
         'file',
         'content_type',
         'size',
-        'app',
-        'key',
         'user',
         'created_at',
     )

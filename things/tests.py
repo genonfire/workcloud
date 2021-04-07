@@ -26,9 +26,7 @@ class TestCase(CoreTestCase):
         self,
         name='test.txt',
         content=b'test',
-        content_type='text/plain',
-        app='thread',
-        key=1
+        content_type='text/plain'
     ):
         file = self.file(name, content, content_type)
 
@@ -36,8 +34,6 @@ class TestCase(CoreTestCase):
             user=self.user,
             file=self.file(name, content, content_type),
             content_type=file.content_type,
-            size=file.size,
-            app=app,
-            key=key
+            size=file.size
         )
         return self.attachment

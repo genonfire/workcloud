@@ -28,8 +28,6 @@ class _Const(object):
 
     DEFAULT_LINK_COUNT = 10
     QUERY_PARAM_SEARCH = 'q'
-    QUERY_PARAM_APP = 'app'
-    QUERY_PARAM_KEY = 'key'
     QUERY_PARAM_FORUM = 'forum'
 
     TIME_FORMAT_DEFAULT = '%I:%M %p'
@@ -38,10 +36,6 @@ class _Const(object):
     P_READ = 'read'
     P_WRITE = 'write'
     P_REPLY = 'reply'
-
-    ATTACHABLE_MODEL_LIST = [
-        'thread',
-    ]
 
     def __setattr__(self, name, value):
         raise AttributeError("cannot re-bind const(%s)" % name)

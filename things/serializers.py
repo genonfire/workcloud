@@ -7,7 +7,6 @@ from core.serializers import (
     ModelSerializer,
 )
 
-from utils.constants import Const
 from utils.debug import Debug  # noqa
 from utils.text import Text
 
@@ -26,8 +25,6 @@ class FileSerializer(ModelSerializer):
             'file',
             'content_type',
             'size',
-            'app',
-            'key',
             'user',
         ]
 
@@ -40,8 +37,6 @@ class FileUploadSerializer(FileSerializer):
             'file',
             'content_type',
             'size',
-            'app',
-            'key',
             'user',
         ]
         read_only_fields = [
@@ -54,11 +49,6 @@ class FileUploadSerializer(FileSerializer):
         }
 
     def validate(self, attrs):
-        if attrs.get('app'):
-            if attrs.get('app') not in Const.ATTACHABLE_MODEL_LIST:
-                raise serializers.ValidationError(
-                    {'app': [Text.INVALID_VALUE]}
-                )
         if attrs.get('file').size > settings.UPLOAD_MAX_SIZE:
             raise serializers.ValidationError(
                 {'file': [Text.FILE_TOO_LARGE]}
@@ -73,19 +63,6 @@ class FileUploadSerializer(FileSerializer):
             user=self.context.get('request').user,
             file=file,
             content_type=file.content_type,
-            size=file.size,
-            app=validated_data.get('app'),
-            key=validated_data.get('key', 0)
+            size=file.size
         )
         return instance
-
-
-class FileAttachedSerializer(ModelSerializer):
-    class Meta:
-        model = models.Attachment
-        fields = [
-            'id',
-            'file',
-            'content_type',
-            'size',
-        ]

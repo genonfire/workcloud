@@ -8,11 +8,9 @@ class FileUploadTest(TestCase):
 
     def test_attachment_upload_png(self):
         response = self.post(
-            '/api/things/file/upload/',
+            '/api/things/file/',
             {
-                'file': self.png('image.png'),
-                'app': 'thread',
-                'key': 1,
+                'file': self.png('image.png')
             },
             auth=True
         )
@@ -21,30 +19,24 @@ class FileUploadTest(TestCase):
             response.status_code == Response.HTTP_201 and
             self.data.get('content_type') == 'image/png' and
             self.data.get('size') == 58 and
-            self.data.get('app') == 'thread' and
-            self.data.get('key') == 1 and
             self.data.get('file') != 'image.png' and
             'image.png' in self.data.get('file')
         )
 
     def test_attachment_upload_same_file(self):
         self.post(
-            '/api/things/file/upload/',
+            '/api/things/file/',
             {
-                'file': self.file(),
-                'app': 'thread',
-                'key': 1,
+                'file': self.file()
             },
             auth=True
         )
         file = self.data
 
         response = self.post(
-            '/api/things/file/upload/',
+            '/api/things/file/',
             {
-                'file': self.file(),
-                'app': 'thread',
-                'key': 1,
+                'file': self.file()
             },
             auth=True
         )
@@ -52,28 +44,13 @@ class FileUploadTest(TestCase):
             response.status_code == Response.HTTP_201 and
             self.data.get('file') != file.get('file') and
             self.data.get('content_type') == file.get('content_type') and
-            self.data.get('size') == file.get('size') and
-            self.data.get('app') == file.get('app') and
-            self.data.get('key') == file.get('key')
+            self.data.get('size') == file.get('size')
         )
 
     def test_attachment_upload_invalid_param(self):
         response = self.post(
-            '/api/things/file/upload/',
+            '/api/things/file/',
             {
-                'app': 'thread',
-                'key': 1,
-            },
-            auth=True
-        )
-        assert response.status_code == Response.HTTP_400
-
-        response = self.post(
-            '/api/things/file/upload/',
-            {
-                'file': self.file(),
-                'app': 'thereisnoapplikethis',
-                'key': 1,
             },
             auth=True
         )
@@ -84,7 +61,7 @@ class FileUploadTest(TestCase):
         content = 'data:image/png;base64,' + data + data + data + 's='
 
         response = self.post(
-            '/api/things/file/upload/',
+            '/api/things/file/',
             {
                 'file': self.png(content=content.encode('utf=8')),
             },
@@ -93,9 +70,10 @@ class FileUploadTest(TestCase):
         assert response.status_code == Response.HTTP_400
 
 
-class FileListTest(TestCase):
+class FilePermissionTest(TestCase):
     def setUp(self):
         self.create_user()
+        self.create_attachment()
 
     def test_attachment_manage_permission(self):
         response = self.get(
@@ -104,62 +82,22 @@ class FileListTest(TestCase):
         )
         assert response.status_code == Response.HTTP_403
 
-    def test_attachment_list_invalid_params(self):
-        self.create_attachment()
-        response = self.get(
-            '/api/things/files/thereisnoapplikethis/1/',
-            auth=True
-        )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            not len(self.data)
-        )
-
-    def test_attachment_list_attached(self):
-        self.create_attachment(
-            name='test.pdf',
-            content_type='application/pdf',
-            content=b'pdf',
-            app='thread',
-            key=1
-        )
-        self.create_attachment(
-            name='test.pdf',
-            content_type='application/pdf',
-            content=b'pdf',
-            app='thread',
-            key=1
-        )
-        self.create_attachment(
-            name='test.pdf',
-            content_type='application/pdf',
-            content=b'pdf',
-            app='thread',
-            key=2
-        )
-
-        self.get(
-            '/api/things/files/thread/1/',
-            auth=True
-        )
-        assert len(self.data) == 2
-
-        self.delete(
-            '/api/things/file/%d/' % self.data[0].get('id'),
+    def test_attachment_delete_permission(self):
+        self.post(
+            '/api/things/file/',
+            {
+                'file': self.file()
+            },
             auth=True
         )
 
-        response = self.get(
-            '/api/things/files/thread/1/',
+        self.create_user(username='attacher@a.com')
+
+        response = self.delete(
+            '/api/things/file/%d/' % self.data.get('id'),
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data) == 1 and
-            self.data[0].get('content_type') == 'application/pdf' and
-            self.data[0].get('size') == 3 and
-            'test.pdf' in self.data[0].get('file')
-        )
+        assert response.status_code == Response.HTTP_403
 
 
 class FileManageTest(TestCase):
@@ -207,38 +145,4 @@ class FileManageTest(TestCase):
         assert (
             response.status_code == Response.HTTP_200 and
             len(self.data) == 0
-        )
-
-    def test_attachment_attachment_permission(self):
-        self.create_user(username='newbie@a.com')
-
-        response = self.get(
-            '/api/things/files/thread/1/',
-            auth=True
-        )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data) == 2
-        )
-        attachment_list = self.data
-
-        response = self.delete(
-            '/api/things/file/%d/' % attachment_list[1].get('id'),
-            auth=True
-        )
-        assert response.status_code == Response.HTTP_403
-
-        response = self.delete(
-            '/api/things/file/%d/' % attachment_list[0].get('id'),
-            auth=True
-        )
-        assert response.status_code == Response.HTTP_403
-
-        response = self.get(
-            '/api/things/files/thread/1/',
-            auth=True
-        )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data) == 2
         )

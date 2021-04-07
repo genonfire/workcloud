@@ -9,18 +9,10 @@ from utils.debug import Debug  # noqa
 
 
 def app_directory_path(instance, filename):
-    if not instance.app:
-        return 'files/etc/{0}-{1}'.format(uuid.uuid4(), filename)
-    return 'files/{0}/{1}-{2}'.format(instance.app, uuid.uuid4(), filename)
+    return 'files/{0}-{1}'.format(uuid.uuid4(), filename)
 
 
 class AttachmentManager(models.Manager):
-    def attached(self, app, key, q):
-        filename = Q()
-        if q:
-            filename = Q(file__icontains=q)
-        return self.filter(app=app).filter(key=key).filter(filename)
-
     def search(self, q):
         filename = Q()
         if q:
@@ -48,12 +40,6 @@ class Attachment(models.Model):
         null=True,
     )
     size = models.BigIntegerField(default=0)
-    app = models.CharField(
-        max_length=Const.NAME_MAX_LENGTH,
-        blank=True,
-        null=True,
-    )
-    key = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
 
     objects = AttachmentManager()

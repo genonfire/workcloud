@@ -7,7 +7,6 @@ from core.permissions import (
     IsApproved,
 )
 
-from utils.constants import Const
 from utils.debug import Debug  # noqa
 
 from . import (
@@ -32,19 +31,9 @@ class AttachmentViewSet(ModelViewSet):
         tools.destroy_attachment(instance)
 
 
-class AttachmentListViewSet(ReadOnlyModelViewSet):
-    serializer_class = serializers.FileAttachedSerializer
-    model = models.Attachment
-    permission_classes = (IsApproved,)
-
-    def get_queryset(self):
-        app = self.kwargs[Const.QUERY_PARAM_APP]
-        key = self.kwargs[Const.QUERY_PARAM_KEY]
-        return self.model.objects.attached(app, key, self.q)
-
-
-class AttachmentManageViewSet(AttachmentListViewSet):
+class AttachmentManageViewSet(ReadOnlyModelViewSet):
     serializer_class = serializers.FileSerializer
+    model = models.Attachment
     permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
