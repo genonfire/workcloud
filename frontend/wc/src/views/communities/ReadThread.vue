@@ -3,60 +3,65 @@
     v-if="initialized"
   >
 
-    <v-btn
-      large
-      color="secondary"
-      class="mr-2"
-      @click="back()"
+    <v-container
+      class="pa-0"
     >
-      <v-icon
-        class="mr-1"
+      <v-btn
+        color="secondary"
+        class="mr-2"
+        @click="back()"
       >
-        mdi-keyboard-backspace
-      </v-icon>
-      {{ $t('common.BACK') }}
-    </v-btn>
+        <v-icon
+          class="mr-1"
+        >
+          mdi-keyboard-backspace
+        </v-icon>
+        {{ $t('common.BACK') }}
+      </v-btn>
 
-    <span
-      v-if="hasPermission"
-    >
-      <v-btn
-        fab
-        small
-        color="primary"
-        class="mr-2"
+      <span
+        v-if="hasPermission"
       >
-        <v-icon>mdi-square-edit-outline</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        small
-        color="error"
-        class="mr-2"
+        <v-btn
+          fab
+          small
+          color="primary"
+          class="mr-2"
+        >
+          <v-icon>mdi-square-edit-outline</v-icon>
+        </v-btn>
+        <v-btn
+          fab
+          small
+          color="error"
+          class="mr-2"
+        >
+          <v-icon>mdi-trash-can-outline</v-icon>
+        </v-btn>
+      </span>
+      <span
+        v-if="user.is_staff"
       >
-        <v-icon>mdi-trash-can-outline</v-icon>
-      </v-btn>
-    </span>
-    <span
-      v-if="user.is_staff"
-    >
-      <v-btn
-        fab
-        small
-        color="blue-grey lighten-4"
-      >
-        <v-icon>mdi-pin-outline</v-icon>
-      </v-btn>
-    </span>
+        <v-btn
+          fab
+          small
+          color="blue-grey lighten-4"
+        >
+          <v-icon>mdi-pin-outline</v-icon>
+        </v-btn>
+      </span>
+    </v-container>
 
     <v-sheet
-      color="grey lighten-3"
+      color="grey lighten-4"
       class="my-3 pa-3 headline text-center"
     >
       {{ thread.title }}
     </v-sheet>
 
-    <v-container>
+    <v-container
+      class="pa-0"
+    >
       <div
         class="mr-1 mb-4 text-right font-italic"
       >
@@ -65,8 +70,7 @@
       </div>
 
       <v-sheet
-        class="pa-3 body-1"
-        color="grey lighten-5"
+        class="mb-5 pa-1 thread-content"
         v-html="thread.content"
       ></v-sheet>
     </v-container>
@@ -110,6 +114,15 @@ export default {
       return this.firstInit
     },
   },
+  metaInfo () {
+    var title = this.$t('info.SITENAME')
+    if (this.thread) {
+      title = this.thread.title + ' | ' + this.$t('info.SITENAME')
+    }
+    return {
+      title: title
+    }
+  },
   mounted () {
     this.getThread(this.$route.params.pk)
   },
@@ -152,3 +165,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .thread-content {
+    font-size: 18px;
+    white-space: break-spaces;
+  }
+</style>

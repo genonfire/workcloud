@@ -112,4 +112,13 @@ export default {
 .cursor-pointer {
   cursor: pointer;
 }
+
+pre code {
+  display: block;
+  background: #f6f6f6;
+  white-space: pre-wrap;
+  overflow-x: scroll;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
 </style>

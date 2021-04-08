@@ -12,17 +12,18 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
-            fab
-            absolute
-            bottom
-            right
             color="primary"
-            class="mb-12"
+            class="mb-5"
             v-bind="attrs"
             v-on="on"
             @click="newForum()"
           >
-            <v-icon>mdi-plus</v-icon>
+            <v-icon
+              class="mr-2"
+            >
+              mdi-plus
+            </v-icon>
+            {{ $t('forum.NEW_FORUM') }}
           </v-btn>
           <v-simple-table>
             <thead>
@@ -427,6 +428,17 @@ export default {
           }
         }
         vm.closeEditForum()
+      })
+      .catch(function (error) {
+        if (error.response && error.response.data) {
+          for (var field in error.response.data) {
+            vm.$dialog.notify.info(
+              field + ': ' + error.response.data[field], {
+                position: 'bottom-right'
+              }
+            )
+          }
+        }
       })
     },
     deleteForum: async function (forum) {

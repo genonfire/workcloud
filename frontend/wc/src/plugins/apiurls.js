@@ -98,11 +98,29 @@ const APIs = {
   },
   THREAD_LIST: {
     'method': 'get',
-    'url': 'communities/f/{forum}/?page={page}&page_size=5&q='
+    'url': 'communities/f/{forum}/?page={page}&q='
   },
   THREAD_TRASH: {
     'method': 'get',
     'url': 'communities/f/{forum}/trash/'
+  },
+
+  FILE_UPLOAD: {
+    'method': 'post',
+    'url': 'things/file/'
+  },
+  FILE_DELETE: {
+    'method': 'delete',
+    'url': 'things/file/{pk}/'
+  },
+  FILE_LIST: {
+    'method': 'get',
+    'url': 'things/files/?q='
+  },
+
+  YOUTUBE_OEMBED: {
+    'method': 'get',
+    'url': 'https://www.youtube.com/oembed?url={url}&format=json&maxwidth=640&maxheight=360'
   }
 }
 

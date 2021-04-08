@@ -17,9 +17,9 @@ Vue.use(VuetifyDialog, {
   context: {
     vuetify
   }
-});
-Vue.use(apiurls);
-Vue.use(glovue);
+})
+Vue.use(apiurls)
+Vue.use(glovue)
 Vue.config.productionTip = false
 
 new Vue({

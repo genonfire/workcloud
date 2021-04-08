@@ -14,10 +14,23 @@
         {{ forum.title }}
       </div>
       <v-sheet
-        class="mb-5 pa-2 body-2"
+        class="mb-3 pa-2 body-2"
         v-html="forum.description"
         v-if="forum.description"
       ></v-sheet>
+
+      <v-btn
+        color="primary"
+        class="mb-5"
+        @click="writeThread()"
+      >
+        <v-icon
+          class="mr-2"
+        >
+          mdi-plus
+        </v-icon>
+        {{ $t('forum.WRITE_THREAD') }}
+      </v-btn>
 
       <v-simple-table>
         <tbody>
@@ -107,6 +120,15 @@ export default {
       return this.firstInit
     },
   },
+  metaInfo () {
+    var title = this.$t('info.SITENAME')
+    if (this.forum) {
+      title = this.forum.title + ' | ' + this.$t('info.SITENAME')
+    }
+    return {
+      title: title
+    }
+  },
   mounted () {
     this.getThreads(null, this.$route.query.q)
   },
@@ -170,6 +192,18 @@ export default {
           forum: this.$route.params.forum,
           page: this.$route.params.page,
           pk: thread.id
+        },
+        query: {
+          q: this.$route.query.q
+        }
+      })
+    },
+    writeThread: function () {
+      this.$router.push({
+        name: 'communities.writeThread',
+        params: {
+          forum: this.$route.params.forum,
+          page: this.$route.params.page,
         },
         query: {
           q: this.$route.query.q

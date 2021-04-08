@@ -20,4 +20,9 @@ export default [
     name: 'communities.readThread',
     component: () => import('@/views/communities/ReadThread.vue')
   },
+  {
+    path: '/communities/f/:forum/:page/write',
+    name: 'communities.writeThread',
+    component: () => import('@/views/communities/WriteThread.vue')
+  },
 ]
