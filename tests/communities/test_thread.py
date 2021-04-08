@@ -415,6 +415,38 @@ class ThreadModelTest(TestCase):
             self.thread.date_or_time() == date_or_time
         )
 
+    def test_thread_has_permission(self):
+        self.create_user(username='2@a.com')
+        self.post(
+            '/api/communities/f/%s/write/' % self.forum.name,
+            {
+                'title': 'test',
+                'content': 'content'
+            },
+            auth=True
+        )
+        thread_id = self.data.get('id')
+
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
+            auth=True
+        )
+        assert self.data.get('has_permission')
+
+        self.create_user(username='3@a.com')
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
+            auth=True
+        )
+        assert not self.data.get('has_permission')
+
+        self.create_user(username='4@a.com', is_staff=True)
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
+            auth=True
+        )
+        assert self.data.get('has_permission')
+
 
 class ThreadWriteException(TestCase):
     def setUp(self):

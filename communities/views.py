@@ -78,7 +78,7 @@ class ThreadUpdateViewSet(ThreadViewSet):
 
 
 class ThreadReadOnlyViewSet(ReadOnlyModelViewSet):
-    serializer_class = serializers.ThreadSerializer
+    serializer_class = serializers.ThreadReadSerializer
     model = models.Thread
 
     def get_permissions(self):

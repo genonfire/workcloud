@@ -20,7 +20,7 @@
       </v-btn>
 
       <span
-        v-if="hasPermission"
+        v-if="thread.has_permission"
       >
         <v-btn
           fab
@@ -101,15 +101,6 @@ export default {
     ...mapState([
       'user'
     ]),
-    hasPermission () {
-      if (this.user.is_staff) {
-        return true
-      }
-      if (!this.user || !this.thread.user) {
-        return false
-      }
-      return (this.user.id == this.thread.user.id)
-    },
     initialized () {
       return this.firstInit
     },

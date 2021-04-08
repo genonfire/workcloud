@@ -208,6 +208,35 @@ class ThreadSerializer(ModelSerializer):
         return instance
 
 
+class ThreadReadSerializer(ThreadSerializer):
+    has_permission = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Thread
+        fields = [
+            'id',
+            'forum',
+            'user',
+            'name',
+            'title',
+            'content',
+            'is_deleted',
+            'created_at',
+            'modified_at',
+            'has_permission',
+        ]
+
+    def get_has_permission(self, obj):
+        user = self.context.get('request').user
+
+        if user.is_staff:
+            return True
+        elif not user or not obj.user:
+            return False
+        else:
+            return bool(user.id == obj.user.id)
+
+
 class ThreadUpdateSerializer(ThreadSerializer):
     class Meta:
         model = models.Thread
