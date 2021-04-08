@@ -29,6 +29,7 @@ class ForumAdmin(admin.ModelAdmin):
         'id',
         'name',
         'title',
+        'is_active',
         'created_at',
     )
     search_fields = (

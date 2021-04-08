@@ -130,9 +130,19 @@ class FileManageTest(TestCase):
         self.create_user()
         self.create_attachment()
         self.create_user(username='admin@a.com', is_staff=True)
-        self.create_attachment()
+        self.create_attachment(name='attachment.txt')
 
     def test_attachment_list_and_delete(self):
+        response = self.get(
+            '/api/things/files/?q=attachment',
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_200 and
+            len(self.data) == 1 and
+            'attachment.txt' in self.data[0].get('file')
+        )
+
         response = self.get(
             '/api/things/files/',
             auth=True

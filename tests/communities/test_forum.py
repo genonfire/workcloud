@@ -240,7 +240,8 @@ class ForumEditTest(TestCase):
             response.status_code == Response.HTTP_200 and
             option.get('permission_read') == 'member' and
             option.get('permission_write') == 'staff' and
-            option.get('permission_reply') == 'member'
+            option.get('permission_reply') == 'member' and
+            option.get('is_active') == self.forum.is_active()
         )
 
     def test_edit_forum_managers(self):
@@ -333,8 +334,8 @@ class ForumListTest(TestCase):
             'purple',
         ]
         sample_title = [
-            'cat',
             'tiger',
+            'blackcat',
             'dragon',
             'fish',
             'snake',
@@ -360,3 +361,13 @@ class ForumListTest(TestCase):
                 self.data[index].get('thread_count') == 0 and
                 self.data[index].get('reply_count') == 0
             )
+
+        response = self.get(
+            '/api/communities/forums/?q=black',
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_200 and
+            'black' in self.data[0].get('title') and
+            'black' in self.data[1].get('name')
+        )

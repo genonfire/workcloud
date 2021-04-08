@@ -86,6 +86,9 @@ class Forum(models.Model):
     def reply_count(self):
         return Reply.objects.filter(thread__forum=self).count()
 
+    def is_active(self):
+        return self.option.is_active
+
 
 class ThreadManager(models.Manager):
     def forum(self, forum):
@@ -99,14 +102,6 @@ class ThreadManager(models.Manager):
             return self.filter(forum__name=name)
         else:
             return self.filter(forum__name=name).filter(is_deleted=False)
-
-    def my(self, name, user):
-        if user.is_staff:
-            return self.forum_name(name, user)
-        elif user.is_authenticated:
-            return self.forum_name(name).filter(user=user)
-        else:
-            return self.none()
 
     def search(self, name, q):
         if q:
