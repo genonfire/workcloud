@@ -25,4 +25,9 @@ export default [
     name: 'communities.writeThread',
     component: () => import('@/views/communities/WriteThread.vue')
   },
+  {
+    path: '/communities/f/:forum/:page/edit/:pk',
+    name: 'communities.editThread',
+    component: () => import('@/views/communities/EditThread.vue')
+  },
 ]

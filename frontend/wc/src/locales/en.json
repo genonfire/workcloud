@@ -106,14 +106,15 @@
         "DELETE_FORUM_DESCRIPTION": "Once you delete a forum, there is no going back.",
         "NEW_FORUM": "New forum",
         "WRITE_THREAD": "Write thread",
-        "THREAD_SAVED": "Saved"
+        "THREAD_SAVED": "Saved",
+        "DELETE_THREAD_QUESTION": "Delete thread?"
     },
     "editor": {
         "ADD_LINK": "Add link",
         "CHANGE_LINK": "Change link",
         "REMOVE_LINK": "Remove link",
         "QUIT_EDITING": "Are you sure to quit editing?",
-        "LAST_UPDATED_AT": "Last updated at {date_or_time}",
+        "LAST_UPDATED_AT": "Last updated at {datetime}",
         "SELECT_FILE": "Select a file",
         "PASTE_LINK": "Paste link here",
         "FILE_UPLOAD": "File upload",

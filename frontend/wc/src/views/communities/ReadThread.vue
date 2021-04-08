@@ -27,6 +27,7 @@
           small
           color="primary"
           class="mr-2"
+          @click="editThread(thread)"
         >
           <v-icon>mdi-square-edit-outline</v-icon>
         </v-btn>
@@ -35,6 +36,7 @@
           small
           color="error"
           class="mr-2"
+          @click="deleteThread(thread)"
         >
           <v-icon>mdi-trash-can-outline</v-icon>
         </v-btn>
@@ -140,6 +142,51 @@ export default {
       else {
         return thread.name
       }
+    },
+    editThread: function (thread) {
+      this.$router.push({
+        name: 'communities.editThread',
+        params: {
+          forum: this.$route.params.forum,
+          page: this.$route.params.page,
+          pk: thread.id
+        },
+        query: {
+          q: this.$route.query.q
+        }
+      })
+    },
+    deleteThread: async function (thread) {
+      var res = await this.$dialog.warning({
+        text: this.$t("forum.DELETE_THREAD_QUESTION"),
+        actions: {
+          false: this.$t('common.CANCEL'),
+          true: {
+            color: 'error',
+            text: this.$t('common.DELETE')
+          }
+        }
+      })
+      if (!res) {
+        return
+      }
+
+      var vm = this
+
+      axios({
+        method: this.$api('THREAD_DELETE').method,
+        url: this.$api('THREAD_DELETE').url.replace(
+          '{forum}', this.forumName).replace('{pk}', thread.id)
+      })
+      .then(function () {
+        vm.$dialog.notify.success(
+          vm.$t('common.DELETED'), {
+            position: 'bottom-right',
+            timeout: 2000
+          }
+        )
+        vm.back()
+      })
     },
     back: function () {
       this.$router.push({
