@@ -16,7 +16,6 @@
       <TipTap
         class="mb-5"
         :options="options"
-        @keydown.enter="onTab"
       />
     </v-container>
 
@@ -85,9 +84,6 @@ export default {
     }
   },
   methods: {
-    onTab: function () {
-      console.log('tab')
-    },
     save: function () {
       var vm = this
       var forumName = this.$route.params.forum
