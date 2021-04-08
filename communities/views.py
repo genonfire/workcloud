@@ -7,6 +7,7 @@ from core.viewsets import (
 from core.permissions import (
     IsAdminUser,
 )
+from core.response import Response
 from core.shortcuts import get_object_or_404
 from utils.constants import Const
 from utils.debug import Debug  # noqa
@@ -75,6 +76,31 @@ class ThreadUpdateViewSet(ThreadViewSet):
 
     def perform_delete(self, instance):
         tools.delete_thread(instance)
+
+
+class ThreadToggleViewSet(ThreadViewSet):
+    serializer_class = serializers.ThreadReadSerializer
+
+    def get_permissions(self):
+        permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        return self.model.objects.forum_name(
+            self.kwargs[Const.QUERY_PARAM_FORUM]
+        )
+
+    def pin(self, request, *args, **kwargs):
+        instance = self.get_object()
+        tools.pin_thread(instance)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def unpin(self, request, *args, **kwargs):
+        instance = self.get_object()
+        tools.unpin_thread(instance)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class ThreadReadOnlyViewSet(ReadOnlyModelViewSet):

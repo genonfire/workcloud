@@ -92,6 +92,14 @@ const APIs = {
     'method': 'delete',
     'url': 'communities/f/{forum}/{pk}/'
   },
+  THREAD_PIN: {
+    'method': 'post',
+    'url': 'communities/f/{forum}/{pk}/pin/'
+  },
+  THREAD_UNPIN: {
+    'method': 'post',
+    'url': 'communities/f/{forum}/{pk}/unpin/'
+  },
   THREAD_RETRIEVE: {
     'method': 'get',
     'url': 'communities/f/{forum}/read/{pk}/'

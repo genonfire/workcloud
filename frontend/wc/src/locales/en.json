@@ -107,7 +107,9 @@
         "NEW_FORUM": "New forum",
         "WRITE_THREAD": "Write thread",
         "THREAD_SAVED": "Saved",
-        "DELETE_THREAD_QUESTION": "Delete thread?"
+        "DELETE_THREAD_QUESTION": "Delete thread?",
+        "THREAD_PINNED": "Pinned",
+        "THREAD_UNPINNED": "Unpinned"
     },
     "editor": {
         "ADD_LINK": "Add link",

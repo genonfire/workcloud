@@ -170,6 +170,7 @@ class ThreadSerializer(ModelSerializer):
             'name',
             'title',
             'content',
+            'is_pinned',
             'is_deleted',
             'created_at',
             'modified_at',
@@ -177,6 +178,7 @@ class ThreadSerializer(ModelSerializer):
         read_only_fields = [
             'forum',
             'user',
+            'is_pinned',
             'is_deleted',
             'created_at',
             'modified_at',
@@ -220,6 +222,7 @@ class ThreadReadSerializer(ThreadSerializer):
             'name',
             'title',
             'content',
+            'is_pinned',
             'is_deleted',
             'created_at',
             'modified_at',
@@ -247,6 +250,7 @@ class ThreadUpdateSerializer(ThreadSerializer):
             'name',
             'title',
             'content',
+            'is_pinned',
             'is_deleted',
             'created_at',
             'modified_at',
@@ -254,6 +258,7 @@ class ThreadUpdateSerializer(ThreadSerializer):
         read_only_fields = [
             'forum',
             'user',
+            'is_pinned',
             'is_deleted',
             'created_at',
             'modified_at',
@@ -274,6 +279,7 @@ class ThreadListSerializer(ModelSerializer):
             'user',
             'name',
             'title',
+            'is_pinned',
             'is_deleted',
             'date_or_time',
         ]

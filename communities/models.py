@@ -155,6 +155,7 @@ class Thread(models.Model):
         null=True,
     )
     content = models.TextField(null=True, blank=True)
+    is_pinned = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(default=timezone.now)
@@ -162,7 +163,7 @@ class Thread(models.Model):
     objects = ThreadManager()
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ('-is_pinned', '-id',)
 
     def forum_name(self):
         if self.forum:

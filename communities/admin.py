@@ -55,6 +55,7 @@ class ThreadAdmin(admin.ModelAdmin):
         'user',
         'name',
         'forum_name',
+        'is_pinned',
         'is_deleted',
         'created_at',
         'modified_at',

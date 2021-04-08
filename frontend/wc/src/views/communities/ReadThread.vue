@@ -48,8 +48,18 @@
           fab
           small
           color="blue-grey lighten-4"
+          @click="pinThread(thread, thread.is_pinned)"
         >
-          <v-icon>mdi-pin-outline</v-icon>
+          <v-icon
+            v-if="thread.is_pinned"
+          >
+            mdi-pin-off-outline
+          </v-icon>
+          <v-icon
+            v-else
+          >
+            mdi-pin-outline
+          </v-icon>
         </v-btn>
       </span>
     </v-container>
@@ -57,7 +67,13 @@
     <v-sheet
       color="grey lighten-4"
       class="my-3 pa-3 headline text-center"
+      :class="thread.is_pinned ? 'font-weight-bold' : ''"
     >
+      <v-icon
+        v-if="thread.is_pinned"
+      >
+        mdi-pin-outline
+      </v-icon>
       {{ thread.title }}
     </v-sheet>
 
@@ -186,6 +202,36 @@ export default {
           }
         )
         vm.back()
+      })
+    },
+    pinThread: function (thread, unpin=false) {
+      var vm = this
+      var apiType = 'THREAD_PIN'
+
+      if (unpin) {
+        apiType = 'THREAD_UNPIN'
+      }
+
+      axios({
+        method: this.$api(apiType).method,
+        url: this.$api(apiType).url.replace(
+          '{forum}', this.forumName).replace('{pk}', thread.id
+        )
+      })
+      .then(function (response) {
+        vm.thread = response.data['data']
+
+        var pinText = 'forum.THREAD_PINNED'
+        if (unpin) {
+          pinText = 'forum.THREAD_UNPINNED'
+        }
+
+        vm.$dialog.notify.success(
+          vm.$t(pinText), {
+            position: 'bottom-right',
+            timeout: 2000
+          }
+        )
       })
     },
     back: function () {

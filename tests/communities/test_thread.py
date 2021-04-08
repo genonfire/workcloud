@@ -447,6 +447,68 @@ class ThreadModelTest(TestCase):
         )
         assert self.data.get('has_permission')
 
+    def test_thread_pin_unpin(self):
+        self.create_user(username='5@a.com')
+        response = self.post(
+            '/api/communities/f/%s/write/' % self.forum.name,
+            {
+                'title': 'test',
+                'content': 'content',
+                'is_pinned': True
+            },
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_201 and
+            not self.data.get('is_pinned')
+        )
+
+        thread_id = self.data.get('id')
+
+        response = self.patch(
+            '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
+            {
+                'is_pinned': True
+            },
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_200 and
+            not self.data.get('is_pinned')
+        )
+
+        response = self.post(
+            '/api/communities/f/%s/%d/pin/' % (self.forum.name, thread_id),
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_403
+
+        response = self.post(
+            '/api/communities/f/%s/%d/unpin/' % (self.forum.name, thread_id),
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_403
+
+        self.create_user(username='6@a.com', is_staff=True)
+
+        response = self.post(
+            '/api/communities/f/%s/%d/pin/' % (self.forum.name, thread_id),
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_200 and
+            self.data.get('is_pinned')
+        )
+
+        response = self.post(
+            '/api/communities/f/%s/%d/unpin/' % (self.forum.name, thread_id),
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_200 and
+            not self.data.get('is_pinned')
+        )
+
 
 class ThreadWriteException(TestCase):
     def setUp(self):

@@ -106,7 +106,9 @@
         "NEW_FORUM": "포럼 만들기",
         "WRITE_THREAD": "글 쓰기",
         "THREAD_SAVED": "저장했습니다.",
-        "DELETE_THREAD_QUESTION": "글을 삭제하시겠습니까?"
+        "DELETE_THREAD_QUESTION": "글을 삭제하시겠습니까?",
+        "THREAD_PINNED": "고정했습니다.",
+        "THREAD_UNPINNED": "고정 해제했습니다."
     },
     "editor": {
         "ADD_LINK": "링크 추가하기",

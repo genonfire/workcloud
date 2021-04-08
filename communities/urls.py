@@ -38,6 +38,16 @@ urlpatterns = [
         }), name='thread'
     ),
     path(
+        'f/<str:forum>/<int:pk>/pin/', views.ThreadToggleViewSet.as_view({
+            'post': 'pin',
+        }), name='pin_thread'
+    ),
+    path(
+        'f/<str:forum>/<int:pk>/unpin/', views.ThreadToggleViewSet.as_view({
+            'post': 'unpin',
+        }), name='unpin_thread'
+    ),
+    path(
         'f/<str:forum>/read/<int:pk>/', views.ThreadReadOnlyViewSet.as_view({
             'get': 'retrieve',
         }), name='retrieve_thread'

@@ -42,7 +42,13 @@
           >
             <td
               class="pt-1 body-1"
+              :class="thread.is_pinned ? 'font-weight-bold' : ''"
             >
+              <v-icon
+                v-if="thread.is_pinned"
+              >
+                mdi-pin-outline
+              </v-icon>
               {{ thread.title }}
               <div
                 v-if="isMobile"

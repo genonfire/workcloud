@@ -21,6 +21,16 @@ def delete_thread(instance):
     instance.save(update_fields=['is_deleted', 'modified_at'])
 
 
+def pin_thread(instance):
+    instance.is_pinned = True
+    instance.save(update_fields=['is_pinned'])
+
+
+def unpin_thread(instance):
+    instance.is_pinned = False
+    instance.save(update_fields=['is_pinned'])
+
+
 def permission(forum, action):
     if action == Const.P_READ:
         perm = forum.option.permission_read
