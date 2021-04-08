@@ -38,8 +38,8 @@ class SignupSerializer(ModelSerializer):
         ]
         extra_kwargs = {
             'password': {'write_only': True},
-            'first_name': {'required': True},
-            'last_name': {'required': True},
+            'first_name': Const.REQUIRED,
+            'last_name': Const.REQUIRED,
         }
 
     def create(self, validated_data):
@@ -201,8 +201,6 @@ class DeactivateAccountSerializer(Serializer):
 
 
 class UserSettingSerializer(ModelSerializer):
-    call_name = serializers.CharField(allow_null=False)
-
     class Meta:
         model = models.User
         fields = [
@@ -223,6 +221,11 @@ class UserSettingSerializer(ModelSerializer):
             'is_approved',
             'date_joined',
         ]
+        extra_kwargs = {
+            'first_name': Const.NOT_NULL,
+            'last_name': Const.NOT_NULL,
+            'call_name': Const.NOT_NULL
+        }
 
 
 class IAmSerializer(ModelSerializer):

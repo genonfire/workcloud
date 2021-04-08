@@ -20,7 +20,6 @@ class ForumPermissionTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
         assert (
@@ -51,6 +50,39 @@ class ForumCreateTest(TestCase):
     def setUp(self):
         self.create_user(is_staff=True)
 
+    def test_forum_null_name(self):
+        response = self.post(
+            '/api/communities/forum/',
+            {
+                'name': '',
+                'title': 'Illegally Small Cats',
+                'description': 'why so small',
+                'option': {
+                    'is_active': True,
+                    'permission_write': 'staff',
+                    'permission_reply': 'member'
+                }
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/communities/forum/',
+            {
+                'name': None,
+                'title': 'Illegally Small Cats',
+                'description': 'why so small',
+                'option': {
+                    'is_active': True,
+                    'permission_write': 'staff',
+                    'permission_reply': 'member'
+                }
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
     def test_forum_validate_fields(self):
         response = self.post(
             '/api/communities/forum/',
@@ -59,7 +91,6 @@ class ForumCreateTest(TestCase):
                 'title': 'Illegally Small Cats',
                 'description': 'why so small',
             },
-            format='json',
             auth=True
         )
         assert response.status_code == Response.HTTP_400
@@ -76,7 +107,6 @@ class ForumCreateTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
         assert response.status_code == Response.HTTP_400
@@ -93,7 +123,6 @@ class ForumCreateTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
         assert response.status_code == Response.HTTP_400
@@ -111,7 +140,6 @@ class ForumCreateTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
         assert response.status_code == Response.HTTP_400
@@ -126,7 +154,6 @@ class ForumCreateTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
         assert response.status_code == Response.HTTP_400
@@ -141,7 +168,6 @@ class ForumCreateTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
         assert response.status_code == Response.HTTP_201
@@ -156,7 +182,6 @@ class ForumCreateTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
         assert response.status_code == Response.HTTP_400
@@ -175,7 +200,6 @@ class ForumCreateTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
 
@@ -208,7 +232,6 @@ class ForumEditTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
 
@@ -239,7 +262,6 @@ class ForumEditTest(TestCase):
                     }
                 ]
             },
-            format='json',
             auth=True
         )
 
@@ -263,7 +285,6 @@ class ForumEditTest(TestCase):
                     'permission_reply': 'member'
                 }
             },
-            format='json',
             auth=True
         )
 

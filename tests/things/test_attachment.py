@@ -12,6 +12,7 @@ class FileUploadTest(TestCase):
             {
                 'file': self.png('image.png')
             },
+            format='multipart',
             auth=True
         )
 
@@ -29,6 +30,7 @@ class FileUploadTest(TestCase):
             {
                 'file': self.file()
             },
+            format='multipart',
             auth=True
         )
         file = self.data
@@ -38,6 +40,7 @@ class FileUploadTest(TestCase):
             {
                 'file': self.file()
             },
+            format='multipart',
             auth=True
         )
         assert (
@@ -52,6 +55,26 @@ class FileUploadTest(TestCase):
             '/api/things/file/',
             {
             },
+            format='multipart',
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/things/file/',
+            {
+                'file': ''
+            },
+            format='multipart',
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/things/file/',
+            {
+                'file': None
+            },
             auth=True
         )
         assert response.status_code == Response.HTTP_400
@@ -65,6 +88,7 @@ class FileUploadTest(TestCase):
             {
                 'file': self.png(content=content.encode('utf=8')),
             },
+            format='multipart',
             auth=True
         )
         assert response.status_code == Response.HTTP_400
@@ -88,6 +112,7 @@ class FilePermissionTest(TestCase):
             {
                 'file': self.file()
             },
+            format='multipart',
             auth=True
         )
 

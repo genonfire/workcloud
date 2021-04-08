@@ -76,3 +76,48 @@ class SignupTest(TestCase):
             }
         )
         assert response.status_code == Response.HTTP_400
+
+    def test_signup_check_null_fields(self):
+        response = self.post(
+            '/api/accounts/signup/',
+            {
+                'username': self.username,
+                'password': self.password,
+                'first_name': None,
+                'last_name': self.last_name
+            }
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/accounts/signup/',
+            {
+                'username': self.username,
+                'password': self.password,
+                'first_name': '',
+                'last_name': self.last_name
+            }
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/accounts/signup/',
+            {
+                'username': self.username,
+                'password': self.password,
+                'first_name': self.first_name,
+                'last_name': None
+            }
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/accounts/signup/',
+            {
+                'username': self.username,
+                'password': self.password,
+                'first_name': self.first_name,
+                'last_name': ''
+            }
+        )
+        assert response.status_code == Response.HTTP_400

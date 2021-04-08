@@ -63,7 +63,7 @@ class ForumSerializer(ModelSerializer):
             'reply_count',
         ]
         extra_kwargs = {
-            'name': {'required': True},
+            'name': Const.REQUIRED,
         }
 
     def validate(self, attrs):
@@ -182,8 +182,8 @@ class ThreadSerializer(ModelSerializer):
             'modified_at',
         ]
         extra_kwargs = {
-            'title': {'required': True},
-            'content': {'required': True},
+            'title': Const.REQUIRED,
+            'content': Const.REQUIRED,
         }
 
     def validate(self, attrs):
@@ -229,6 +229,10 @@ class ThreadUpdateSerializer(ThreadSerializer):
             'created_at',
             'modified_at',
         ]
+        extra_kwargs = {
+            'title': Const.NOT_NULL,
+            'content': Const.NOT_NULL,
+        }
 
 
 class ThreadListSerializer(ModelSerializer):

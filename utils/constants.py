@@ -37,6 +37,9 @@ class _Const(object):
     P_WRITE = 'write'
     P_REPLY = 'reply'
 
+    REQUIRED = {'required': True, 'allow_null': False, 'allow_blank': False}
+    NOT_NULL = {'allow_null': False, 'allow_blank': False}
+
     def __setattr__(self, name, value):
         raise AttributeError("cannot re-bind const(%s)" % name)
 

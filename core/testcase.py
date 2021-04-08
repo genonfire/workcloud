@@ -9,68 +9,74 @@ class TestCase(_TestCase):
     def log(self, *args, **kwargs):
         print("#", *args, **kwargs)
 
-    def get(self, path, data=None, auth=False, **extra):
+    def get(self, path, data=None, format='json', auth=False, **extra):
         if auth:
             response = self.client.get(
-                path, data, HTTP_AUTHORIZATION=self.auth_header, **extra
+                path, data, format,
+                HTTP_AUTHORIZATION=self.auth_header, **extra
             )
         else:
-            response = self.client.get(path, data, **extra)
+            response = self.client.get(path, data, format, **extra)
 
         self.data = response.data.get('data')
         return response
 
-    def post(self, path, data=None, auth=False, **extra):
+    def post(self, path, data=None, format='json', auth=False, **extra):
         if auth:
             response = self.client.post(
-                path, data, HTTP_AUTHORIZATION=self.auth_header, **extra
+                path, data, format,
+                HTTP_AUTHORIZATION=self.auth_header, **extra
             )
         else:
-            response = self.client.post(path, data, **extra)
+            response = self.client.post(path, data, format, **extra)
 
         self.data = response.data.get('data')
         return response
 
-    def put(self, path, data=None, auth=False, **extra):
+    def put(self, path, data=None, format='json', auth=False, **extra):
         if auth:
             response = self.client.put(
-                path, data, HTTP_AUTHORIZATION=self.auth_header, **extra
+                path, data, format,
+                HTTP_AUTHORIZATION=self.auth_header, **extra
             )
         else:
-            response = self.client.put(path, data, **extra)
+            response = self.client.put(path, data, format, **extra)
 
         self.data = response.data.get('data')
         return response
 
-    def patch(self, path, data=None, auth=False, **extra):
+    def patch(self, path, data=None, format='json', auth=False, **extra):
         if auth:
             response = self.client.patch(
-                path, data, HTTP_AUTHORIZATION=self.auth_header, **extra
+                path, data, format,
+                HTTP_AUTHORIZATION=self.auth_header, **extra
             )
         else:
-            response = self.client.patch(path, data, **extra)
+            response = self.client.patch(path, data, format, **extra)
 
         self.data = response.data.get('data')
         return response
 
-    def delete(self, path, data=None, auth=False, **extra):
+    def delete(self, path, data=None, format='json', auth=False, **extra):
         if auth:
             response = self.client.delete(
-                path, data, HTTP_AUTHORIZATION=self.auth_header, **extra
+                path, data, format,
+                HTTP_AUTHORIZATION=self.auth_header, **extra
             )
         else:
-            response = self.client.delete(path, data, **extra)
+            response = self.client.delete(path, data, format, **extra)
 
         self.data = response.data.get('data')
         return response
 
-    def options(self, path, data=None, auth=False, **extra):
+    def options(self, path, data=None, format='json', auth=False, **extra):
         if auth:
             response = self.client.options(
-                path, data, HTTP_AUTHORIZATION=self.auth_header, **extra
+                path, data, format,
+                HTTP_AUTHORIZATION=self.auth_header, **extra
             )
         else:
-            response = self.client.options(path, data, **extra)
+            response = self.client.options(path, data, format, **extra)
 
         self.data = response.data.get('data')
         return response

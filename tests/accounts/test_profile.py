@@ -54,6 +54,7 @@ class ProfileTest(TestCase):
                 'address': '3245 146th PL SE',
                 'is_approved': not self.user.is_approved,
             },
+            format='multipart',
             auth=True
         )
         assert (
@@ -73,6 +74,16 @@ class ProfileTest(TestCase):
             '/api/accounts/setting/',
             {
                 'first_name': 'B',
+                'call_name': None,
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.patch(
+            '/api/accounts/setting/',
+            {
+                'last_name': 'B',
                 'call_name': '',
             },
             auth=True

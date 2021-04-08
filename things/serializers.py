@@ -6,7 +6,6 @@ from rest_framework import serializers
 from core.serializers import (
     ModelSerializer,
 )
-
 from utils.debug import Debug  # noqa
 from utils.text import Text
 
@@ -45,7 +44,7 @@ class FileUploadSerializer(FileSerializer):
             'user',
         ]
         extra_kwargs = {
-            'file': {'required': True},
+            'file': {'required': True, 'allow_null': False},
         }
 
     def validate(self, attrs):

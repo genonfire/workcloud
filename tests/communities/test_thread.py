@@ -416,6 +416,92 @@ class ThreadModelTest(TestCase):
         )
 
 
+class ThreadWriteException(TestCase):
+    def setUp(self):
+        self.create_user(is_staff=True)
+        self.create_forum()
+
+    def test_write_thread_null(self):
+        response = self.post(
+            '/api/communities/f/%s/write/' % self.forum.name,
+            {
+                'title': '',
+                'content': 'content'
+            },
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/communities/f/%s/write/' % self.forum.name,
+            {
+                'title': None,
+                'content': 'content'
+            },
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/communities/f/%s/write/' % self.forum.name,
+            {
+                'title': 'test',
+                'content': ''
+            },
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.post(
+            '/api/communities/f/%s/write/' % self.forum.name,
+            {
+                'title': 'test',
+                'content': None
+            },
+        )
+        assert response.status_code == Response.HTTP_400
+
+    def test_edit_thread_null(self):
+        self.create_thread()
+
+        response = self.patch(
+            '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
+            {
+                'title': '',
+                'content': 'content2'
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.patch(
+            '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
+            {
+                'title': None,
+                'content': 'content2'
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.patch(
+            '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
+            {
+                'title': 'test2',
+                'content': ''
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+        response = self.patch(
+            '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
+            {
+                'title': 'test2',
+                'content': None
+            },
+            auth=True
+        )
+        assert response.status_code == Response.HTTP_400
+
+
 class ThreadListTest(TestCase):
     def setUp(self):
         self.create_user(is_staff=True)
