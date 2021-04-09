@@ -31,6 +31,18 @@
         </v-icon>
         {{ $t('forum.WRITE_THREAD') }}
       </v-btn>
+      <v-btn
+        class="ml-2 mb-5"
+        v-if="user.is_staff"
+        @click="$router.push({
+          name: 'communities.trash',
+          params: {
+            forum: $route.params.forum
+          }
+        })"
+      >
+        <v-icon>mdi-trash-can-outline</v-icon>
+      </v-btn>
 
       <v-simple-table>
         <tbody>
@@ -71,7 +83,7 @@
               {{ getUsername(thread) }}
             </td>
             <td
-              width="120"
+              width="100"
               class="body-2"
               v-if="!isMobile"
             >
@@ -95,6 +107,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 import Pagination from '@/components/Pagination'
 import FormatDate from '@/mixins/formatDate'
 import Mobile from '@/mixins/mobile'
@@ -122,6 +135,9 @@ export default {
     }
   },
   computed: {
+    ...mapState([
+      'user'
+    ]),
     initialized () {
       return this.firstInit
     },

@@ -104,14 +104,14 @@ export default {
         })
 
         localStorage.clear()
-
         axios.defaults.headers.common['Authorization'] = ''
+
+        vm.$router.push({ name: 'accounts.login' })
         vm.$dialog.notify.success(
           vm.$t('accounts.PASSWORD_RESET_COMPLETED'), {
             position: 'bottom-right'
           }
         )
-        vm.$router.push({ name: 'accounts.login' })
       })
       .catch(function (error) {
         if (error.response && error.response.data) {

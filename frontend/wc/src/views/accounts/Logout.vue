@@ -71,12 +71,12 @@ export default {
         localStorage.clear()
 
         axios.defaults.headers.common['Authorization'] = ''
+        vm.$router.push({ name: 'home' })
         vm.$dialog.notify.success(
           vm.$t('accounts.LOGOUT_COMPLETED'), {
             position: 'bottom-right'
           }
         )
-        vm.$router.push({ name: 'home' })
       })
     }
   }

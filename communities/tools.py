@@ -16,7 +16,14 @@ def destroy_forum(instance):
 
 
 def delete_thread(instance):
+    instance.is_pinned = False
     instance.is_deleted = True
+    instance.modified_at = timezone.now()
+    instance.save(update_fields=['is_deleted', 'is_pinned', 'modified_at'])
+
+
+def restore_thread(instance):
+    instance.is_deleted = False
     instance.modified_at = timezone.now()
     instance.save(update_fields=['is_deleted', 'modified_at'])
 

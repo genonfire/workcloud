@@ -195,13 +195,13 @@ export default {
           '{forum}', this.forumName).replace('{pk}', thread.id)
       })
       .then(function () {
+        vm.back()
         vm.$dialog.notify.success(
           vm.$t('common.DELETED'), {
             position: 'bottom-right',
             timeout: 2000
           }
         )
-        vm.back()
       })
     },
     pinThread: function (thread, unpin=false) {

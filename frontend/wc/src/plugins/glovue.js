@@ -14,6 +14,7 @@ const Const = {
     // router name from: router name to
     'communities.forum': 'communities.forum',
     'communities.threadPage': 'communities.threadPage',
+    'communities.trash': 'communities.trash',
   }
 }
 

@@ -174,28 +174,7 @@
 
     </v-form>
 
-    <v-row
-      justify="space-around"
-      class="mt-10"
-    >
-      <v-spacer></v-spacer>
-      <v-btn
-        depressed
-        small
-        :to="{ name: 'accounts.deactivate' }"
-      >
-        <v-icon
-          small
-          class="mr-2"
-        >
-          mdi-human-greeting
-        </v-icon>
-        {{ $t('accounts.DEACTIVATE') }}
-      </v-btn>
-    </v-row>
-
   </div>
-
 </v-container>
 </template>
 

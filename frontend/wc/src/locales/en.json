@@ -20,6 +20,7 @@
         "CHANGE_LANGUAGE_HELP": "* The selected language will become the default language for your browsing.",
         "SEARCH": "Search",
         "DELETE": "Delete",
+        "RESTORE": "Restore",
         "REMOVE": "Remove",
         "CREATE": "Create",
         "SAVE": "Save",
@@ -109,7 +110,9 @@
         "THREAD_SAVED": "Saved",
         "DELETE_THREAD_QUESTION": "Delete thread?",
         "THREAD_PINNED": "Pinned",
-        "THREAD_UNPINNED": "Unpinned"
+        "THREAD_UNPINNED": "Unpinned",
+        "THREAD_RESTORED": "Thread restored",
+        "THREAD_TRASH": "Trash"
     },
     "editor": {
         "ADD_LINK": "Add link",

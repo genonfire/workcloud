@@ -30,4 +30,9 @@ export default [
     name: 'communities.editThread',
     component: () => import('@/views/communities/EditThread.vue')
   },
+  {
+    path: '/communities/trash/f/:forum/1',
+    name: 'communities.trash',
+    component: () => import('@/views/communities/Trash.vue')
+  },
 ]

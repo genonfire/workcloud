@@ -61,7 +61,7 @@ class ThreadUpdateViewSet(ThreadViewSet):
     serializer_class = serializers.ThreadUpdateSerializer
 
     def get_queryset(self):
-        return self.model.objects.forum_name(
+        return self.model.objects.forum(
             self.kwargs[Const.QUERY_PARAM_FORUM]
         )
 
@@ -86,7 +86,7 @@ class ThreadToggleViewSet(ThreadViewSet):
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-        return self.model.objects.forum_name(
+        return self.model.objects.forum(
             self.kwargs[Const.QUERY_PARAM_FORUM]
         )
 
@@ -99,6 +99,19 @@ class ThreadToggleViewSet(ThreadViewSet):
     def unpin(self, request, *args, **kwargs):
         instance = self.get_object()
         tools.unpin_thread(instance)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+
+class ThreadRestoreViewSet(ThreadToggleViewSet):
+    def get_queryset(self):
+        return self.model.objects.deleted(
+            self.kwargs[Const.QUERY_PARAM_FORUM]
+        )
+
+    def restore(self, request, *args, **kwargs):
+        instance = self.get_object()
+        tools.restore_thread(instance)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
@@ -116,7 +129,7 @@ class ThreadReadOnlyViewSet(ReadOnlyModelViewSet):
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-        return self.model.objects.forum_name(
+        return self.model.objects.forum(
             self.kwargs[Const.QUERY_PARAM_FORUM],
             self.request.user
         )
@@ -138,7 +151,7 @@ class ThreadListViewSet(ThreadReadOnlyViewSet):
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(page, many=True)
         forum_serializer = self.set_serializer(
-            serializers.ForumSerializer,
+            serializers.ForumThreadSerializer,
             self.forum
         )
         data = {
@@ -148,13 +161,20 @@ class ThreadListViewSet(ThreadReadOnlyViewSet):
         return self.get_paginated_response(data)
 
 
-class ThreadTrashViewSet(ReadOnlyModelViewSet):
-    serializer_class = serializers.ThreadListSerializer
+class ThreadTrashViewSet(ThreadListViewSet):
+    serializer_class = serializers.ThreadTrashSerializer
     model = models.Thread
-    permission_classes = (IsAdminUser,)
+
+    def get_permissions(self):
+        self.forum = get_object_or_404(
+            models.Forum,
+            name=self.kwargs[Const.QUERY_PARAM_FORUM]
+        )
+        permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
 
     def get_queryset(self):
         return self.model.objects.trash(
             self.kwargs[Const.QUERY_PARAM_FORUM],
             self.q
-        )
+        ).order_by('-modified_at')

@@ -283,3 +283,17 @@ class ThreadListSerializer(ModelSerializer):
             'is_deleted',
             'date_or_time',
         ]
+
+
+class ThreadTrashSerializer(ThreadListSerializer):
+    class Meta:
+        model = models.Thread
+        fields = [
+            'id',
+            'user',
+            'name',
+            'title',
+            'content',
+            'is_deleted',
+            'modified_at',
+        ]

@@ -118,12 +118,12 @@ export default {
         localStorage.clear()
         axios.defaults.headers.common['Authorization'] = ''
 
+        vm.$router.push({ name: 'home' })
         vm.$dialog.notify.info(
           vm.$t('accounts.DEACTIVATED_FAREWELL'), {
             position: 'bottom-right'
           }
         )
-        vm.$router.push({ name: 'home' })
       })
     }
   }

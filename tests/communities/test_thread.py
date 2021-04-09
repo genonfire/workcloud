@@ -674,6 +674,19 @@ class ThreadListTest(TestCase):
         )
         assert (
             response.status_code == Response.HTTP_200 and
-            len(self.data) == 1 and
-            self.data[0].get('title') == trash.get('title')
+            len(self.data.get('threads')) == 1 and
+            self.data.get('threads')[0].get('title') == trash.get('title')
+        )
+
+        response = self.post(
+            '/api/communities/f/%s/%d/restore/' % (
+                self.forum.name, trash.get('id')
+            ),
+            auth=True
+        )
+        assert (
+            response.status_code == Response.HTTP_200 and
+            self.data.get('id') == trash.get('id') and
+            self.data.get('title') == trash.get('title') and
+            not self.data.get('is_deleted')
         )

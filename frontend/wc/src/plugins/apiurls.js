@@ -100,6 +100,10 @@ const APIs = {
     'method': 'post',
     'url': 'communities/f/{forum}/{pk}/unpin/'
   },
+  THREAD_RESTORE: {
+    'method': 'post',
+    'url': 'communities/f/{forum}/{pk}/restore/'
+  },
   THREAD_RETRIEVE: {
     'method': 'get',
     'url': 'communities/f/{forum}/read/{pk}/'
@@ -110,7 +114,7 @@ const APIs = {
   },
   THREAD_TRASH: {
     'method': 'get',
-    'url': 'communities/f/{forum}/trash/'
+    'url': 'communities/f/{forum}/trash/?q='
   },
 
   FILE_UPLOAD: {

@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.utils import timezone
 
 from utils.constants import Const
+from utils.debug import Debug  # noqa
 
 
 class OptionManager(models.Manager):
@@ -91,19 +92,15 @@ class Forum(models.Model):
 
 
 class ThreadManager(models.Manager):
-    def forum(self, forum):
-        return self.filter(forum=forum).filter(is_deleted=False)
-
-    def deleted(self, name):
-        return self.filter(forum__name=name).filter(is_deleted=True)
-
-    def forum_name(self, name, user=None):
-        if user and user.is_staff:
-            return self.filter(forum__name=name)
+    def forum(self, forum, user=None):
+        if isinstance(forum, Forum):
+            return self.filter(forum=forum).filter(is_deleted=False)
+        elif user and user.is_staff:
+            return self.filter(forum__name=forum)
         else:
-            return self.filter(forum__name=name).filter(is_deleted=False)
+            return self.filter(forum__name=forum).filter(is_deleted=False)
 
-    def search(self, name, q):
+    def search(self, forum, q):
         if q:
             query = (
                 Q(title__icontains=q) |
@@ -113,9 +110,15 @@ class ThreadManager(models.Manager):
             )
         else:
             query = Q()
-        return self.forum_name(name).filter(query)
+        return self.forum(forum).filter(query)
 
-    def trash(self, name, q):
+    def deleted(self, forum):
+        if isinstance(forum, Forum):
+            return self.filter(forum=forum).filter(is_deleted=True)
+        else:
+            return self.filter(forum__name=forum).filter(is_deleted=True)
+
+    def trash(self, forum, q):
         if q:
             query = (
                 Q(title__icontains=q) |
@@ -125,7 +128,7 @@ class ThreadManager(models.Manager):
             )
         else:
             query = Q()
-        return self.deleted(name).filter(query)
+        return self.deleted(forum).filter(query)
 
 
 class Thread(models.Model):
@@ -188,7 +191,11 @@ class Thread(models.Model):
 
 
 class ReplyManager(models.Manager):
-    pass
+    def thread(self, thread):
+        if isinstance(thread, Thread):
+            return self.filter(thread=thread).filter(is_deleted=False)
+        else:
+            return self.filter(thread__id=thread).filter(is_deleted=False)
 
 
 class Reply(models.Model):
@@ -222,3 +229,9 @@ class Reply(models.Model):
 
     class Meta:
         ordering = ('-id',)
+
+    def forum(self):
+        if self.thread:
+            return self.thread.forum
+        else:
+            return None

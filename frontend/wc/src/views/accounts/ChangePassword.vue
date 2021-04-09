@@ -60,6 +60,26 @@
         </v-btn>
 
       </v-form>
+
+      <v-row
+        justify="space-around"
+        class="mt-10"
+      >
+        <v-spacer></v-spacer>
+        <v-btn
+          depressed
+          small
+          :to="{ name: 'accounts.deactivate' }"
+        >
+          <v-icon
+            small
+            class="mr-2"
+          >
+            mdi-human-greeting
+          </v-icon>
+          {{ $t('accounts.DEACTIVATE') }}
+        </v-btn>
+      </v-row>
     </v-container>
   </div>
 
@@ -115,14 +135,14 @@ export default {
         })
 
         localStorage.clear()
-
         axios.defaults.headers.common['Authorization'] = ''
+
+        vm.$router.push({ name: 'accounts.login' })
         vm.$dialog.notify.success(
           vm.$t('accounts.CHANGE_PASSWORD_COMPLETED'), {
             position: 'bottom-right'
           }
         )
-        vm.$router.push({ name: 'accounts.login' })
       })
       .catch(function (error) {
         if (error.response && error.response.data) {

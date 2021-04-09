@@ -48,6 +48,11 @@ urlpatterns = [
         }), name='unpin_thread'
     ),
     path(
+        'f/<str:forum>/<int:pk>/restore/', views.ThreadRestoreViewSet.as_view({
+            'post': 'restore',
+        }), name='restore_thread'
+    ),
+    path(
         'f/<str:forum>/read/<int:pk>/', views.ThreadReadOnlyViewSet.as_view({
             'get': 'retrieve',
         }), name='retrieve_thread'

@@ -134,12 +134,12 @@ export default {
         },
       })
       .then(function () {
+        vm.$router.push({ name: 'accounts.login' })
         vm.$dialog.notify.success(
           vm.$t('accounts.SIGNUP_COMPLETED'), {
             position: 'bottom-right'
           }
         )
-        vm.$router.push({ name: 'accounts.login' })
       })
       .catch(function (error) {
         if (error.response && error.response.data) {

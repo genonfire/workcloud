@@ -20,6 +20,7 @@
         "CHANGE_LANGUAGE_HELP": "* 선택한 언어는 이 기기에서 사이트 이용 시 기본 언어가 됩니다.",
         "SEARCH": "검색",
         "DELETE": "삭제",
+        "RESTORE": "복구",
         "REMOVE": "제거",
         "CREATE": "만들기",
         "SAVE": "저장",
@@ -108,7 +109,9 @@
         "THREAD_SAVED": "저장했습니다.",
         "DELETE_THREAD_QUESTION": "글을 삭제하시겠습니까?",
         "THREAD_PINNED": "고정했습니다.",
-        "THREAD_UNPINNED": "고정 해제했습니다."
+        "THREAD_UNPINNED": "고정 해제했습니다.",
+        "THREAD_RESTORED": "복구했습니다.",
+        "THREAD_TRASH": "휴지통"
     },
     "editor": {
         "ADD_LINK": "링크 추가하기",
