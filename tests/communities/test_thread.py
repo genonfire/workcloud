@@ -149,7 +149,7 @@ class ThreadPermissionTest(TestCase):
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_204
+        assert response.status_code == Response.HTTP_200
 
     def test_permission_read_member_write_member(self):
         option = self.create_option(
@@ -201,7 +201,7 @@ class ThreadPermissionTest(TestCase):
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_204
+        assert response.status_code == Response.HTTP_200
 
     def test_permission_read_staff_write_staff_by_member(self):
         option = self.create_option(
@@ -352,7 +352,7 @@ class ThreadModelTest(TestCase):
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_204
+        assert response.status_code == Response.HTTP_200
 
         response = self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
@@ -689,4 +689,162 @@ class ThreadListTest(TestCase):
             self.data.get('id') == trash.get('id') and
             self.data.get('title') == trash.get('title') and
             not self.data.get('is_deleted')
+        )
+
+
+class ThreadPermissionFieldTest(TestCase):
+    def setUp(self):
+        self.create_user(is_staff=True)
+
+    def test_permission_all(self):
+        option = self.create_option(
+            permission_write='all',
+            permission_reply='all'
+        )
+        self.create_forum(option=option)
+        self.create_thread()
+
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name
+        )
+        assert (
+            self.data.get('forum').get('permission_write') and
+            self.data.get('forum').get('permission_reply')
+        )
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (
+                self.forum.name, self.thread.id
+            )
+        )
+        assert (
+            self.data.get('forum').get('permission_write') and
+            self.data.get('forum').get('permission_reply')
+        )
+
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name,
+            auth=True
+        )
+        assert (
+            self.data.get('forum').get('permission_write') and
+            self.data.get('forum').get('permission_reply')
+        )
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (
+                self.forum.name, self.thread.id
+            ),
+            auth=True
+        )
+        assert (
+            self.data.get('forum').get('permission_write') and
+            self.data.get('forum').get('permission_reply')
+        )
+
+    def test_permission_member(self):
+        option = self.create_option(
+            permission_write='member',
+            permission_reply='member'
+        )
+        self.create_forum(option=option)
+        self.create_thread()
+
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name
+        )
+        assert (
+            not self.data.get('forum').get('permission_write') and
+            not self.data.get('forum').get('permission_reply')
+        )
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (
+                self.forum.name, self.thread.id
+            )
+        )
+        assert (
+            not self.data.get('forum').get('permission_write') and
+            not self.data.get('forum').get('permission_reply')
+        )
+
+        self.create_user(username='member@a.com')
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name,
+            auth=True
+        )
+        assert (
+            self.data.get('forum').get('permission_write') and
+            self.data.get('forum').get('permission_reply')
+        )
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (
+                self.forum.name, self.thread.id
+            ),
+            auth=True
+        )
+        assert (
+            self.data.get('forum').get('permission_write') and
+            self.data.get('forum').get('permission_reply')
+        )
+
+    def test_permission_staff(self):
+        option = self.create_option(
+            permission_write='staff',
+            permission_reply='staff'
+        )
+        self.create_forum(option=option)
+        self.create_thread()
+
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name
+        )
+        assert (
+            not self.data.get('forum').get('permission_write') and
+            not self.data.get('forum').get('permission_reply')
+        )
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (
+                self.forum.name, self.thread.id
+            )
+        )
+        assert (
+            not self.data.get('forum').get('permission_write') and
+            not self.data.get('forum').get('permission_reply')
+        )
+
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name,
+            auth=True
+        )
+        assert (
+            self.data.get('forum').get('permission_write') and
+            self.data.get('forum').get('permission_reply')
+        )
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (
+                self.forum.name, self.thread.id
+            ),
+            auth=True
+        )
+        assert (
+            self.data.get('forum').get('permission_write') and
+            self.data.get('forum').get('permission_reply')
+        )
+
+        self.create_user(username='member@a.com')
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name,
+            auth=True
+        )
+        assert (
+            not self.data.get('forum').get('permission_write') and
+            not self.data.get('forum').get('permission_reply')
+        )
+        self.get(
+            '/api/communities/f/%s/read/%d/' % (
+                self.forum.name, self.thread.id
+            ),
+            auth=True
+        )
+        assert (
+            not self.data.get('forum').get('permission_write') and
+            not self.data.get('forum').get('permission_reply')
         )

@@ -6,6 +6,7 @@ from core.viewsets import (
 )
 from core.permissions import (
     IsAdminUser,
+    IsApproved,
 )
 from core.response import Response
 from core.shortcuts import get_object_or_404
@@ -178,3 +179,55 @@ class ThreadTrashViewSet(ThreadListViewSet):
             self.kwargs[Const.QUERY_PARAM_FORUM],
             self.q
         ).order_by('-modified_at')
+
+
+class ReplyViewSet(ModelViewSet):
+    serializer_class = serializers.ReplySerializer
+    model = models.Reply
+
+    def get_permissions(self):
+        self.thread = get_object_or_404(
+            models.Thread,
+            pk=self.kwargs[Const.QUERY_PARAM_PK]
+        )
+        permission_classes = tools.reply_permission(self.thread.forum)
+        return [permission() for permission in permission_classes]
+
+
+class ReplyUpdateViewSet(ReplyViewSet):
+    serializer_class = serializers.ReplyUpdateSerializer
+
+    def get_permissions(self):
+        permission_classes = [IsApproved]
+        return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        return self.model.objects.my(self.request.user)
+
+    def sync_update(self, instance, partial):
+        instance.modified_at = timezone.now()
+
+    def has_ownership(self, instance):
+        if self.request.user == instance.user:
+            return True
+        else:
+            return False
+
+    def perform_delete(self, instance):
+        tools.delete_reply(instance)
+
+
+class ReplyListViewSet(ReplyViewSet):
+    serializer_class = serializers.ReplyListSerializer
+    model = models.Reply
+
+    def get_permissions(self):
+        self.thread = get_object_or_404(
+            models.Thread,
+            pk=self.kwargs[Const.QUERY_PARAM_PK]
+        )
+        permission_classes = tools.read_permission(self.thread.forum)
+        return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        return self.model.objects.thread(self.thread)

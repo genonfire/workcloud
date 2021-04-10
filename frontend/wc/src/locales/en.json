@@ -109,10 +109,13 @@
         "WRITE_THREAD": "Write thread",
         "THREAD_SAVED": "Saved",
         "DELETE_THREAD_QUESTION": "Delete thread?",
+        "DELETE_REPLY_QUESTION": "Delete reply?",
         "THREAD_PINNED": "Pinned",
         "THREAD_UNPINNED": "Unpinned",
         "THREAD_RESTORED": "Thread restored",
-        "THREAD_TRASH": "Trash"
+        "THREAD_TRASH": "Trash",
+        "REPLY": "Reply",
+        "REPLY_CONTENT": "Reply content"
     },
     "editor": {
         "ADD_LINK": "Add link",

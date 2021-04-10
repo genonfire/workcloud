@@ -116,6 +116,22 @@ const APIs = {
     'method': 'get',
     'url': 'communities/f/{forum}/trash/?q='
   },
+  THREAD_REPLIES: {
+    'method': 'get',
+    'url': 'communities/f/{pk}/replies/?page_size=100'
+  },
+  THREAD_REPLY: {
+    'method': 'post',
+    'url': 'communities/f/{pk}/reply/'
+  },
+  REPLY_EDIT: {
+    'method': 'patch',
+    'url': 'communities/r/{pk}/'
+  },
+  REPLY_DELETE: {
+    'method': 'delete',
+    'url': 'communities/r/{pk}/'
+  },
 
   FILE_UPLOAD: {
     'method': 'post',

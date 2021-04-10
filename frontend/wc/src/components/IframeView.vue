@@ -47,11 +47,11 @@ export default {
 </script>
 
 <style lang="scss">
-  .iframe {
-    &__embed {
-      width: 640px;
-      height: 360px;
-      border: 0;
-    }
+.iframe {
+  &__embed {
+    width: 640px;
+    height: 360px;
+    border: 0;
   }
+}
 </style>

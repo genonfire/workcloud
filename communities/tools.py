@@ -38,6 +38,12 @@ def unpin_thread(instance):
     instance.save(update_fields=['is_pinned'])
 
 
+def delete_reply(instance):
+    instance.is_deleted = True
+    instance.modified_at = timezone.now()
+    instance.save(update_fields=['is_deleted', 'modified_at'])
+
+
 def permission(forum, action):
     if action == Const.P_READ:
         perm = forum.option.permission_read

@@ -6,6 +6,7 @@ from rest_framework import serializers
 from core.serializers import (
     ModelSerializer,
 )
+from core.shortcuts import get_object_or_404
 
 from utils.constants import Const
 from utils.debug import Debug  # noqa
@@ -146,6 +147,9 @@ class ForumListSerializer(ForumSerializer):
 
 
 class ForumThreadSerializer(ForumSerializer):
+    permission_write = serializers.SerializerMethodField()
+    permission_reply = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Forum
         fields = [
@@ -154,7 +158,37 @@ class ForumThreadSerializer(ForumSerializer):
             'title',
             'description',
             'managers',
+            'permission_write',
+            'permission_reply',
         ]
+
+    def get_permission_write(self, obj):
+        if obj.option.permission_write == 'all':
+            return True
+
+        user = self.context.get('request').user
+        if not user.is_authenticated:
+            return False
+        elif user.is_staff:
+            return True
+        elif obj.option.permission_write == 'member':
+            return True
+
+        return False
+
+    def get_permission_reply(self, obj):
+        if obj.option.permission_reply == 'all':
+            return True
+
+        user = self.context.get('request').user
+        if not user.is_authenticated:
+            return False
+        elif user.is_staff:
+            return True
+        elif obj.option.permission_reply == 'member':
+            return True
+
+        return False
 
 
 class ThreadSerializer(ModelSerializer):
@@ -234,7 +268,7 @@ class ThreadReadSerializer(ThreadSerializer):
 
         if user.is_staff:
             return True
-        elif not user or not obj.user:
+        elif not user.is_authenticated or not obj.user:
             return False
         else:
             return bool(user.id == obj.user.id)
@@ -297,3 +331,137 @@ class ThreadTrashSerializer(ThreadListSerializer):
             'is_deleted',
             'modified_at',
         ]
+
+
+class ThreadReplySerializer(ThreadListSerializer):
+    class Meta:
+        model = models.Thread
+        fields = [
+            'id',
+            'user',
+            'title',
+        ]
+
+
+class ReplySerializer(ModelSerializer):
+    thread = ThreadReplySerializer(required=False)
+    user = accounts.serializers.UsernameSerializer(required=False)
+
+    class Meta:
+        model = models.Reply
+        fields = [
+            'id',
+            'thread',
+            'reply_id',
+            'user',
+            'name',
+            'content',
+            'is_deleted',
+            'date_or_time',
+        ]
+        read_only_fields = [
+            'thread',
+            'user',
+            'is_deleted',
+            'date_or_time',
+        ]
+        extra_kwargs = {
+            'content': Const.REQUIRED,
+        }
+
+    def validate(self, attrs):
+        if self.context.get('request').user.is_authenticated:
+            attrs['user'] = self.context.get('request').user
+        else:
+            if not attrs.get('name'):
+                raise serializers.ValidationError(
+                    {'name': [Text.REQUIRED_FIELD]}
+                )
+
+        if attrs.get('reply_id'):
+            reply_id = attrs.get('reply_id')
+            thread = self.context.get('view').thread
+            nesting = 0
+
+            while nesting < Const.MAX_REPLY_NESTING:
+                reply = get_object_or_404(
+                    models.Reply,
+                    pk=reply_id,
+                    thread=thread
+                )
+                if reply.reply_id == 0:
+                    attrs['reply_id'] = reply.id
+                    break
+                else:
+                    reply_id = reply.reply_id
+                    nesting += 1
+        return attrs
+
+    def create(self, validated_data):
+        instance = self.Meta.model.objects.create(
+            thread=self.context.get('view').thread,
+            reply_id=validated_data.get('reply_id', 0),
+            user=validated_data.get('user'),
+            name=validated_data.get('name'),
+            content=validated_data.get('content'),
+        )
+        return instance
+
+
+class ReplyUpdateSerializer(ReplySerializer):
+    class Meta:
+        model = models.Reply
+        fields = [
+            'id',
+            'reply_id',
+            'user',
+            'name',
+            'content',
+            'is_deleted',
+            'date_or_time',
+        ]
+        read_only_fields = [
+            'reply_id',
+            'user',
+            'name',
+            'is_deleted',
+            'date_or_time',
+        ]
+        extra_kwargs = {
+            'content': Const.REQUIRED,
+        }
+
+
+class ReplyListSerializer(ModelSerializer):
+    user = accounts.serializers.UsernameSerializer()
+    content = serializers.SerializerMethodField()
+    has_permission = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Reply
+        fields = [
+            'id',
+            'reply_id',
+            'user',
+            'name',
+            'content',
+            'is_deleted',
+            'date_or_time',
+            'has_permission',
+        ]
+
+    def get_content(self, obj):
+        if obj.is_deleted:
+            return None
+        else:
+            return obj.content
+
+    def get_has_permission(self, obj):
+        user = self.context.get('request').user
+
+        if user.is_staff:
+            return True
+        elif not user.is_authenticated or not obj.user:
+            return False
+        else:
+            return bool(user.id == obj.user.id)

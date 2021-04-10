@@ -1,5 +1,10 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import (
+    Case,
+    IntegerField,
+    Q,
+    When,
+)
 from django.utils import timezone
 
 from utils.constants import Const
@@ -176,16 +181,16 @@ class Thread(models.Model):
 
     def date_or_time(self):
         today = timezone.localtime(timezone.now())
-        created_at = timezone.localtime(self.created_at)
+        modified_at = timezone.localtime(self.modified_at)
 
-        if created_at.date() == today.date():
+        if modified_at.date() == today.date():
             return {
                 'date': None,
-                'time': created_at.time().strftime(Const.TIME_FORMAT_DEFAULT),
+                'time': modified_at.time().strftime(Const.TIME_FORMAT_DEFAULT),
             }
         else:
             return {
-                'date': created_at.date(),
+                'date': modified_at.date(),
                 'time': None,
             }
 
@@ -193,9 +198,24 @@ class Thread(models.Model):
 class ReplyManager(models.Manager):
     def thread(self, thread):
         if isinstance(thread, Thread):
-            return self.filter(thread=thread).filter(is_deleted=False)
+            thread_replies = Q(thread=thread)
         else:
-            return self.filter(thread__id=thread).filter(is_deleted=False)
+            thread_replies = Q(thread__id=thread)
+
+        replies = self.filter(thread_replies).annotate(
+            custom_order=Case(
+                When(reply_id=0, then='id'),
+                default='reply_id',
+                output_field=IntegerField(),
+            )
+        ).order_by('custom_order', 'id')
+        return replies
+
+    def my(self, user):
+        if user and user.is_staff:
+            return self.filter(is_deleted=False)
+        else:
+            return self.filter(user=user).filter(is_deleted=False)
 
 
 class Reply(models.Model):
@@ -225,7 +245,7 @@ class Reply(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(default=timezone.now)
 
-    objects = ThreadManager()
+    objects = ReplyManager()
 
     class Meta:
         ordering = ('-id',)
@@ -235,3 +255,18 @@ class Reply(models.Model):
             return self.thread.forum
         else:
             return None
+
+    def date_or_time(self):
+        today = timezone.localtime(timezone.now())
+        modified_at = timezone.localtime(self.modified_at)
+
+        if modified_at.date() == today.date():
+            return {
+                'date': None,
+                'time': modified_at.time().strftime(Const.TIME_FORMAT_DEFAULT),
+            }
+        else:
+            return {
+                'date': modified_at.date(),
+                'time': None,
+            }

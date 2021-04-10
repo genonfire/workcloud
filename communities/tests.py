@@ -59,3 +59,25 @@ class TestCase(CoreTestCase):
             content=content
         )
         return self.thread
+
+    def create_reply(
+        self,
+        thread=None,
+        reply_id=0,
+        user=None,
+        name=None,
+        content='Meow'
+    ):
+        if not thread:
+            thread = self.thread
+        if not user and not name:
+            user = self.user
+
+        self.reply = models.Reply.objects.create(
+            thread=thread,
+            reply_id=reply_id,
+            user=user,
+            name=name,
+            content=content
+        )
+        return self.reply

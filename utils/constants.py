@@ -28,10 +28,12 @@ class _Const(object):
 
     DEFAULT_LINK_COUNT = 10
     QUERY_PARAM_SEARCH = 'q'
+    QUERY_PARAM_PK = 'pk'
     QUERY_PARAM_FORUM = 'forum'
 
     TIME_FORMAT_DEFAULT = '%I:%M %p'
 
+    MAX_REPLY_NESTING = 99
     PERMISSION_TYPE = ['all', 'member', 'staff']
     P_READ = 'read'
     P_WRITE = 'write'

@@ -67,4 +67,20 @@ urlpatterns = [
             'get': 'list',
         }), name='threads_trash'
     ),
+    path(
+        'f/<int:pk>/reply/', views.ReplyViewSet.as_view({
+            'post': 'create',
+        }), name='reply'
+    ),
+    path(
+        'r/<int:pk>/', views.ReplyUpdateViewSet.as_view({
+            'patch': 'partial_update',
+            'delete': 'delete',
+        }), name='update_reply'
+    ),
+    path(
+        'f/<int:pk>/replies/', views.ReplyListViewSet.as_view({
+            'get': 'list',
+        }), name='replies'
+    ),
 ]

@@ -121,4 +121,8 @@ pre code {
   margin-top: 1em;
   margin-bottom: 1em;
 }
+
+img {
+  max-width: 100%;
+}
 </style>

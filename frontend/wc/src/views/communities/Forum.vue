@@ -424,6 +424,7 @@ export default {
           for (var i=0; i<vm.forums.length; i++) {
             if (vm.forums[i].id == forum.id) {
               vm.forums[i].option.is_active = forum.option.is_active
+              break
             }
           }
         }
@@ -464,6 +465,7 @@ export default {
           for (var i=0; i<vm.forums.length; i++) {
             if (vm.forums[i].id == forum.id) {
               vm.forums.splice(i, 1)
+              break
             }
           }
           vm.closeEditForum()

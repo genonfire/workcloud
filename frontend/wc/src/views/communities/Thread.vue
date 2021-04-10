@@ -23,6 +23,7 @@
         color="primary"
         class="mb-5"
         @click="writeThread()"
+        v-if="forum.permission_write"
       >
         <v-icon
           class="mr-2"
@@ -57,6 +58,8 @@
               :class="thread.is_pinned ? 'font-weight-bold' : ''"
             >
               <v-icon
+                dense
+                color="blue-grey darken-2"
                 v-if="thread.is_pinned"
               >
                 mdi-pin-outline
