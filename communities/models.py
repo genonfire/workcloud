@@ -50,7 +50,7 @@ class ForumManager(models.Manager):
             )
         else:
             query = Q()
-        return self.filter(query)
+        return self.filter(query).distinct()
 
 
 class Forum(models.Model):
@@ -115,7 +115,7 @@ class ThreadManager(models.Manager):
             )
         else:
             query = Q()
-        return self.forum(forum).filter(query)
+        return self.forum(forum).filter(query).distinct()
 
     def deleted(self, forum):
         if isinstance(forum, Forum):

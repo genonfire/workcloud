@@ -848,3 +848,36 @@ class ThreadPermissionFieldTest(TestCase):
             not self.data.get('forum').get('permission_write') and
             not self.data.get('forum').get('permission_reply')
         )
+
+
+class ThreadPinTest(TestCase):
+    def setUp(self):
+        self.create_user(is_staff=True)
+        self.create_forum()
+        self.create_thread(title='pin me')
+
+    def test_thread_pin_list(self):
+        pin_thread = self.thread
+        self.create_thread(title='stay me unpinned')
+
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name,
+            auth=True
+        )
+        assert (
+            self.data.get('threads')[1].get('title') == 'pin me' and
+            self.data.get('threads')[0].get('title') == 'stay me unpinned'
+        )
+
+        self.post(
+            '/api/communities/f/%s/%d/pin/' % (self.forum.name, pin_thread.id),
+            auth=True
+        )
+        self.get(
+            '/api/communities/f/%s/' % self.forum.name,
+            auth=True
+        )
+        assert (
+            self.data.get('threads')[0].get('title') == 'pin me' and
+            self.data.get('threads')[1].get('title') == 'stay me unpinned'
+        )
