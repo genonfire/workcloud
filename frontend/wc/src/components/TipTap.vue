@@ -519,7 +519,7 @@ export default {
       }
       else {
         let embed = '<iframe src={src}></iframe>'.replace('{src}', src)
-        this.editor.setContent(embed)
+        this.insertHTML(vm.editor, embed)
         this.videoURL = null
         this.videoDialog = false
       }
