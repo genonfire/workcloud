@@ -16,7 +16,7 @@ export default [
     component: () => import('@/views/communities/Thread.vue')
   },
   {
-    path: '/communities/f/:forum/:page/:pk',
+    path: '/communities/f/:forum/:page/:pk/:title',
     name: 'communities.readThread',
     component: () => import('@/views/communities/ReadThread.vue')
   },

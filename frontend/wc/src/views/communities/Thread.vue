@@ -216,7 +216,8 @@ export default {
         params: {
           forum: this.$route.params.forum,
           page: this.$route.params.page,
-          pk: thread.id
+          pk: thread.id,
+          title: thread.title.replace(/\s+/g, '-')
         },
         query: {
           q: this.$route.query.q
