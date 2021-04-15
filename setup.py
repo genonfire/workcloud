@@ -14,7 +14,7 @@ def read(f):
 
 setup(
     name='workcloud',
-    version=0.1,
+    version=1.0,
     url='https://github.com/genonfire/workcloud',
     license='MIT',
     description='W.C. is workcloud',
