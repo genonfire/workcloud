@@ -8,7 +8,6 @@
         v-model="editDialog"
         fullscreen
         transition="dialog-bottom-transition"
-        :max-width="$const('TASK_NEW_MAX_WIDTH')"
       >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
