@@ -86,7 +86,7 @@
               {{ getUsername(thread) }}
             </td>
             <td
-              width="100"
+              width="120"
               class="body-2"
               v-if="!isMobile"
             >
