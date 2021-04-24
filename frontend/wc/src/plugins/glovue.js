@@ -9,6 +9,7 @@ const Const = {
       name: '한국어'
     },
   ],
+  DEFAULT_LANGUAGE: 'ko',
   PASSWORD_MIN: 8,
   SEARCH_ROUTES: {
     // router name from: router name to

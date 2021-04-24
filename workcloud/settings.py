@@ -113,7 +113,8 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
     FRONTEND_URL,
 ]
 
@@ -152,6 +153,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'workcloud.urls'
@@ -200,6 +202,11 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'accounts.User'
 
+# Customizing type of auto-created primary keys
+# https://docs.djangoproject.com/en/3.2/releases/3.2/#customizing-type-of-auto-created-primary-keys
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -238,10 +245,10 @@ LOCALE_PATHS = [
 ]
 
 LANGUAGES = [
-    ('ko-kr', _('Korean')),
-    ('en-us', _('English')),
+    ('ko', _('Korean')),
+    ('en', _('English')),
 ]
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'Asia/Seoul'
 
