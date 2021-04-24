@@ -57,7 +57,14 @@ export default {
     var vm = this
 
     var local_key = localStorage.getItem('token')
-    axios.defaults.baseURL = this.$baseURL()
+
+    var localePattern = ''
+    if (this.$const('DEFAULT_LANGUAGE') != this.$root.$i18n.locale) {
+      localePattern = this.$root.$i18n.locale + '/'
+    }
+    axios.defaults.baseURL = (
+      this.$baseURL() + localePattern + this.$apiPrefix()
+    )
 
     if (local_key) {
       axios({

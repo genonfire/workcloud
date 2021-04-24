@@ -22,7 +22,7 @@ Test = _Test()
 
 def _should_surname_ahead(language_code):
     languages_surname_ahead = [
-        'ko-kr',
+        'ko',
     ]
 
     if language_code in languages_surname_ahead:

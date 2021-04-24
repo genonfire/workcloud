@@ -154,6 +154,7 @@ const APIs = {
 
 APIs.install = function (Vue) {
   Vue.prototype.$baseURL = () => process.env.VUE_APP_API_SERVER
+  Vue.prototype.$apiPrefix = () => process.env.VUE_APP_API_PREFIX
   Vue.prototype.$api = (key) => APIs[key]
 };
 

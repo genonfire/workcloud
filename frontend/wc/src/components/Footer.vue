@@ -67,6 +67,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
@@ -80,6 +82,14 @@ export default {
       if (this.$root.$i18n.locale != this.locale) {
         this.$root.$i18n.locale = this.locale
         localStorage.setItem('locale', this.locale)
+
+        var localePattern = ''
+        if (this.$const('DEFAULT_LANGUAGE') != this.locale) {
+          localePattern = this.locale + '/'
+        }
+        axios.defaults.baseURL = (
+          this.$baseURL() + localePattern + this.$apiPrefix()
+        )
       }
       this.dialog = false
     }
