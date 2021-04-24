@@ -32,4 +32,3 @@ class I18NTest(TestCase):
             response.status_code == Response.HTTP_400 and
             Text.UNABLE_TO_LOGIN == response.data.get('non_field_errors')[0]
         )
-
