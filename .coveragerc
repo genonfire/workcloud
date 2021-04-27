@@ -9,7 +9,9 @@ omit =
     *setup.py*
     *init.py*
     core/*testcase.py*
+    utils/*bot.py
     utils/*email.py*
+    utils/*excel.py
     workcloud/*asgi.py*
     workcloud/*settings.py*
     workcloud/*wsgi.py*
