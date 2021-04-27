@@ -53,11 +53,19 @@ const APIs = {
   },
   ACCOUNTS_USER_SEARCH: {
     'method': 'get',
-    'url': '/accounts/users/'
+    'url': '/accounts/users/?q='
   },
   ACCOUNTS_STAFF_SEARCH: {
     'method': 'get',
     'url': '/accounts/users/staff/'
+  },
+  ACCOUNTS_USER_EDIT: {
+    'method': 'patch',
+    'url': '/accounts/users/{pk}/'
+  },
+  ACCOUNTS_USER_DELETE: {
+    'method': 'delete',
+    'url': '/accounts/users/{pk}/'
   },
 
   FORUM_CREATE: {

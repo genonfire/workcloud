@@ -2,6 +2,7 @@ codecov
 Django>=3.0
 djangorestframework>=3.10
 django-cors-headers
+django-crontab
 django-storages
 drf-yasg
 flake8
@@ -15,3 +16,4 @@ tblib
 six>=1.14.0
 tox
 user-agents
+XlsxWriter

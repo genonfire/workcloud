@@ -12,8 +12,14 @@ from . import tools
 
 
 class UserManager(DjangoUserManager):
+    def active(self):
+        return self.filter(is_superuser=False).filter(is_active=True)
+
+    def approved(self):
+        return self.active().filter(is_approved=True)
+
     def staff(self):
-        return self.filter(is_active=True).filter(is_staff=True)
+        return self.approved().filter(is_staff=True)
 
     def staff_search(self, q):
         name = Q()
@@ -24,8 +30,15 @@ class UserManager(DjangoUserManager):
     def user_serach(self, q):
         name = Q()
         if q:
-            name = Q(username__icontains=q)
-        return self.filter(is_active=True).filter(name)
+            name = (
+                Q(username__icontains=q) |
+                Q(email__icontains=q) |
+                Q(first_name__icontains=q) |
+                Q(last_name__icontains=q) |
+                Q(call_name__icontains=q) |
+                Q(tel__icontains=q)
+            )
+        return self.approved().filter(name)
 
 
 class User(AbstractUser):

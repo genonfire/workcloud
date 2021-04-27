@@ -131,6 +131,7 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'corsheaders',
+    'django_crontab',
     'drf_yasg',
     'rest_framework',
     'rest_framework.authtoken',
@@ -303,3 +304,11 @@ LOGGING = {
         }
     },
 }
+
+
+# django-crontab
+# https://github.com/kraiz/django-crontab
+
+CRONJOBS = [
+    ('1 0 * * *', 'utils.bot.daily_task', '>> /var/log/daily.log'),
+]

@@ -18,6 +18,7 @@
         "SUBMIT": "Submit",
         "CHANGE_LANGUAGE": "Change language",
         "CHANGE_LANGUAGE_HELP": "* The selected language will become the default language for your browsing.",
+        "ASK_ADMIN": "Ask administrator",
         "SEARCH": "Search",
         "DELETE": "Delete",
         "RESTORE": "Restore",
@@ -30,7 +31,9 @@
         "MOVE": "Move",
         "DOWNLOAD": "Download",
         "GENERAL": "General",
-        "NAME": "Name"
+        "DASHBOARD": "Dashboard",
+        "TRAFFIC_MONITOR": "Traffic",
+        "SITE_ADMIN": "Admin"
     },
     "accounts": {
         "USERNAME": "Username",
@@ -39,6 +42,7 @@
         "FIRSTNAME": "First Name",
         "LASTNAME": "Last Name",
         "CALLNAME": "Call Name",
+        "NAME": "Name",
         "EMAIL": "E-mail",
         "SIGNUP": "Sign up",
         "LOGIN": "Login",
@@ -78,6 +82,7 @@
         "IP": "IP Address",
         "LAST_LOGIN": "Last login",
         "MANAGE": "Manage",
+        "MANAGE_USERS": "Manage users",
         "LOGOUT_DEVICE": "Are you sure to logout this device?",
         "DEACTIVATE": "Deactivate",
         "DEACTIVATE_ACCOUNT": "Are you sure to deactivate account?",
@@ -88,7 +93,7 @@
         "DATE_FORMAT_LABEL": "Date format"
     },
     "forum": {
-        "MANAGE_FORUM": "Manage forum",
+        "MANAGE_FORUM": "Forum",
         "FORUM_ID": "ID",
         "FORUM_NAME": "Name",
         "FORUM_TITLE": "Title",
@@ -130,11 +135,32 @@
         "IMAGE_LINK": "Image link",
         "INSERT_IMAGE": "Insert image",
         "INSERT_VIDEO": "Insert video"
-     },
+    },
     "info": {
         "SITENAME": "Workcloud"
     },
     "error": {
         "LOGIN_LOGIC": "Error code: Affogato"
+    },
+    "calendar": {
+        "01": "Jan.",
+        "02": "Feb.",
+        "03": "Mar.",
+        "04": "Apr.",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "Aug.",
+        "09": "Sep.",
+        "10": "Oct.",
+        "11": "Nov.",
+        "12": "Dec.",
+        "Sun": "Sun",
+        "Mon": "Mon",
+        "Tue": "Tue",
+        "Wed": "Wed",
+        "Thu": "Thu",
+        "Fri": "Fri",
+        "Sat": "Sat"
     }
 }

@@ -13,7 +13,7 @@ class UserListTest(TestCase):
             '/api/accounts/users/',
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        assert response.status_code == Response.HTTP_200
 
         response = self.get(
             '/api/accounts/users/staff/',

@@ -123,9 +123,9 @@ class ResponseMixin():
 
         if self.has_permission(instance):
             self.perform_delete(instance)
-            # Reason to return HTTP_200 not HTTP_204
+            # Reason to return HTTP_200 rather than HTTP_204
             #
-            # 1. It's still exist not like destory
+            # 1. It still exists not like destory
             # 2. to avoid following error
             # ConnectionResetError: [Errno 54] Connection reset by peer
             return Response(status=Response.HTTP_200)

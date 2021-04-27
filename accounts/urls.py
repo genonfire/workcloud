@@ -68,4 +68,10 @@ urlpatterns = [
             'get': 'list',
         }), name='staff_list'
     ),
+    path(
+        'users/<int:pk>/', views.UserAdminViewSet.as_view({
+            'patch': 'partial_update',
+            'delete': 'delete'
+        }), name='user_admin'
+    ),
 ]

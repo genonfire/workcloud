@@ -92,7 +92,8 @@ class TestCase(_TestCase):
     def create_user(
         self,
         username=None,
-        is_staff=False
+        is_staff=False,
+        is_superuser=False,
     ):
         self.client = self.get_client()
 
@@ -112,7 +113,8 @@ class TestCase(_TestCase):
             last_name=self.last_name,
             call_name=self.call_name,
             is_approved=True,
-            is_staff=is_staff
+            is_staff=is_staff,
+            is_superuser=is_superuser
         )
 
         self.key = self.user.key()

@@ -1,6 +1,6 @@
 from rest_framework.generics import (
     CreateAPIView as _CreateAPIView,
-    GenericAPIView as _GenericAPIView
+    GenericAPIView as _GenericAPIView,
 )
 from rest_framework.views import APIView as _APIView
 from rest_framework.viewsets import (

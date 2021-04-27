@@ -16,6 +16,7 @@ const Const = {
     'communities.forum': 'communities.forum',
     'communities.threadPage': 'communities.threadPage',
     'communities.trash': 'communities.trash',
+    'accounts.userList': 'accounts.userList',
   }
 }
 

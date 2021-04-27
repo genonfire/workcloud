@@ -138,9 +138,9 @@ export default {
       if (this.user.is_staff) {
         menuList.push(
           {
-            text: this.$t('forum.MANAGE_FORUM'),
-            icon: 'mdi-forum-outline',
-            to: { name: 'communities.forum' }
+            text: this.$t('common.DASHBOARD'),
+            icon: 'mdi-monitor-dashboard',
+            to: { name: 'manage' }
           }
         )
       }
@@ -183,6 +183,7 @@ export default {
     searchAnything(anything) {
       this.onEsc()
 
+      var route_name = this.$route.name
       if (!(this.$route.name in this.$const('SEARCH_ROUTES'))) {
         this.resetSearch()
         return
@@ -191,7 +192,7 @@ export default {
       this.$router.push({
         name: 'search',
         params: {
-          name: this.$route.name,
+          name: route_name,
           forum: this.$route.params.forum,
           q: anything
         }

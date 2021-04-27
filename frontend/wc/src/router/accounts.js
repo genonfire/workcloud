@@ -53,5 +53,11 @@ export default [
     name: 'accounts.deactivate',
     meta: { requiresAuth: true },
     component: () => import('@/views/accounts/Deactivate.vue')
-  }
+  },
+  {
+    path: '/accounts/userList',
+    name: 'accounts.userList',
+    meta: { requiresAuth: true, StaffOnly: true },
+    component: () => import('@/views/accounts/UserList.vue')
+  },
 ]

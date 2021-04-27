@@ -7,6 +7,7 @@ from core.viewsets import (
 from core.permissions import (
     AllowAny,
     IsAdminUser,
+    IsApproved,
     IsAuthenticated
 )
 from core.response import Response
@@ -158,14 +159,31 @@ class ConnectView(UserLoginView):
 
 
 class UserListViewSet(ModelViewSet):
-    serializer_class = serializers.UsernameSerializer
+    serializer_class = serializers.UserInfoSerializer
     model = models.User
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsApproved,)
 
     def get_queryset(self):
         return self.model.objects.user_serach(self.q)
 
 
-class StaffListViewSet(UserListViewSet):
+class StaffListViewSet(ModelViewSet):
+    serializer_class = serializers.UsernameSerializer
+    model = models.User
+    permission_classes = (IsAdminUser,)
+
     def get_queryset(self):
         return self.model.objects.staff_search(self.q)
+
+
+class UserAdminViewSet(ModelViewSet):
+    serializer_class = serializers.UserSettingSerializer
+    model = models.User
+    permission_classes = (IsAdminUser,)
+
+    def get_queryset(self):
+        return self.model.objects.approved()
+
+    def perform_delete(self, instance):
+        models.LoginDevice.objects.filter(user=instance).delete()
+        tools.deactivate_account(instance)

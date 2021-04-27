@@ -24,6 +24,12 @@ const routes = [
     name: 'search',
     component: () => import('@/views/Search.vue')
   },
+  {
+    path: '/manage',
+    name: 'manage',
+    meta: { requiresAuth: true, StaffOnly: true },
+    component: () => import('@/views/Manage.vue')
+  },
   ...AccountsRoutes,
   ...CommunitiesRoutes,
 ]

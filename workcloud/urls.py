@@ -5,8 +5,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from utils.bot import DailyBotView
+
+
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
+    path('bot/daily/', DailyBotView.as_view(), name='daily_bot'),
     path('api/accounts/', include('accounts.urls', namespace='accounts')),
     path(
         'api/communities/',
