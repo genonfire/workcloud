@@ -5,7 +5,6 @@ from django.utils import timezone
 from core.permissions import IsAdminUser
 from core.response import Response
 from core.viewsets import APIView
-
 from utils.debug import Debug  # noqa
 
 
@@ -30,24 +29,30 @@ def monthly_task():
     Debug.trace('monthly task finished.')
 
 
+def minute_task():
+    pass
+
+
 class DailyBotView(APIView):
     permission_classes = (IsAdminUser,)
 
     def post(self, request, *args, **kwargs):
-        daily_task()
+        run_thread(daily_task)
+        return Response(status=Response.HTTP_200)
+
+
+class MinuteBotView(DailyBotView):
+    def post(self, request, *args, **kwargs):
+        run_thread(minute_task)
         return Response(status=Response.HTTP_200)
 
 
 class MonthlyBotView(DailyBotView):
     def post(self, request, *args, **kwargs):
-        monthly_task()
+        run_thread(monthly_task)
         return Response(status=Response.HTTP_200)
 
 
-def run_thread(cls, target):
+def run_thread(target):
     thread = threading.Thread(target=target)
     thread.start()
-
-
-def bot_daily():
-    run_thread(daily_task)

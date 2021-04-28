@@ -180,7 +180,7 @@ class Thread(models.Model):
             return None
 
     def date_or_time(self):
-        today = timezone.localtime(timezone.now())
+        today = timezone.localtime()
         modified_at = timezone.localtime(self.modified_at)
 
         if modified_at.date() == today.date():
@@ -257,7 +257,7 @@ class Reply(models.Model):
             return None
 
     def date_or_time(self):
-        today = timezone.localtime(timezone.now())
+        today = timezone.localtime()
         modified_at = timezone.localtime(self.modified_at)
 
         if modified_at.date() == today.date():

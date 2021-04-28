@@ -311,4 +311,5 @@ LOGGING = {
 
 CRONJOBS = [
     ('1 0 * * *', 'utils.bot.daily_task', '>> /var/log/daily.log'),
+    ('*/5 * * * *', 'utils.bot.minute_task', '>> /var/log/minute.log'),
 ]
