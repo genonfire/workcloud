@@ -88,11 +88,8 @@ DO_NOT_SEND_EMAIL = False
 # Load project configuration from CONFIG_PATH if exist. (config.json)
 try:
     config = json.loads(open(os.path.join(BASE_DIR, CONFIG_PATH)).read())
-    print("# Override configurations.")
-
     for key, value in config.items():
         setattr(sys.modules[__name__], key, value)
-        print(" %s: %s" % (key, value))
 except IOError:
     pass
 
