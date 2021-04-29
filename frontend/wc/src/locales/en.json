@@ -136,6 +136,14 @@
         "INSERT_IMAGE": "Insert image",
         "INSERT_VIDEO": "Insert video"
     },
+    "things": {
+        "MANAGE_HOLIDAY": "Holiday",
+        "NO_UPDATE_FOUND": "No update found",
+        "HOLIDAY_DATA_DESCRIPTION": "You can update holiday data from data.go.kr",
+        "EDIT_HOLIDAY": "Edit holiday",
+        "EDIT_DATE_DESCRIPTION": "Please keep date format",
+        "HOLIDAY_NAME": "Name"
+    },
     "info": {
         "SITENAME": "Workcloud"
     },

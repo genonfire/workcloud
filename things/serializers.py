@@ -6,6 +6,7 @@ from rest_framework import serializers
 from core.serializers import (
     ModelSerializer,
 )
+from utils.constants import Const
 from utils.debug import Debug  # noqa
 from utils.text import Text
 
@@ -65,3 +66,16 @@ class FileUploadSerializer(FileSerializer):
             size=file.size
         )
         return instance
+
+
+class HolidaySerializer(ModelSerializer):
+    class Meta:
+        model = models.Holiday
+        fields = [
+            'id',
+            'date',
+            'name',
+        ]
+        extra_kwargs = {
+            'name': Const.REQUIRED,
+        }

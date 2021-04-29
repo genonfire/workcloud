@@ -58,6 +58,7 @@ try:
     EMAIL_HOST_USER = ''
     EMAIL_HOST_PASSWORD = ''
     EMAIL_ADDRESS = ''
+    HOLIDAY_SERVICE_KEY = ''
     SLACK_CHANNEL = ''
     SLACK_TOKEN = ''
     AWS_ACCESS_KEY_ID = ''

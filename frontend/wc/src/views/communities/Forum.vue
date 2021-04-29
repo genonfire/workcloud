@@ -361,9 +361,9 @@ export default {
         'description': '',
         'option': {
           'is_active': true,
-          'permission_read': 'all',
-          'permission_write': 'all',
-          'permission_reply': 'all'
+          'permission_read': 'member',
+          'permission_write': 'member',
+          'permission_reply': 'member'
         }
       }
       this.managers = [
@@ -461,12 +461,8 @@ export default {
           url: this.$api('FORUM_DELETE').url.replace('{pk}', forum.id)
         })
         .then(function () {
-          for (var i=0; i<vm.forums.length; i++) {
-            if (vm.forums[i].id == forum.id) {
-              vm.forums.splice(i, 1)
-              break
-            }
-          }
+          var index = vm.forums.indexOf(forum)
+          vm.forums.splice(index, 1)
           vm.closeEditForum()
         })
       }

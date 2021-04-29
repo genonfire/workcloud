@@ -136,6 +136,14 @@
         "INSERT_IMAGE": "그림 삽입",
         "INSERT_VIDEO": "동영상 삽입"
     },
+    "things": {
+        "MANAGE_HOLIDAY": "공휴일 관리",
+        "NO_UPDATE_FOUND": "업데이트가 없습니다.",
+        "HOLIDAY_DATA_DESCRIPTION": "공공 데이터 포털로부터 공휴일 정보를 업데이트 합니다.",
+        "EDIT_HOLIDAY": "공휴일 수정",
+        "EDIT_DATE_DESCRIPTION": "날짜 형식을 지켜주세요.",
+        "HOLIDAY_NAME": "공휴일 이름"
+    },
     "info": {
         "SITENAME": "Workcloud"
     },

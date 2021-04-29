@@ -46,3 +46,25 @@ class Attachment(models.Model):
 
     class Meta:
         ordering = ('-id',)
+
+
+class HolidayManager(models.Manager):
+    def year(self, year):
+        return self.filter(date__year=year)
+
+    def date_exist(self, date):
+        return self.filter(date=date).exists()
+
+
+class Holiday(models.Model):
+    date = models.DateField(unique=True)
+    name = models.CharField(
+        max_length=Const.NAME_MAX_LENGTH,
+        blank=True,
+        null=True,
+    )
+
+    objects = HolidayManager()
+
+    class Meta:
+        ordering = ['date']

@@ -44,9 +44,6 @@
                 >
                   {{ person.tel }}
                 </td>
-                <td>
-                  {{ get_status_text(person.status) }}
-                </td>
               </tr>
             </tbody>
           </v-simple-table>
@@ -204,9 +201,6 @@ export default {
     this.getPeople(null, this.$route.query.q)
   },
   methods: {
-    get_status_text (status) {
-      return this.$t('shift.' + status)
-    },
     initializePerson (person) {
       this.selectedPerson = person
     },

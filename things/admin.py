@@ -23,3 +23,22 @@ class AttachmentAdmin(admin.ModelAdmin):
         'id',
         'file',
     )
+
+
+@admin.register(models.Holiday)
+class HolidayAdmin(admin.ModelAdmin):
+    list_display = (
+        'date',
+        'name',
+    )
+    search_fields = (
+        'date',
+        'name',
+    )
+    ordering = (
+        '-date',
+    )
+    list_display_links = (
+        'date',
+        'name',
+    )

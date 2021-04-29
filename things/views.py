@@ -6,6 +6,7 @@ from core.permissions import (
     IsAdminUser,
     IsApproved,
 )
+from core.response import Response
 
 from utils.debug import Debug  # noqa
 
@@ -38,3 +39,28 @@ class AttachmentManageViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return self.model.objects.search(self.q)
+
+
+class HolidayViewSet(ModelViewSet):
+    serializer_class = serializers.HolidaySerializer
+    model = models.Holiday
+    permission_classes = (IsAdminUser,)
+
+    def get_queryset(self):
+        return self.model.objects.all()
+
+
+class HolidayYearViewSet(ReadOnlyModelViewSet):
+    serializer_class = serializers.HolidaySerializer
+    model = models.Holiday
+    permission_classes = (IsApproved,)
+
+    def get_queryset(self):
+        return self.model.objects.year(self.kwargs['year'])
+
+    def update(self, request, *args, **kwargs):
+        data = tools.update_holiday(
+            self.kwargs['year'],
+            self.serializer_class
+        )
+        return Response(data, status=Response.HTTP_200)
