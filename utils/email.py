@@ -11,12 +11,14 @@ from django.core.mail import (
 )
 from django.template.loader import render_to_string
 
-from core.wrapper import async_func
 from utils.debug import Debug
 
 
 class _EmailHelper(object):
     def _recipient_list(self, recipients):
+        if not recipients:
+            return None
+
         if isinstance(recipients, list):
             return recipients
 
@@ -25,11 +27,10 @@ class _EmailHelper(object):
             data.append(recipient.strip())
         return data
 
-    @async_func
     def _send(
         self, subject, body, from_email=None, to=None, bcc=None, cc=None,
-        html_subject=None, html_body=None, attachment=None, mimetype=None,
-        context=None
+        html_subject=None, html_body=None, attachment=None, filename=None,
+        mimetype=None, context=None
     ):
         if settings.DO_NOT_SEND_EMAIL:
             return
@@ -51,8 +52,8 @@ class _EmailHelper(object):
         if html_body:
             html_email = render_to_string(html_body, context)
             email.attach_alternative(html_email, 'text/html')
-        if attachment:
-            email.attach_file(attachment, mimetype)
+        if attachment and filename and mimetype:
+            email.attach(filename, attachment, mimetype)
 
         try:
             email.send(fail_silently=False)
@@ -63,8 +64,8 @@ class _EmailHelper(object):
 
     def send_to(
         self, subject, body, from_email=None, user=None, email=None,
-        html_subject=None, html_body=None, attachment=None, mimetype=None,
-        context=None
+        html_subject=None, html_body=None, attachment=None, filename=None,
+        mimetype=None, context=None
     ):
         """
         Send a single email to a single user or email
@@ -85,14 +86,15 @@ class _EmailHelper(object):
             html_subject=html_subject,
             html_body=html_body,
             attachment=attachment,
+            filename=filename,
             mimetype=mimetype,
             context=context
         )
 
     def send_direct(
         self, subject, body, from_email=None, user=None, email=None,
-        html_subject=None, html_body=None, attachment=None, mimetype=None,
-        context=None
+        html_subject=None, html_body=None, attachment=None, filename=None,
+        mimetype=None, context=None
     ):
         """
         Send a single email to a single user or email
@@ -134,8 +136,8 @@ class _EmailHelper(object):
 
     def send_bcc(
         self, subject, body, from_email=None, to=None, recipients=None,
-        html_subject=None, html_body=None, attachment=None, mimetype=None,
-        context=None
+        html_subject=None, html_body=None, attachment=None, filename=None,
+        mimetype=None, context=None
     ):
         """
         Send a single email to single or multiple recipient as cc
@@ -158,7 +160,37 @@ class _EmailHelper(object):
             context=context
         )
 
-    @async_func
+    def send(
+        self, subject, body, from_email=None, to=None, cc=None, bcc=None,
+        html_subject=None, html_body=None, attachment=None, filename=None,
+        mimetype=None, context=None
+    ):
+        """
+        Send a single email to single or multiple recipient as to or cc
+
+        This is the best fucntion you choose for sending common emails
+        """
+        to = self._recipient_list(to)
+        cc = self._recipient_list(cc)
+        bcc = self._recipient_list(bcc)
+        Debug.trace(" Sending mail to %s, cc %s, bcc %s." % (
+            to, cc, bcc
+        ))
+
+        self._send(
+            subject=subject,
+            body=body,
+            from_email=from_email,
+            to=to,
+            cc=cc,
+            bcc=bcc,
+            html_subject=html_subject,
+            html_body=html_body,
+            attachment=attachment,
+            mimetype=mimetype,
+            context=context
+        )
+
     def send_mass(self, messages):
         """
         Send multiple emails at once

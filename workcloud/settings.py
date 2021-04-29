@@ -58,6 +58,8 @@ try:
     EMAIL_HOST_USER = ''
     EMAIL_HOST_PASSWORD = ''
     EMAIL_ADDRESS = ''
+    SLACK_CHANNEL = ''
+    SLACK_TOKEN = ''
     AWS_ACCESS_KEY_ID = ''
     AWS_SECRET_ACCESS_KEY = ''
     SECRET_KEY = ''
