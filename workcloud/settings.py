@@ -81,6 +81,8 @@ FRONTEND_URL = 'http://127.0.0.1:8080'
 DEFAULT_FROM_EMAIL = EMAIL_ADDRESS
 DEBUG = False
 LOCAL_SERVER = False
+DEV_SERVER = False
+STAGING_SERVER = False
 TRACE_ENABLED = True
 UPLOAD_MAX_SIZE = 20 * 1024 * 1024
 REST_PAGINATION_SIZE_DEFAULT = 20
@@ -272,7 +274,7 @@ STATICFILES_DIRS = (
 # https://github.com/jschneier/django-storages
 # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY should be set in SECRETS_PATH
 
-if 'storages' in INSTALLED_APPS and not LOCAL_SERVER:
+if 'storages' in INSTALLED_APPS and not LOCAL_SERVER and not DEV_SERVER:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_QUERYSTRING_AUTH = False
     AWS_DEFAULT_ACL = 'public-read'

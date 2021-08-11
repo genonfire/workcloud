@@ -1,11 +1,9 @@
 import accounts
 
-from django.test import TestCase as _TestCase
-
-from rest_framework.test import APIClient
+from rest_framework.test import APIClient, APITestCase
 
 
-class TestCase(_TestCase):
+class TestCase(APITestCase):
     def log(self, *args, **kwargs):
         print("#", *args, **kwargs)
 
@@ -95,8 +93,6 @@ class TestCase(_TestCase):
         is_staff=False,
         is_superuser=False,
     ):
-        self.client = self.get_client()
-
         if not username:
             username = accounts.tools.Test.USERNAME
 

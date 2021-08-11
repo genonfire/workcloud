@@ -37,6 +37,9 @@ DEFAULT_SECRETS = {
     "EMAIL_HOST_USER": "",
     "EMAIL_HOST_PASSWORD": "",
     "EMAIL_ADDRESS": "",
+    "HOLIDAY_SERVICE_KEY": "",
+    "SLACK_CHANNEL": "",
+    "SLACK_TOKEN": "",
     "AWS_ACCESS_KEY_ID": "",
     "AWS_SECRET_ACCESS_KEY": "",
     "SECRET_KEY": get_random_secret_key()
@@ -45,6 +48,8 @@ CONFIG_PATH = 'config.json'
 DEFAULT_CONFIG = {
     "DEBUG": True,
     "LOCAL_SERVER": True,
+    "DEV_SERVER": False,
+    "STAGING_SERVER": False,
     "TRACE_ENABLED": True,
     "DO_NOT_SEND_EMAIL": True
 }

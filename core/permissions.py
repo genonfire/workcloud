@@ -23,7 +23,7 @@ class IsApproved(IsAuthenticated):
         )
 
 
-class IsApprovedOrReadOnly():
+class IsApprovedOrReadOnly(rest_permission.BasePermission):
     def has_permission(self, request, view):
         return bool(
             request.method in rest_permission.SAFE_METHODS or
