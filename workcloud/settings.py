@@ -280,7 +280,6 @@ if 'storages' in INSTALLED_APPS and not LOCAL_SERVER and not DEV_SERVER:
     AWS_DOMAIN = '.s3.ap-northeast-2.amazonaws.com'
     AWS_STORAGE_BUCKET_NAME = 'media'
     AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME + AWS_DOMAIN
-    AWS_QUERYSTRING_AUTH = False
     MEDIA_URL = 'https://' + AWS_S3_CUSTOM_DOMAIN + '/'
 else:
     MEDIA_URL = '/upload/'
