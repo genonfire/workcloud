@@ -41,15 +41,15 @@ if [ "$flake8" = true ]; then
 fi
 if [ "$clean" = true ]; then
     echo "# running unittests with clean db..."
-    python manage.py test --noinput --settings=tests.test_settings
+    python -Wa manage.py test --noinput --settings=tests.test_settings
 fi
 if [ "$unittest" = true ]; then
     echo "# running unittests..."
-    python manage.py test --keepdb --settings=tests.test_settings
+    python -Wa manage.py test --keepdb --settings=tests.test_settings
 fi
 if [ "$testcase" = true ]; then
     echo "# running specific case $label..."
-    python manage.py test --keepdb --settings=tests.test_settings $label --debug-mode
+    python -Wa manage.py test --keepdb --settings=tests.test_settings $label --debug-mode
 fi
 
 if [ "$clean" = false ] && [ "$flake8" = false ] && [ "$unittest" = false ] && [ "$testcase" = false ]; then

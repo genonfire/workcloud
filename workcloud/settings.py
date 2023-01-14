@@ -44,7 +44,8 @@ if TEST_SETTING:
 # See tests/test_secrets.json
 
 try:
-    secrets = json.loads(open(os.path.join(BASE_DIR, SECRETS_PATH)).read())
+    with open(os.path.join(BASE_DIR, SECRETS_PATH)) as file:
+        secrets = json.loads(file.read())
 
     DB_ENGINE = 'django.db.backends.postgresql'
     DB_HOST = ''
@@ -92,7 +93,9 @@ DO_NOT_SEND_EMAIL = False
 
 # Load project configuration from CONFIG_PATH if exist. (config.json)
 try:
-    config = json.loads(open(os.path.join(BASE_DIR, CONFIG_PATH)).read())
+    with open(os.path.join(BASE_DIR, CONFIG_PATH)) as file:
+        config = json.loads(file.read())
+
     for key, value in config.items():
         setattr(sys.modules[__name__], key, value)
 except IOError:
