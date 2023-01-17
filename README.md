@@ -1,5 +1,6 @@
 # workcloud
-[![Build Status](https://travis-ci.com/genonfire/workcloud.svg?branch=master)](https://travis-ci.com/genonfire/workcloud) [![CircleCI](https://circleci.com/gh/genonfire/workcloud.svg?style=shield)](https://circleci.com/gh/genonfire/workcloud) [![codecov](https://codecov.io/gh/genonfire/workcloud/branch/master/graph/badge.svg)](https://codecov.io/gh/genonfire/workcloud)
+![Build Status](https://github.com/genonfire/workcloud/actions/workflows/main.yml/badge.svg?branch=master)
+ [![codecov](https://codecov.io/gh/genonfire/workcloud/branch/master/graph/badge.svg)](https://codecov.io/gh/genonfire/workcloud)
 
 Template for building web apps with Django REST framework + Vue.js
 
@@ -52,8 +53,3 @@ Template for building web apps with Django REST framework + Vue.js
     http://localhost:8000/swagger/
 
 - Available on localserver
-
-
-# API Docs
-
-http://wiki.gencode.me/display/WC/API+docs
