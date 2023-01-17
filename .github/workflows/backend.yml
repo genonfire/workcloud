@@ -1,12 +1,7 @@
 name: backend
 
 on:
-  push:
-    branches:
-      - '**'
-    paths-ignore:
-      - 'frontend/wc/**'
-  pull_request:
+  [push, pull_request]:
     branches:
       - '**'
     paths-ignore:
