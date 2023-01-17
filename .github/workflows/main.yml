@@ -61,9 +61,9 @@ jobs:
       run: codecov
 
     - name: setup Node
-      working-directiory: frontend/wc
       uses: actions/setup-node@v3
       with:
+        working-directiory: frontend/wc
         node-version: 16.13.x
         cache: npm
 
