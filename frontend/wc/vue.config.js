@@ -17,6 +17,5 @@ module.exports = {
     disableHostCheck: true
   },
   outputDir: 'dist',
-  parallel: !process.env.CIRCLECI,
   productionSourceMap: false
 }

@@ -12,11 +12,9 @@ REPLACE_DIRS = [
     'utils',
     'workcloud',
     'tests',
-    '.circleci',
 ]
 REPLACE_FILES = [
     '.coveragerc',
-    '.travis.yml',
     'manage.py',
     'README.md',
     'setup.py',
