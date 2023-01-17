@@ -1,12 +1,16 @@
-name: CI
+name: backend
 
 on:
   push:
     branches:
       - '**'
+    paths-ignore:
+      - 'frontend/wc/**'
   pull_request:
     branches:
       - '**'
+    paths-ignore:
+      - 'frontend/wc/**'
 
 jobs:
   tests:
@@ -59,22 +63,3 @@ jobs:
     - name: Upload coverage
       if: success() && github.ref == 'refs/heads/master'
       run: codecov
-
-    - name: setup Node
-      uses: actions/setup-node@v3
-      with:
-        working-directiory: frontend/wc
-        node-version: 16.13.x
-        cache: npm
-
-    - name: install packages
-      working-directiory: frontend/wc
-      run: npm install
-
-    - name: lint
-      working-directiory: frontend/wc
-      run: npm run lint
-
-    - name: build
-      working-directiory: frontend/wc
-      run: npm run build
