@@ -16,10 +16,6 @@ jobs:
   tests:
 
     runs-on: ubuntu-20.04
-    defaults:
-      run:
-        shell: bash
-        working-directory: frontend/wc
 
     steps:
     - uses: actions/checkout@v3
@@ -28,10 +24,14 @@ jobs:
       with:
         node-version: 16.13.x
         cache: npm
+        working-directory: frontend/wc
 
     - name: install packages
       run: npm install
+      working-directory: frontend/wc
     - name: lint
       run: npm run lint
+      working-directory: frontend/wc
     - name: build
       run: npm run build
+      working-directory: frontend/wc
