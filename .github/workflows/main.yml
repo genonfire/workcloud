@@ -61,20 +61,20 @@ jobs:
       run: codecov
 
     - name: setup Node
-      working-directiory: ./frontend/wc
+      working-directiory: frontend/wc
       uses: actions/setup-node@v3
       with:
         node-version: 16.13.x
         cache: npm
 
     - name: install packages
-      working-directiory: ./frontend/wc
+      working-directiory: frontend/wc
       run: npm install
 
     - name: lint
-      working-directiory: ./frontend/wc
+      working-directiory: frontend/wc
       run: npm run lint
 
     - name: build
-      working-directiory: ./frontend/wc
+      working-directiory: frontend/wc
       run: npm run build
