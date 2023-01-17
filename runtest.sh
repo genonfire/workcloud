@@ -37,15 +37,17 @@ if [ "$flake8" = true ]; then
     echo "# checking flake8..."
     if flake8 --jobs=auto; then
         echo "OK\n"
+    else
+        exit
     fi
 fi
 if [ "$clean" = true ]; then
     echo "# running unittests with clean db..."
-    python -Wa manage.py test --noinput --settings=tests.test_settings
+    python -Wa manage.py test --noinput --parallel --settings=tests.test_settings
 fi
 if [ "$unittest" = true ]; then
     echo "# running unittests..."
-    python -Wa manage.py test --keepdb --settings=tests.test_settings
+    python -Wa manage.py test --keepdb --parallel --settings=tests.test_settings
 fi
 if [ "$testcase" = true ]; then
     echo "# running specific case $label..."

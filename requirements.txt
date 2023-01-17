@@ -1,19 +1,19 @@
 codecov
-Django>=3.0
-djangorestframework>=3.10
+Django>=4.0
+djangorestframework
 django-cors-headers
 django-crontab
 django-storages
 drf-yasg
 flake8
-importlib-metadata<3,>=0.12; python_version<'3.8'
+importlib-metadata
 mysqlclient
 packaging
-pillow>=8.0
+pillow
 psycopg2
 setuptools
 tblib
-six>=1.14.0
+six
 tox
 user-agents
 XlsxWriter
