@@ -1,7 +1,12 @@
 name: backend
 
 on:
-  [push, pull_request]:
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - 'frontend/wc/**'
+  pull_request:
     branches:
       - '**'
     paths-ignore:
@@ -37,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
 
