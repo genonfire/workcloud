@@ -4,6 +4,7 @@ from core.testcase import TestCase
 from utils.constants import Const
 from utils.debug import Debug
 from utils.text import Text
+from utils.regexp import RegExpHelper
 
 
 class UtilTest(TestCase):
@@ -19,7 +20,7 @@ class UtilTest(TestCase):
         except AttributeError:
             result = True
 
-        assert result
+        self.check(result)
 
     def test_trace(self):
         result = False
@@ -30,15 +31,32 @@ class UtilTest(TestCase):
             Debug.error('Error test.')
             settings.TRACE_ENABLED = False
             result = True
-        assert result
+
+        self.check(result)
 
     def test_log(self):
         result = False
         if Debug.debug_or_test_mode():
             if not Debug.debug_mode():
                 settings.DEBUG = True
-            Debug.log('log test.')
+            Debug.loooog('log test.')
             Debug.callstack(limit=0)
             settings.DEBUG = False
             result = True
-        assert result
+
+        self.check(result)
+
+    def test_regexp(self):
+        self.check(RegExpHelper.is_numbers('1234567890'))
+        self.check_not(RegExpHelper.is_numbers('123-4567890'))
+        self.check(RegExpHelper.numbers('010-1234-5678'), '01012345678')
+        self.check_not(RegExpHelper.is_numbers(''))
+
+        self.check(RegExpHelper.is_alphanumerics('abcdeFGHJKL9876'))
+        self.check_not(RegExpHelper.is_alphanumerics('abcde@'))
+        self.check_not(RegExpHelper.is_alphanumerics(''))
+        self.check(RegExpHelper.alphanumerics('abc@in8.kr'), 'abcin8kr')
+
+        self.check(RegExpHelper.is_uniwords('abc-123_Z'))
+        self.check_not(RegExpHelper.is_uniwords('abc@'))
+        self.check_not(RegExpHelper.is_uniwords(''))

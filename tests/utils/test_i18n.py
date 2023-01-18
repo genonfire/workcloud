@@ -1,5 +1,4 @@
 from core.testcase import TestCase
-from core.response import Response
 from utils.text import Text
 
 
@@ -15,9 +14,10 @@ class I18NTest(TestCase):
                 'password': 'passworD'
             }
         )
-        assert (
-            response.status_code == Response.HTTP_400 and
-            'Unable to login.' == response.data.get('non_field_errors')[0]
+        self.status(response, 400)
+        self.check(
+            'Unable to login.',
+            response.data.get('non_field_errors')[0]
         )
 
     def test_i18n_default_no_prefix(self):
@@ -28,7 +28,8 @@ class I18NTest(TestCase):
                 'password': 'passworD'
             }
         )
-        assert (
-            response.status_code == Response.HTTP_400 and
-            Text.UNABLE_TO_LOGIN == response.data.get('non_field_errors')[0]
+        self.status(response, 400)
+        self.check(
+            Text.UNABLE_TO_LOGIN,
+            response.data.get('non_field_errors')[0]
         )

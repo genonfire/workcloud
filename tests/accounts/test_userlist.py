@@ -1,4 +1,3 @@
-from core.response import Response
 from core.testcase import TestCase
 
 
@@ -9,27 +8,27 @@ class UserListTest(TestCase):
     def test_get_users_permission(self):
         self.create_user()
 
-        response = self.get(
+        self.get(
             '/api/accounts/users/',
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.get(
+        self.get(
             '/api/accounts/users/staff/',
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
-        response = self.get(
+        self.get(
             '/api/accounts/users/',
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/accounts/users/staff/',
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
     def test_get_users(self):
         sample_name = [
@@ -65,40 +64,31 @@ class UserListTest(TestCase):
         )
 
         for index, user in enumerate(reversed(user_list)):
-            assert (
-                user.id == self.data[index].get('id') and
-                user.username == self.data[index].get('username')
-            )
+            self.check(user.id, self.data[index].get('id'))
+            self.check(user.username, self.data[index].get('username'))
 
-        response = self.get(
+        self.get(
             '/api/accounts/users/?q=bl',
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data) == 2 and
-            self.data[1].get('username') == 'black@color.com' and
-            self.data[0].get('username') == 'blue@color.com'
-        )
+        self.status(200)
+        self.check(len(self.data), 2)
+        self.check(self.data[1].get('username'), 'black@color.com')
+        self.check(self.data[0].get('username'), 'blue@color.com')
 
         self.get(
             '/api/accounts/users/staff/',
             auth=True
         )
-
         for index, staff in enumerate(reversed(staff_list)):
-            assert (
-                staff.id == self.data[index].get('id') and
-                staff.username == self.data[index].get('username')
-            )
+            self.check(staff.id, self.data[index].get('id'))
+            self.check(staff.username, self.data[index].get('username'))
 
-        response = self.get(
+        self.get(
             '/api/accounts/users/staff/?q=e',
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data) == 2 and
-            self.data[1].get('username') == 'white@color.com' and
-            self.data[0].get('username') == 'purple@color.com'
-        )
+        self.status(200)
+        self.check(len(self.data), 2)
+        self.check(self.data[1].get('username'), 'white@color.com')
+        self.check(self.data[0].get('username'), 'purple@color.com')

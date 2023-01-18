@@ -1,4 +1,3 @@
-from core.response import Response
 from communities.tests import TestCase
 
 
@@ -11,27 +10,27 @@ class ThreadPermissionTest(TestCase):
         self.create_forum(option=option)
         self.create_thread(forum=self.forum)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/' % self.forum.name
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
                 'content': 'test"'
             }
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
@@ -39,26 +38,26 @@ class ThreadPermissionTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
             {
                 'title': 'test patch',
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
     def test_permission_read_all_write_all(self):
         self.create_forum()
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/' % self.forum.name
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'name': 'tester',
@@ -66,33 +65,33 @@ class ThreadPermissionTest(TestCase):
                 'content': 'test content',
             }
         )
-        assert response.status_code == Response.HTTP_201
+        self.status(201)
 
         thread_id = self.data.get('id')
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id)
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             {
                 'title': 'tested'
             }
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id)
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
     def test_permission_read_all_write_member(self):
         option = self.create_option(permission_write='member')
         self.create_forum(option=option)
         self.create_user(username='ee@a.com')
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'name': 'tester',
@@ -100,14 +99,14 @@ class ThreadPermissionTest(TestCase):
                 'content': 'test content',
             }
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/' % self.forum.name
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
@@ -115,41 +114,41 @@ class ThreadPermissionTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_201
+        self.status(201)
 
         thread_id = self.data.get('id')
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id)
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             {
                 'title': 'tested'
             },
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             {
                 'title': 'tested'
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
     def test_permission_read_member_write_member(self):
         option = self.create_option(
@@ -159,12 +158,12 @@ class ThreadPermissionTest(TestCase):
         self.create_forum(option=option)
         self.create_user(username='ee@a.com')
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/' % self.forum.name
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'name': 'tester',
@@ -173,35 +172,34 @@ class ThreadPermissionTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_201
+        self.status(201)
 
         thread_id = self.data.get('id')
-
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id)
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             {
                 'title': 'tested'
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
     def test_permission_read_staff_write_staff_by_member(self):
         option = self.create_option(
@@ -210,7 +208,7 @@ class ThreadPermissionTest(TestCase):
         )
         self.create_forum(option=option)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
@@ -218,18 +216,18 @@ class ThreadPermissionTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_201
+        self.status(201)
 
         thread_id = self.data.get('id')
         self.create_user(username='eee@a.com')
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
@@ -237,22 +235,22 @@ class ThreadPermissionTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             {
                 'title': 'tested'
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
     def test_permission_read_staff_write_staff_by_staff(self):
         option = self.create_option(
@@ -261,13 +259,13 @@ class ThreadPermissionTest(TestCase):
         )
         self.create_forum(option=option)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
@@ -275,38 +273,38 @@ class ThreadPermissionTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_201
+        self.status(201)
 
         thread_id = self.data.get('id')
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             {
                 'title': 'tested'
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
     def test_permission_trash(self):
         self.create_forum()
         self.create_user(username='m@a.com')
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/trash/' % self.forum.name
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/trash/' % self.forum.name,
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
 
 class ThreadModelTest(TestCase):
@@ -315,7 +313,7 @@ class ThreadModelTest(TestCase):
         self.create_forum()
 
     def test_thread_write_edit_delete(self):
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
@@ -323,16 +321,14 @@ class ThreadModelTest(TestCase):
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('title') == 'test' and
-            self.data.get('content') == 'content' and
-            self.data.get('forum').get('id') == self.forum.id and
-            self.data.get('user').get('username') == self.user.username
-        )
-        thread_id = self.data.get('id')
+        self.status(201)
+        self.check(self.data.get('title'), 'test')
+        self.check(self.data.get('content'), 'content')
+        self.check(self.data.get('forum').get('id'), self.forum.id)
+        self.check(self.data.get('user').get('username'), self.user.username)
 
-        response = self.patch(
+        thread_id = self.data.get('id')
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             {
                 'title': 'test2',
@@ -340,40 +336,36 @@ class ThreadModelTest(TestCase):
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.data.get('title') == 'test2' and
-            self.data.get('content') == 'content2' and
-            self.data.get('forum').get('id') == self.forum.id and
-            self.data.get('user').get('username') == self.user.username
-        )
+        self.status(200)
+        self.check(self.data.get('title'), 'test2')
+        self.check(self.data.get('content'), 'content2')
+        self.check(self.data.get('forum').get('id'), self.forum.id)
+        self.check(self.data.get('user').get('username'), self.user.username)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.data.get('is_deleted')
-        )
+        self.status(200)
+        self.check(self.data.get('is_deleted'))
 
     def test_write_thread_with_user_or_name(self):
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
                 'content': 'content'
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
@@ -381,13 +373,11 @@ class ThreadModelTest(TestCase):
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            not self.data.get('name') and
-            self.data.get('user').get('username') == 'user@a.com'
-        )
+        self.status(201)
+        self.check_not(self.data.get('name'))
+        self.check(self.data.get('user').get('username'), 'user@a.com')
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'name': 'user',
@@ -395,24 +385,22 @@ class ThreadModelTest(TestCase):
                 'content': 'content'
             },
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('name') == 'user' and
-            not self.data.get('user')
-        )
+        self.status(201)
+        self.check(self.data.get('name'), 'user')
+        self.check_not(self.data.get('user'))
 
     def test_thread_date_or_time(self):
         self.create_thread()
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
+        self.status(200)
 
-        date_or_time = self.data.get('threads')[0].get('date_or_time')
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.thread.date_or_time() == date_or_time
+        self.check(
+            self.data.get('threads')[0].get('date_or_time'),
+            self.thread.date_or_time()
         )
 
     def test_thread_has_permission(self):
@@ -425,31 +413,31 @@ class ThreadModelTest(TestCase):
             },
             auth=True
         )
-        thread_id = self.data.get('id')
 
+        thread_id = self.data.get('id')
         self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert self.data.get('has_permission')
+        self.check(self.data.get('has_permission'))
 
         self.create_user(username='3@a.com')
         self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert not self.data.get('has_permission')
+        self.check_not(self.data.get('has_permission'))
 
         self.create_user(username='4@a.com', is_staff=True)
         self.get(
             '/api/communities/f/%s/read/%d/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert self.data.get('has_permission')
+        self.check(self.data.get('has_permission'))
 
     def test_thread_pin_unpin(self):
         self.create_user(username='5@a.com')
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
@@ -458,56 +446,47 @@ class ThreadModelTest(TestCase):
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            not self.data.get('is_pinned')
-        )
+        self.status(201)
+        self.check_not(self.data.get('is_pinned'))
 
         thread_id = self.data.get('id')
-
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, thread_id),
             {
                 'is_pinned': True
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            not self.data.get('is_pinned')
-        )
+        self.status(200)
+        self.check_not(self.data.get('is_pinned'))
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/%d/pin/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/%d/unpin/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
         self.create_user(username='6@a.com', is_staff=True)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/%d/pin/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.data.get('is_pinned')
-        )
+        self.status(200)
+        self.check(self.data.get('is_pinned'))
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/%d/unpin/' % (self.forum.name, thread_id),
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            not self.data.get('is_pinned')
-        )
+        self.status(200)
+        self.check_not(self.data.get('is_pinned'))
 
 
 class ThreadWriteException(TestCase):
@@ -516,46 +495,46 @@ class ThreadWriteException(TestCase):
         self.create_forum()
 
     def test_write_thread_null(self):
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': '',
                 'content': 'content'
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': None,
                 'content': 'content'
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
                 'content': ''
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
                 'content': None
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_edit_thread_null(self):
         self.create_thread()
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
             {
                 'title': '',
@@ -563,9 +542,9 @@ class ThreadWriteException(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
             {
                 'title': None,
@@ -573,9 +552,9 @@ class ThreadWriteException(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
             {
                 'title': 'test2',
@@ -583,9 +562,9 @@ class ThreadWriteException(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/f/%s/%d/' % (self.forum.name, self.thread.id),
             {
                 'title': 'test2',
@@ -593,7 +572,7 @@ class ThreadWriteException(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
 
 class ThreadListTest(TestCase):
@@ -630,26 +609,24 @@ class ThreadListTest(TestCase):
         )
 
         for index, thread in enumerate(reversed(thread_list)):
-            assert (
-                thread.id == self.data.get('threads')[index].get('id') and
-                thread.title == self.data.get('threads')[index].get('title')
+            self.check(self.data.get('threads')[index].get('id'), thread.id)
+            self.check(
+                self.data.get('threads')[index].get('title'),
+                thread.title
             )
-        assert (
-            self.data.get('forum').get('id') == self.forum.id and
-            self.data.get('forum').get('name') == self.forum.name and
-            self.data.get('forum').get('title') == self.forum.title
-        )
 
-        response = self.get(
+        self.check(self.data.get('forum').get('id'), self.forum.id)
+        self.check(self.data.get('forum').get('name'), self.forum.name)
+        self.check(self.data.get('forum').get('title'), self.forum.title)
+
+        self.get(
             '/api/communities/f/%s/?q=black' % self.forum.name,
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data) == 2 and
-            self.data.get('threads')[1].get('title') == 'black' and
-            self.data.get('threads')[0].get('title') == 'white'
-        )
+        self.status(200)
+        self.check(len(self.data), 2)
+        self.check(self.data.get('threads')[1].get('title'), 'black')
+        self.check(self.data.get('threads')[0].get('title'), 'white')
 
         trash = self.data.get('threads')[0]
         self.delete(
@@ -663,33 +640,30 @@ class ThreadListTest(TestCase):
             '/api/communities/f/%s/?q=black' % self.forum.name,
             auth=True
         )
-        assert (
-            len(self.data.get('threads')) == 1 and
-            self.data.get('threads')[0].get('title') == 'black'
-        )
+        self.check(len(self.data.get('threads')), 1)
+        self.check(self.data.get('threads')[0].get('title'), 'black')
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%s/trash/' % self.forum.name,
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data.get('threads')) == 1 and
-            self.data.get('threads')[0].get('title') == trash.get('title')
+        self.status(200)
+        self.check(len(self.data.get('threads')), 1)
+        self.check(
+            self.data.get('threads')[0].get('title'),
+            trash.get('title')
         )
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%s/%d/restore/' % (
                 self.forum.name, trash.get('id')
             ),
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.data.get('id') == trash.get('id') and
-            self.data.get('title') == trash.get('title') and
-            not self.data.get('is_deleted')
-        )
+        self.status(200)
+        self.check(self.data.get('id'), trash.get('id'))
+        self.check(self.data.get('title'), trash.get('title'))
+        self.check_not(self.data.get('is_deleted'))
 
 
 class ThreadPermissionFieldTest(TestCase):
@@ -707,38 +681,32 @@ class ThreadPermissionFieldTest(TestCase):
         self.get(
             '/api/communities/f/%s/' % self.forum.name
         )
-        assert (
-            self.data.get('forum').get('permission_write') and
-            self.data.get('forum').get('permission_reply')
-        )
+        self.check(self.data.get('forum').get('permission_write'))
+        self.check(self.data.get('forum').get('permission_reply'))
+
         self.get(
             '/api/communities/f/%s/read/%d/' % (
                 self.forum.name, self.thread.id
             )
         )
-        assert (
-            self.data.get('forum').get('permission_write') and
-            self.data.get('forum').get('permission_reply')
-        )
+        self.check(self.data.get('forum').get('permission_write'))
+        self.check(self.data.get('forum').get('permission_reply'))
 
         self.get(
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert (
-            self.data.get('forum').get('permission_write') and
-            self.data.get('forum').get('permission_reply')
-        )
+        self.check(self.data.get('forum').get('permission_write'))
+        self.check(self.data.get('forum').get('permission_reply'))
+
         self.get(
             '/api/communities/f/%s/read/%d/' % (
                 self.forum.name, self.thread.id
             ),
             auth=True
         )
-        assert (
-            self.data.get('forum').get('permission_write') and
-            self.data.get('forum').get('permission_reply')
-        )
+        self.check(self.data.get('forum').get('permission_write'))
+        self.check(self.data.get('forum').get('permission_reply'))
 
     def test_permission_member(self):
         option = self.create_option(
@@ -751,39 +719,33 @@ class ThreadPermissionFieldTest(TestCase):
         self.get(
             '/api/communities/f/%s/' % self.forum.name
         )
-        assert (
-            not self.data.get('forum').get('permission_write') and
-            not self.data.get('forum').get('permission_reply')
-        )
+        self.check_not(self.data.get('forum').get('permission_write'))
+        self.check_not(self.data.get('forum').get('permission_reply'))
+
         self.get(
             '/api/communities/f/%s/read/%d/' % (
                 self.forum.name, self.thread.id
             )
         )
-        assert (
-            not self.data.get('forum').get('permission_write') and
-            not self.data.get('forum').get('permission_reply')
-        )
+        self.check_not(self.data.get('forum').get('permission_write'))
+        self.check_not(self.data.get('forum').get('permission_reply'))
 
         self.create_user(username='member@a.com')
         self.get(
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert (
-            self.data.get('forum').get('permission_write') and
-            self.data.get('forum').get('permission_reply')
-        )
+        self.check(self.data.get('forum').get('permission_write'))
+        self.check(self.data.get('forum').get('permission_reply'))
+
         self.get(
             '/api/communities/f/%s/read/%d/' % (
                 self.forum.name, self.thread.id
             ),
             auth=True
         )
-        assert (
-            self.data.get('forum').get('permission_write') and
-            self.data.get('forum').get('permission_reply')
-        )
+        self.check(self.data.get('forum').get('permission_write'))
+        self.check(self.data.get('forum').get('permission_reply'))
 
     def test_permission_staff(self):
         option = self.create_option(
@@ -796,58 +758,49 @@ class ThreadPermissionFieldTest(TestCase):
         self.get(
             '/api/communities/f/%s/' % self.forum.name
         )
-        assert (
-            not self.data.get('forum').get('permission_write') and
-            not self.data.get('forum').get('permission_reply')
-        )
+        self.check_not(self.data.get('forum').get('permission_write'))
+        self.check_not(self.data.get('forum').get('permission_reply'))
+
         self.get(
             '/api/communities/f/%s/read/%d/' % (
                 self.forum.name, self.thread.id
             )
         )
-        assert (
-            not self.data.get('forum').get('permission_write') and
-            not self.data.get('forum').get('permission_reply')
-        )
+        self.check_not(self.data.get('forum').get('permission_write'))
+        self.check_not(self.data.get('forum').get('permission_reply'))
 
         self.get(
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert (
-            self.data.get('forum').get('permission_write') and
-            self.data.get('forum').get('permission_reply')
-        )
+        self.check(self.data.get('forum').get('permission_write'))
+        self.check(self.data.get('forum').get('permission_reply'))
+
         self.get(
             '/api/communities/f/%s/read/%d/' % (
                 self.forum.name, self.thread.id
             ),
             auth=True
         )
-        assert (
-            self.data.get('forum').get('permission_write') and
-            self.data.get('forum').get('permission_reply')
-        )
+        self.check(self.data.get('forum').get('permission_write'))
+        self.check(self.data.get('forum').get('permission_reply'))
 
         self.create_user(username='member@a.com')
         self.get(
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert (
-            not self.data.get('forum').get('permission_write') and
-            not self.data.get('forum').get('permission_reply')
-        )
+        self.check_not(self.data.get('forum').get('permission_write'))
+        self.check_not(self.data.get('forum').get('permission_reply'))
+
         self.get(
             '/api/communities/f/%s/read/%d/' % (
                 self.forum.name, self.thread.id
             ),
             auth=True
         )
-        assert (
-            not self.data.get('forum').get('permission_write') and
-            not self.data.get('forum').get('permission_reply')
-        )
+        self.check_not(self.data.get('forum').get('permission_write'))
+        self.check_not(self.data.get('forum').get('permission_reply'))
 
 
 class ThreadPinTest(TestCase):
@@ -864,9 +817,10 @@ class ThreadPinTest(TestCase):
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert (
-            self.data.get('threads')[1].get('title') == 'pin me' and
-            self.data.get('threads')[0].get('title') == 'stay me unpinned'
+        self.check(self.data.get('threads')[1].get('title'), 'pin me')
+        self.check(
+            self.data.get('threads')[0].get('title'),
+            'stay me unpinned'
         )
 
         self.post(
@@ -877,7 +831,8 @@ class ThreadPinTest(TestCase):
             '/api/communities/f/%s/' % self.forum.name,
             auth=True
         )
-        assert (
-            self.data.get('threads')[0].get('title') == 'pin me' and
-            self.data.get('threads')[1].get('title') == 'stay me unpinned'
+        self.check(self.data.get('threads')[0].get('title'), 'pin me')
+        self.check(
+            self.data.get('threads')[1].get('title'),
+            'stay me unpinned'
         )

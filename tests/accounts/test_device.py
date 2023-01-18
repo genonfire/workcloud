@@ -1,4 +1,3 @@
-from core.response import Response
 from core.testcase import TestCase
 from utils.datautils import search_dict
 
@@ -16,21 +15,21 @@ class DeviceTest(TestCase):
         self.login_device = self.data.get('login_device')
 
     def test_device_register(self):
-        assert not self.login_device.get('is_registered')
+        self.check_not(self.login_device.get('is_registered'))
 
         device_id = self.login_device.get('id')
-        response = self.post(
+        self.post(
             '/api/accounts/device/%d/register/' % device_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.get(
+        self.get(
             '/api/accounts/devices/',
             auth=True
         )
         device = search_dict('id', device_id, self.data)
-        assert device.get('is_registered')
+        self.check(device.get('is_registered'))
 
     def test_device_register_different_device(self):
         device_id = self.login_device.get('id')
@@ -43,35 +42,35 @@ class DeviceTest(TestCase):
             }
         )
 
-        response = self.post(
+        self.post(
             '/api/accounts/device/%d/register/' % device_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_device_delete(self):
         device_id = self.login_device.get('id')
-        response = self.delete(
+        self.delete(
             '/api/accounts/device/%d/delete/' % device_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_204
+        self.status(204)
 
-        response = self.get(
+        self.get(
             '/api/accounts/devices/',
             auth=True
         )
-        assert not self.data
+        self.check_not(self.data)
 
     def test_device_logout(self):
-        response = self.post(
+        self.post(
             '/api/accounts/logout/',
             auth=True
         )
-        assert response.status_code == Response.HTTP_204
+        self.status(204)
 
-        response = self.get(
+        self.get(
             '/api/accounts/devices/',
             auth=True
         )
-        assert not self.data
+        self.check_not(self.data)

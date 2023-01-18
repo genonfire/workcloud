@@ -5,7 +5,6 @@ from django.utils.http import urlsafe_base64_encode
 from rest_framework.test import APIClient
 
 from accounts import models
-from core.response import Response
 from core.testcase import TestCase
 
 
@@ -43,7 +42,7 @@ class PasswordTest(TestCase):
         )
 
     def test_password_change(self):
-        response = self.post(
+        self.post(
             '/api/accounts/password_change/',
             {
                 'old_password': self.password,
@@ -51,7 +50,7 @@ class PasswordTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
         self.post(
             '/api/accounts/login/',
@@ -60,17 +59,17 @@ class PasswordTest(TestCase):
                 'password': 'abcdefghijkl'
             }
         )
-        assert not self.data.get('key') == self.key
+        self.check_not(self.data.get('key'), self.key)
 
         self.auth_header = 'Token ' + self.data.get('key')
-        response = self.get(
+        self.get(
             '/api/accounts/devices/',
             auth=True
         )
-        assert len(response.data.get('data')) == 1
+        self.check(len(self.data), 1)
 
     def test_password_change_check_wrong_password(self):
-        response = self.post(
+        self.post(
             '/api/accounts/password_change/',
             {
                 'old_password': 'abcdefghijkl',
@@ -78,10 +77,10 @@ class PasswordTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_password_change_check_same_password(self):
-        response = self.post(
+        self.post(
             '/api/accounts/password_change/',
             {
                 'old_password': self.password,
@@ -89,10 +88,10 @@ class PasswordTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_password_change_check_short_password(self):
-        response = self.post(
+        self.post(
             '/api/accounts/password_change/',
             {
                 'old_password': self.password,
@@ -100,40 +99,40 @@ class PasswordTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_reset_password(self):
-        response = self.post(
+        self.post(
             '/api/accounts/password_reset/',
             {
                 'email': self.username,
             },
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
     def test_reset_password_invalid_user(self):
-        response = self.post(
+        self.post(
             '/api/accounts/password_reset/',
             {
                 'email': 'p.queen@a.com',
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_reset_password_invalid_form(self):
-        response = self.post(
+        self.post(
             '/api/accounts/password_reset/',
             {
                 'username': self.username,
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_reset_password_confirm(self):
         uid = urlsafe_base64_encode(force_bytes(self.user.pk))
         token = default_token_generator.make_token(self.user)
 
-        response = self.post(
+        self.post(
             '/api/accounts/password_reset_confirm/',
             {
                 'new_password': 'new_password',
@@ -141,9 +140,9 @@ class PasswordTest(TestCase):
                 'token': token
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.post(
+        self.post(
             '/api/accounts/password_reset_confirm/',
             {
                 'new_password': 'new_password',
@@ -151,4 +150,4 @@ class PasswordTest(TestCase):
                 'token': token
             },
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)

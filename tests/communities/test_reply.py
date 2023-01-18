@@ -1,4 +1,3 @@
-from core.response import Response
 from communities.tests import TestCase
 
 
@@ -11,80 +10,76 @@ class ReplyPermissionTest(TestCase):
         self.create_thread()
         thread_id = self.thread.id
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'name': 'tester',
                 'content': 'test'
             }
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('thread').get('id') == thread_id and
-            self.data.get('reply_id') == 0 and
-            not self.data.get('user') and
-            self.data.get('name') == 'tester' and
-            self.data.get('content') == 'test' and
-            not self.data.get('is_deleted')
-        )
+        self.status(201)
+        self.check(self.data.get('thread').get('id'), thread_id)
+        self.check(self.data.get('reply_id'), 0)
+        self.check_not(self.data.get('user'))
+        self.check(self.data.get('name'), 'tester')
+        self.check(self.data.get('content'), 'test')
+        self.check_not(self.data.get('is_deleted'))
         reply_id = self.data.get('id')
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data) == 1 and
-            self.data[0].get('name') == 'tester' and
-            self.data[0].get('content') == 'test'
-        )
+        self.status(200)
+        self.check(len(self.data), 1)
+        self.check(self.data[0].get('name'), 'tester')
+        self.check(self.data[0].get('content'), 'test')
 
-        response = self.patch(
+        self.patch(
             '/api/communities/r/%d/' % reply_id,
             {
                 'content': 'edit'
             },
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/r/%d/' % reply_id
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/r/%d/' % reply_id,
             {
                 'content': 'edit',
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/r/%d/' % reply_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
         self.create_user(username='2@a.com')
 
-        response = self.patch(
+        self.patch(
             '/api/communities/r/%d/' % reply_id,
             {
                 'content': 'edit',
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_404
+        self.status(404)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/r/%d/' % reply_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_404
+        self.status(404)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'name': 'tester',
@@ -92,22 +87,18 @@ class ReplyPermissionTest(TestCase):
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('thread').get('id') == thread_id and
-            self.data.get('reply_id') == 0 and
-            self.data.get('user').get('id') == self.user.id and
-            self.data.get('content') == 'test' and
-            not self.data.get('is_deleted')
-        )
+        self.status(201)
+        self.check(self.data.get('thread').get('id'), thread_id)
+        self.check(self.data.get('reply_id'), 0)
+        self.check(self.data.get('user').get('id'), self.user.id)
+        self.check(self.data.get('content'), 'test')
+        self.check_not(self.data.get('is_deleted'))
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            len(self.data) == 2
-        )
+        self.status(200)
+        self.check(len(self.data), 2)
 
     def test_permission_reply_member(self):
         option = self.create_option(
@@ -117,53 +108,50 @@ class ReplyPermissionTest(TestCase):
         self.create_thread()
         thread_id = self.thread.id
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'name': 'tester',
                 'content': 'test'
             }
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
         self.create_user(username='4@a.com')
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'content': 'test'
             },
             auth=True
         )
+        self.status(201)
         reply_id = self.data.get('id')
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('content') == 'test' and
-            self.data.get('user').get('username') == self.user.username
-        )
 
-        response = self.patch(
+        self.check(self.data.get('content'), 'test')
+        self.check(self.data.get('user').get('username'), self.user.username)
+
+        self.patch(
             '/api/communities/r/%d/' % reply_id,
             {
                 'content': 'edit',
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.data.get('content') == 'edit'
-        )
+        self.status(200)
+        self.check(self.data.get('content'), 'edit')
 
-        response = self.delete(
+        self.delete(
             '/api/communities/r/%d/' % reply_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
     def test_permission_reply_staff(self):
         option = self.create_option(
@@ -173,74 +161,71 @@ class ReplyPermissionTest(TestCase):
         self.create_thread()
         thread_id = self.thread.id
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'name': 'tester',
                 'content': 'test'
             }
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'content': 'test'
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_201
-
+        self.status(201)
         reply_id = self.data.get('id')
 
-        response = self.patch(
+        self.patch(
             '/api/communities/r/%d/' % reply_id,
             {
                 'content': 'edit',
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.data.get('content') == 'edit'
-        )
+        self.status(200)
+        self.check(self.data.get('content'), 'edit')
 
-        response = self.delete(
+        self.delete(
             '/api/communities/r/%d/' % reply_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
         self.create_user(username='4@a.com')
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'content': 'test'
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
-        response = self.patch(
+        self.patch(
             '/api/communities/r/%d/' % reply_id,
             {
                 'content': 'edit',
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_404
+        self.status(404)
 
-        response = self.delete(
+        self.delete(
             '/api/communities/r/%d/' % reply_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_404
+        self.status(404)
 
     def test_permission_thread_read_member(self):
         option = self.create_option(
@@ -251,23 +236,23 @@ class ReplyPermissionTest(TestCase):
         self.create_thread()
         thread_id = self.thread.id
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
         self.create_user(username='2@a.com')
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
     def test_permission_thread_read_staff(self):
         option = self.create_option(
@@ -278,23 +263,23 @@ class ReplyPermissionTest(TestCase):
         self.create_thread()
         thread_id = self.thread.id
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id
         )
-        assert response.status_code == Response.HTTP_401
+        self.status(401)
 
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
         self.create_user(username='2@a.com')
-        response = self.get(
+        self.get(
             '/api/communities/f/%d/replies/' % thread_id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_403
+        self.status(403)
 
 
 class ReplyModelTest(TestCase):
@@ -305,20 +290,18 @@ class ReplyModelTest(TestCase):
         self.create_reply()
 
     def test_nested_reply(self):
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % self.thread.id,
             {
                 'content': 'test'
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('reply_id') == 0
-        )
-        reply_id = self.data.get('id')
+        self.status(201)
+        self.check(self.data.get('reply_id'), 0)
 
-        response = self.post(
+        reply_id = self.data.get('id')
+        self.post(
             '/api/communities/f/%d/reply/' % self.thread.id,
             {
                 'reply_id': reply_id,
@@ -326,12 +309,10 @@ class ReplyModelTest(TestCase):
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('reply_id') == reply_id
-        )
+        self.status(201)
+        self.check(self.data.get('reply_id'), reply_id)
 
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % self.thread.id,
             {
                 'reply_id': self.data.get('id'),
@@ -339,27 +320,23 @@ class ReplyModelTest(TestCase):
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('reply_id') == reply_id
-        )
+        self.status(201)
+        self.check(self.data.get('reply_id'), reply_id)
 
     def test_reply_edit_delete(self):
-        response = self.patch(
+        self.patch(
             '/api/communities/r/%d/' % self.reply.id,
             {
                 'content': 'bow wow'
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.data.get('content') == 'bow wow' and
-            self.data.get('reply_id') == 0 and
-            not self.data.get('name')
-        )
+        self.status(200)
+        self.check(self.data.get('content'), 'bow wow')
+        self.check(self.data.get('reply_id'), 0)
+        self.check_not(self.data.get('name'))
 
-        response = self.patch(
+        self.patch(
             '/api/communities/r/%d/' % self.reply.id,
             {
                 'reply_id': self.reply.id,
@@ -368,41 +345,37 @@ class ReplyModelTest(TestCase):
             },
             auth=True
         )
-        assert (
-            response.status_code == Response.HTTP_200 and
-            self.data.get('content') == 'meow' and
-            self.data.get('reply_id') == 0 and
-            not self.data.get('name')
-        )
+        self.status(200)
+        self.check(self.data.get('content'), 'meow')
+        self.check(self.data.get('reply_id'), 0)
+        self.check_not(self.data.get('name'))
 
-        response = self.delete(
+        self.delete(
             '/api/communities/r/%d/' % self.reply.id,
             auth=True
         )
-        assert response.status_code == Response.HTTP_200
+        self.status(200)
 
         self.get(
             '/api/communities/f/%d/replies/' % self.thread.id,
             auth=True
         )
-        assert (
-            len(self.data) == 1 and
-            self.data[0].get('is_deleted')
-        )
+        self.check(len(self.data), 1)
+        self.check(self.data[0].get('is_deleted'))
 
     def test_reply_to_invalid_id(self):
         thread_id = int(self.thread.id) + 1
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'content': 'test'
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_404
+        self.status(404)
 
         reply_id = int(self.reply.id) + 1
-        response = self.post(
+        self.post(
             '/api/communities/f/%d/reply/' % thread_id,
             {
                 'reply_id': reply_id,
@@ -410,7 +383,7 @@ class ReplyModelTest(TestCase):
             },
             auth=True
         )
-        assert response.status_code == Response.HTTP_404
+        self.status(404)
 
 
 class ReplyListTest(TestCase):
@@ -468,16 +441,14 @@ class ReplyListTest(TestCase):
             '/api/communities/f/%d/replies/' % self.thread.id,
             auth=True
         )
-        assert (
-            len(self.data) == 5 and
-            self.data[0].get('content') == '1' and
-            self.data[0].get('reply_id') == 0 and
-            self.data[1].get('content') == '2' and
-            self.data[1].get('reply_id') == reply_id and
-            self.data[2].get('content') == '3' and
-            self.data[2].get('reply_id') == reply_id and
-            self.data[3].get('content') == '4' and
-            self.data[3].get('reply_id') == 0 and
-            self.data[4].get('content') == '5' and
-            self.data[4].get('reply_id') == 0
-        )
+        self.check(len(self.data), 5)
+        self.check(self.data[0].get('content'), '1')
+        self.check(self.data[0].get('reply_id'), 0)
+        self.check(self.data[1].get('content'), '2')
+        self.check(self.data[1].get('reply_id'), reply_id)
+        self.check(self.data[2].get('content'), '3')
+        self.check(self.data[2].get('reply_id'), reply_id)
+        self.check(self.data[3].get('content'), '4')
+        self.check(self.data[3].get('reply_id'), 0)
+        self.check(self.data[4].get('content'), '5')
+        self.check(self.data[4].get('reply_id'), 0)

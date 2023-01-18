@@ -1,6 +1,5 @@
 from rest_framework.test import APIClient
 
-from core.response import Response
 from core.testcase import TestCase
 
 
@@ -13,7 +12,7 @@ class SignupTest(TestCase):
         self.last_name = 'Cloud'
 
     def test_signup_check_duplicate_username(self):
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -22,18 +21,19 @@ class SignupTest(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert (
-            response.status_code == Response.HTTP_201 and
-            self.data.get('username') == self.username and
-            self.data.get('first_name') == self.first_name and
-            self.data.get('last_name') == self.last_name
-        )
-        assert (
-            self.data.get('call_name') == self.first_name + self.last_name or
-            self.data.get('call_name') == self.last_name + self.first_name
+        self.status(201)
+        self.check(self.data.get('username'), self.username)
+        self.check(self.data.get('first_name'), self.first_name)
+        self.check(self.data.get('last_name'), self.last_name)
+        self.check_in(
+            self.data.get('call_name'),
+            [
+                self.first_name + self.last_name,
+                self.last_name + self.first_name
+            ]
         )
 
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -42,10 +42,10 @@ class SignupTest(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_signup_check_no_password(self):
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -53,10 +53,10 @@ class SignupTest(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_signup_check_no_first_name(self):
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -64,10 +64,10 @@ class SignupTest(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_signup_check_no_last_name(self):
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -75,10 +75,10 @@ class SignupTest(TestCase):
                 'first_name': self.first_name
             }
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
     def test_signup_check_null_fields(self):
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -87,9 +87,9 @@ class SignupTest(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -98,9 +98,9 @@ class SignupTest(TestCase):
                 'last_name': self.last_name
             }
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -109,9 +109,9 @@ class SignupTest(TestCase):
                 'last_name': None
             }
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
 
-        response = self.post(
+        self.post(
             '/api/accounts/signup/',
             {
                 'username': self.username,
@@ -120,4 +120,4 @@ class SignupTest(TestCase):
                 'last_name': ''
             }
         )
-        assert response.status_code == Response.HTTP_400
+        self.status(400)
