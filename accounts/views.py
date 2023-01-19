@@ -60,6 +60,7 @@ class UserLoginView(GenericAPIView):
         return Response(data)
 
     def post(self, request, *args, **kwargs):
+        self.request_log(request)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -126,6 +127,10 @@ class LoginDeviceViewSet(ModelViewSet):
 class PasswordChangeView(GenericAPIView):
     serializer_class = serializers.PasswordChangeSerializer
     permission_classes = (IsAuthenticated,)
+    sensitive_parameters = [
+        'old_password',
+        'new_password',
+    ]
 
 
 class PasswordResetView(GenericAPIView):
@@ -136,6 +141,9 @@ class PasswordResetView(GenericAPIView):
 class PasswordResetConfirmView(GenericAPIView):
     serializer_class = serializers.PasswordResetConfirmSerializer
     permission_classes = (AllowAny,)
+    sensitive_parameters = [
+        'new_password',
+    ]
 
 
 class UserSettingViewSet(ModelViewSet):

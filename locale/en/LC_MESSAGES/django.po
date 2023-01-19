@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-05 12:17+0900\n"
+"POT-Creation-Date: 2023-01-19 17:09+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,62 +42,70 @@ msgid ""
 "be changed until you set a new password."
 msgstr ""
 
-#: utils/text.py:11
+#: utils/text.py:12
 msgid "Unable to login."
 msgstr ""
 
-#: utils/text.py:12
+#: utils/text.py:13
 msgid "User is deactivated."
 msgstr ""
 
-#: utils/text.py:13
+#: utils/text.py:14
 msgid "Invalid password."
 msgstr ""
 
-#: utils/text.py:14
+#: utils/text.py:15
 msgid "Same as old password."
 msgstr ""
 
-#: utils/text.py:15
+#: utils/text.py:16
 msgid "User not exist."
 msgstr ""
 
-#: utils/text.py:16
-msgid "Invalid uid."
-msgstr ""
-
 #: utils/text.py:17
-msgid "Invalid token."
+msgid "Username exists."
 msgstr ""
 
 #: utils/text.py:18
-msgid "You must consent."
+msgid "Invalid uid."
+msgstr ""
+
+#: utils/text.py:19
+msgid "Invalid token."
 msgstr ""
 
 #: utils/text.py:20
+msgid "You must consent."
+msgstr ""
+
+#: utils/text.py:22
 msgid "Invalid permission type"
 msgstr ""
 
-#: utils/text.py:21
+#: utils/text.py:23
 msgid "alphabets and number only"
 msgstr ""
 
-#: utils/text.py:23
+#: utils/text.py:25
 msgid "This field is required."
 msgstr ""
 
-#: utils/text.py:24
+#: utils/text.py:26
 msgid "Invalid value"
 msgstr ""
 
-#: utils/text.py:25
+#: utils/text.py:27
 msgid "File too large"
 msgstr ""
 
-#: workcloud/settings.py:241
+#: utils/text.py:28
+msgid "Already exists."
+msgstr ""
+
+#: workcloud/settings.py:246
 msgid "Korean"
 msgstr ""
 
-#: workcloud/settings.py:242
+#: workcloud/settings.py:247
 msgid "English"
 msgstr ""

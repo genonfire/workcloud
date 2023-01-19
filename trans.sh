@@ -1,2 +1,4 @@
-django-admin makemessages -a -i ".tox"
-django-admin compilemessages -i ".tox"
+#! /bin/bash
+
+django-admin makemessages -a -i ".tox" -i "frontend/wc" -i "frontend/upload"
+django-admin compilemessages -i ".tox" -i "frontend/wc" -i "frontend/upload"

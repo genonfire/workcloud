@@ -43,7 +43,7 @@ class PasswordTest(TestCase):
 
     def test_password_change(self):
         self.post(
-            '/api/accounts/password_change/',
+            '/api/accounts/password/change/',
             {
                 'old_password': self.password,
                 'new_password': 'abcdefghijkl',
@@ -70,7 +70,7 @@ class PasswordTest(TestCase):
 
     def test_password_change_check_wrong_password(self):
         self.post(
-            '/api/accounts/password_change/',
+            '/api/accounts/password/change/',
             {
                 'old_password': 'abcdefghijkl',
                 'new_password': self.password,
@@ -81,7 +81,7 @@ class PasswordTest(TestCase):
 
     def test_password_change_check_same_password(self):
         self.post(
-            '/api/accounts/password_change/',
+            '/api/accounts/password/change/',
             {
                 'old_password': self.password,
                 'new_password': self.password,
@@ -92,7 +92,7 @@ class PasswordTest(TestCase):
 
     def test_password_change_check_short_password(self):
         self.post(
-            '/api/accounts/password_change/',
+            '/api/accounts/password/change/',
             {
                 'old_password': self.password,
                 'new_password': 'short',
@@ -103,7 +103,7 @@ class PasswordTest(TestCase):
 
     def test_reset_password(self):
         self.post(
-            '/api/accounts/password_reset/',
+            '/api/accounts/password/find/',
             {
                 'email': self.username,
             },
@@ -112,7 +112,7 @@ class PasswordTest(TestCase):
 
     def test_reset_password_invalid_user(self):
         self.post(
-            '/api/accounts/password_reset/',
+            '/api/accounts/password/find/',
             {
                 'email': 'p.queen@a.com',
             },
@@ -121,7 +121,7 @@ class PasswordTest(TestCase):
 
     def test_reset_password_invalid_form(self):
         self.post(
-            '/api/accounts/password_reset/',
+            '/api/accounts/password/find/',
             {
                 'username': self.username,
             },
@@ -133,7 +133,7 @@ class PasswordTest(TestCase):
         token = default_token_generator.make_token(self.user)
 
         self.post(
-            '/api/accounts/password_reset_confirm/',
+            '/api/accounts/password/reset/',
             {
                 'new_password': 'new_password',
                 'uid': uid,
@@ -143,7 +143,7 @@ class PasswordTest(TestCase):
         self.status(400)
 
         self.post(
-            '/api/accounts/password_reset_confirm/',
+            '/api/accounts/password/reset/',
             {
                 'new_password': 'new_password',
                 'uid': 'ABC',

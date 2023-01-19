@@ -3,6 +3,7 @@ import requests
 
 from django.conf import settings
 
+from core.wrapper import async_func
 from utils.debug import Debug  # noqa
 
 
@@ -17,7 +18,11 @@ class _SlackHelper(object):
         }
         return headers
 
+    @async_func
     def chat(self, message):
+        if not settings.SLACK_CHANNEL:
+            return
+
         data = {
             'link_names': True,
             'channel': settings.SLACK_CHANNEL,

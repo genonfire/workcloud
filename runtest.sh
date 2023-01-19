@@ -1,3 +1,5 @@
+#! /bin/bash
+
 SECONDS=0
 
 unittest=false

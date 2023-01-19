@@ -1,15 +1,17 @@
-import uuid
-
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 
 from utils.constants import Const
 from utils.debug import Debug  # noqa
+from utils.file import (
+    generate_filename,
+    get_original_filename,
+)
 
 
 def app_directory_path(instance, filename):
-    return 'files/{0}-{1}'.format(uuid.uuid4(), filename)
+    return 'files/%s' % generate_filename(filename)
 
 
 class AttachmentManager(models.Manager):
@@ -45,7 +47,10 @@ class Attachment(models.Model):
     objects = AttachmentManager()
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']
+
+    def filename(self):
+        return get_original_filename(self.file.url)
 
 
 class HolidayManager(models.Manager):
@@ -68,3 +73,34 @@ class Holiday(models.Model):
 
     class Meta:
         ordering = ['date']
+
+
+class OrderThingManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            thing_type=self.model._meta.verbose_name
+        )
+
+    def things_name(self, name):
+        if name:
+            name_filter = Q(name=name)
+        else:
+            name_filter = Q()
+        return self.filter(name_filter)
+
+
+class OrderThing(models.Model):
+    thing_type = models.CharField(
+        max_length=Const.NAME_MAX_LENGTH
+    )
+    order = models.IntegerField(default=Const.BASE_ORDER)
+    name = models.CharField(
+        max_length=Const.NAME_MAX_LENGTH,
+        blank=True,
+        null=True,
+    )
+
+    objects = OrderThingManager()
+
+    class Meta:
+        ordering = ['order', 'id']

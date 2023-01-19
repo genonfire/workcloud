@@ -36,7 +36,7 @@ class Option(models.Model):
     objects = OptionManager()
 
     class Meta:
-        ordering = ('id',)
+        ordering = ['id']
 
 
 class ForumManager(models.Manager):
@@ -84,7 +84,7 @@ class Forum(models.Model):
     objects = ForumManager()
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']
 
     def thread_count(self):
         return Thread.objects.forum(self).count()
@@ -171,7 +171,7 @@ class Thread(models.Model):
     objects = ThreadManager()
 
     class Meta:
-        ordering = ('-is_pinned', '-id',)
+        ordering = ['-is_pinned', '-id']
 
     def forum_name(self):
         if self.forum:
@@ -248,7 +248,7 @@ class Reply(models.Model):
     objects = ReplyManager()
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']
 
     def forum(self):
         if self.thread:

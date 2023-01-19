@@ -23,6 +23,7 @@ class FileSerializer(ModelSerializer):
         fields = [
             'id',
             'file',
+            'filename',
             'content_type',
             'size',
             'user',
@@ -35,11 +36,13 @@ class FileUploadSerializer(FileSerializer):
         fields = [
             'id',
             'file',
+            'filename',
             'content_type',
             'size',
             'user',
         ]
         read_only_fields = [
+            'filename',
             'content_type',
             'size',
             'user',
@@ -68,6 +71,24 @@ class FileUploadSerializer(FileSerializer):
         return instance
 
 
+class FileIdSerializer(ModelSerializer):
+    id = serializers.PrimaryKeyRelatedField(
+        queryset=models.Attachment.objects.all(),
+        required=False
+    )
+
+    class Meta:
+        model = models.Attachment
+        fields = [
+            'id',
+            'file',
+            'filename',
+            'content_type',
+            'size',
+            'created_at',
+        ]
+
+
 class HolidaySerializer(ModelSerializer):
     class Meta:
         model = models.Holiday
@@ -79,3 +100,13 @@ class HolidaySerializer(ModelSerializer):
         extra_kwargs = {
             'name': Const.REQUIRED,
         }
+
+
+class OrderThingSerializer(ModelSerializer):
+    class Meta:
+        model = models.OrderThing
+        fields = (
+            'id',
+            'order',
+            'name',
+        )

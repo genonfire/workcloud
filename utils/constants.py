@@ -28,12 +28,23 @@ class _Const(object):
     LENGTH_512 = 512
     LENGTH_1024 = 1024
 
+    BASE_ORDER = 0
+    BASE_COUNT = 0
+
+    MAX_LOOP = 999
+    MAX_WORKERS = 8
+    DEFAULT_PRECISION = 6
+
     DEFAULT_LINK_COUNT = 10
     QUERY_PARAM_SEARCH = 'q'
     QUERY_PARAM_PK = 'pk'
+    QUERY_PARAM_NAME = 'name'
     QUERY_PARAM_FORUM = 'forum'
 
     TIME_FORMAT_DEFAULT = '%I:%M %p'
+    MIME_TYPE_XLSX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'  # noqa
+    EXCEL_FILENAME_FORMAT = '%Y%m%d%H%M%S'
+    CENSORED_DATA = '******'
 
     MAX_REPLY_NESTING = 99
     PERMISSION_TYPE = ['all', 'member', 'staff']
@@ -54,6 +65,13 @@ class _ConstProject(_Const):
 
     Just for this project
     """
+
+    SENSITIVE_URLS = [
+        '/api/accounts/login/',
+        '/api/accounts/signup/',
+        '/api/accounts/password/change/',
+        '/api/accounts/password/reset/',
+    ]
 
 
 Const = _ConstProject()

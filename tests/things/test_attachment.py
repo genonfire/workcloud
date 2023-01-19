@@ -1,3 +1,4 @@
+from utils.file import get_original_filename
 from things.tests import TestCase
 
 
@@ -18,7 +19,11 @@ class FileUploadTest(TestCase):
         self.check(self.data.get('content_type'), 'image/png')
         self.check(self.data.get('size'), 58)
         self.check_not(self.data.get('file'), 'image.png')
-        self.check_in('image.png', self.data.get('file'))
+        self.check(
+            get_original_filename(self.data.get('file')),
+            'image.png'
+        )
+        self.check(self.data.get('filename'), 'image.png')
 
     def test_attachment_upload_same_file(self):
         self.post(
@@ -40,9 +45,9 @@ class FileUploadTest(TestCase):
             auth=True
         )
         self.status(201)
+        self.check_not(self.data.get('file'), file.get('file'))
         self.check(self.data.get('content_type'), file.get('content_type'))
-        self.data.get('size', file.get('size'))
-        self.check_not('file', file.get('file'))
+        self.check(self.data.get('size'), file.get('size'))
 
     def test_attachment_upload_invalid_param(self):
         self.post(
@@ -133,7 +138,11 @@ class FileManageTest(TestCase):
         )
         self.status(200)
         self.check(len(self.data), 1)
-        self.check_in('attachment.txt', self.data[0].get('file'))
+        self.check(
+            get_original_filename(self.data[0].get('file')),
+            'attachment.txt'
+        )
+        self.check(self.data[0].get('filename'), 'attachment.txt')
 
         self.get(
             '/api/things/files/',

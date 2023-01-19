@@ -11,7 +11,7 @@ from rest_framework.status import (
 )
 
 
-class Response(_Response):  # lgtm [py/missing-call-to-init]
+class Response(_Response):
     HTTP_200 = HTTP_200_OK
     HTTP_201 = HTTP_201_CREATED
     HTTP_204 = HTTP_204_NO_CONTENT
@@ -32,7 +32,7 @@ class Response(_Response):  # lgtm [py/missing-call-to-init]
         super().__init__(response_data, status=status)
 
 
-class PaginatedResponse(_Response):  # lgtm [py/missing-call-to-init]
+class PaginatedResponse(_Response):
     def __init__(self, data=None, pagination=None, status=None,
                  template_name=None, headers=None,
                  exception=False, content_type=None):

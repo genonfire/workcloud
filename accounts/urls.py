@@ -37,15 +37,15 @@ urlpatterns = [
         }), name='device'
     ),
     path(
-        'password_change/', views.PasswordChangeView.as_view(),
+        'password/change/', views.PasswordChangeView.as_view(),
         name='password_change'
     ),
     path(
-        'password_reset/', views.PasswordResetView.as_view(),
+        'password/find/', views.PasswordResetView.as_view(),
         name='password_reset'
     ),
     path(
-        'password_reset_confirm/', views.PasswordResetConfirmView.as_view(),
+        'password/reset/', views.PasswordResetConfirmView.as_view(),
         name='password_reset_confirm'
     ),
     path(

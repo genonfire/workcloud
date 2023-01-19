@@ -58,7 +58,7 @@ class SignupSerializer(ModelSerializer):
             first_name=validated_data.get('first_name'),
             last_name=validated_data.get('last_name'),
             call_name=call_name,
-            is_approved=True,
+            is_approved=settings.USER_DEFAULT_APPROVED,
         )
         return user
 
@@ -155,17 +155,23 @@ class PasswordResetSerializer(Serializer):
         email = attrs.get('email')
         self.password_reset_form = self.form_class(data=self.initial_data)
 
-        if not models.User.objects.filter(username__iexact=email).exists():
-            raise serializers.ValidationError(Text.USER_NOT_EXIST)
-        if not self.password_reset_form.is_valid():
-            raise serializers.ValidationError(self.password_reset_form.errors)
+        if (
+            not self.password_reset_form.is_valid() or
+            not models.User.objects.filter(username__iexact=email).exists()
+        ):
+            raise serializers.ValidationError(
+                {'email': [Text.USER_NOT_EXIST]}
+            )
 
+        self.language = Text.language()
         return attrs
 
     @async_func
     def save(self):
         if settings.DO_NOT_SEND_EMAIL:
             return
+
+        Text.activate(self.language)
 
         user = get_object_or_404(
             models.User,

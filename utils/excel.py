@@ -96,20 +96,19 @@ class ExcelViewSet(ReadOnlyModelViewSet):
                     column + ':' + column, self.column_width[index]
                 )
 
-    def list(self, request, *args, **kwargs):
-        self.q = request.query_params.get(Const.QUERY_PARAM_SEARCH)
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
-
+    def make_excel(self, request, serializer, one_data=None):
         self.sheet_names = []
         self.sheet_keys = []
-        self.set_sheets(request, serializer.data)
+        self.set_sheets(request, serializer.data, one_data)
 
         output = BytesIO()
         workbook = xlsxwriter.Workbook(output)
 
         for index, sheet_name in enumerate(self.sheet_names):
-            data, format_data = self.make_data(self.sheet_keys[index])
+            data, format_data = self.make_data(
+                self.sheet_keys[index],
+                index
+            )
             if data:
                 worksheet = workbook.add_worksheet(sheet_name)
                 self.set_column_width(worksheet)
@@ -122,11 +121,45 @@ class ExcelViewSet(ReadOnlyModelViewSet):
                         worksheet.write(
                             row, column, cell_data, content_format
                         )
-                self.merge(workbook, worksheet, data)
+                if index == 0:
+                    self.merge(workbook, worksheet, data)
 
         workbook.close()
         output.seek(0)
-        return self.get_response(output)
+        return output
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+
+        return self.get_response(
+            self.make_excel(request, serializer),
+            serializer.data
+        )
+
+    def list(self, request, *args, **kwargs):
+        self.q = request.query_params.get(Const.QUERY_PARAM_SEARCH)
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+
+        return self.get_response(
+            self.make_excel(request, serializer),
+            serializer.data
+        )
+
+    def retrieve_list(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance_serializer = self.set_serializer(
+            self.instance_serializer,
+            instance
+        )
+        queryset = self.filter_queryset(self.get_list_queryset(instance))
+        serializer = self.get_serializer(queryset, many=True)
+
+        return self.get_response(
+            self.make_excel(request, serializer, instance_serializer.data),
+            serializer.data
+        )
 
     def get_response(self, excel):
         filename = self.get_filename()

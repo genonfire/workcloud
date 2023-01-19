@@ -22,24 +22,23 @@ class UtilTest(TestCase):
 
         self.check(result)
 
-    def test_trace(self):
+    def test_print(self):
         result = False
         if Debug.test_mode():
             if not Debug._trace_enabled():
                 settings.TRACE_ENABLED = True
-            Debug.trace('Trace test.')
+            Debug.trace('\nTrace test.')
             Debug.error('Error test.')
             settings.TRACE_ENABLED = False
             result = True
 
         self.check(result)
 
-    def test_log(self):
         result = False
         if Debug.debug_or_test_mode():
             if not Debug.debug_mode():
                 settings.DEBUG = True
-            Debug.loooog('log test.')
+            Debug.loooog('Log test.')
             Debug.callstack(limit=0)
             settings.DEBUG = False
             result = True
@@ -55,7 +54,7 @@ class UtilTest(TestCase):
         self.check(RegExpHelper.is_alphanumerics('abcdeFGHJKL9876'))
         self.check_not(RegExpHelper.is_alphanumerics('abcde@'))
         self.check_not(RegExpHelper.is_alphanumerics(''))
-        self.check(RegExpHelper.alphanumerics('abc@in8.kr'), 'abcin8kr')
+        self.check(RegExpHelper.alphanumerics('a@b.com'), 'abcom')
 
         self.check(RegExpHelper.is_uniwords('abc-123_Z'))
         self.check_not(RegExpHelper.is_uniwords('abc@'))

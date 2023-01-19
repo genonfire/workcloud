@@ -3,11 +3,13 @@ from core.viewsets import (
     ReadOnlyModelViewSet,
 )
 from core.permissions import (
+    AllowAny,
     IsAdminUser,
     IsApproved,
 )
 from core.response import Response
 
+from utils.constants import Const
 from utils.debug import Debug  # noqa
 
 from . import (
@@ -64,3 +66,24 @@ class HolidayYearViewSet(ReadOnlyModelViewSet):
             self.serializer_class
         )
         return Response(data, status=Response.HTTP_200)
+
+
+class ThingViewSet(ModelViewSet):
+    serializer_class = serializers.OrderThingSerializer
+    model = models.OrderThing
+
+    def get_queryset(self):
+        name = self.request.query_params.get(Const.QUERY_PARAM_NAME)
+        return self.model.objects.things_name(name)
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.thing_type = self.model._meta.verbose_name
+        instance.save()

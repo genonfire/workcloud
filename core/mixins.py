@@ -13,6 +13,19 @@ class ResponseMixin():
     """
 
     q = ''
+    sensitive_parameters = [
+        'password',
+    ]
+
+    def request_log(self, request):
+        if request.path in Const.SENSITIVE_URLS:
+            data = request.data.copy()
+            for field in self.sensitive_parameters:
+                if data.get(field):
+                    data[field] = Const.CENSORED_DATA
+            Debug.trace(data)
+        else:
+            Debug.trace(request.data)
 
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
@@ -33,6 +46,9 @@ class ResponseMixin():
 
         return obj
 
+    def get_list_queryset(self, instance):
+        return None
+
     def set_serializer(self, serializer_class, *args, **kwargs):
         kwargs['context'] = self.get_serializer_context()
         return serializer_class(*args, **kwargs)
@@ -52,7 +68,7 @@ class ResponseMixin():
         pass
 
     def create(self, request, *args, **kwargs):
-        Debug.trace(request.data)
+        self.request_log(request)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -77,9 +93,35 @@ class ResponseMixin():
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+    def all(self, request, *args, **kwargs):
+        self.q = request.query_params.get(Const.QUERY_PARAM_SEARCH)
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def retrieve_list(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance_serializer = self.set_serializer(
+            self.instance_serializer,
+            instance
+        )
+        queryset = self.filter_queryset(self.get_list_queryset(instance))
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(
+                serializer.data,
+                self.instance_name,
+                instance_serializer.data
+            )
+
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
@@ -131,3 +173,11 @@ class ResponseMixin():
             return Response(status=Response.HTTP_200)
         else:
             return Response(status=Response.HTTP_403)
+
+    def get_paginated_response(self, data, one_field=None, one_data=None):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(
+            data,
+            one_field,
+            one_data
+        )

@@ -20,13 +20,13 @@ class APIView(_APIView):
 
 class CreateAPIView(
     ResponseMixin, _CreateAPIView
-):  # lgtm [py/conflicting-attributes]
+):
     http_method_names = ['post']
 
 
 class GenericAPIView(
     ResponseMixin, _GenericAPIView
-):  # lgtm [py/conflicting-attributes]
+):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
@@ -40,17 +40,17 @@ class GenericAPIView(
 
 class GenericViewSet(
     ResponseMixin, _GenericViewSet
-):  # lgtm [py/conflicting-attributes]
+):
     pass
 
 
 class ModelViewSet(
     ResponseMixin, _ModelViewSet
-):  # lgtm [py/conflicting-attributes]
+):
     pass
 
 
 class ReadOnlyModelViewSet(
     ResponseMixin, _ReadOnlyModelViewSet
-):  # lgtm [py/conflicting-attributes]
+):
     pass

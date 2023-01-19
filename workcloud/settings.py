@@ -56,6 +56,11 @@ try:
     DB_NAME = ''
     DB_USER = ''
     DB_PASSWORD = ''
+    RDS_HOST = ''
+    RDS_PORT = ''
+    RDS_NAME = ''
+    RDS_USER = ''
+    RDS_PASSWORD = ''
     EMAIL_HOST = ''
     EMAIL_PORT = 25
     EMAIL_USE_TLS = True
@@ -93,6 +98,7 @@ REST_PAGINATION_SIZE_DEFAULT = 20
 DATE_TIME_FORMAT_DEFAULT = '%Y-%m-%dT%H:%M:%S%z'
 DATE_FORMAT_DEFAULT = '%Y-%m-%d'
 DO_NOT_SEND_EMAIL = False
+USER_DEFAULT_APPROVED = True
 
 # Load project configuration from CONFIG_PATH if exist. (config.json)
 try:
@@ -202,8 +208,16 @@ DATABASES = {
         'PORT': DB_PORT,
         'TEST': {
             'NAME': DB_NAME,
-        },
-    }
+        }
+    },
+    'rds': {
+        'ENGINE': DB_ENGINE,
+        'NAME': RDS_NAME,
+        'USER': RDS_USER,
+        'PASSWORD': RDS_PASSWORD,
+        'HOST': RDS_HOST,
+        'PORT': RDS_PORT,
+    },
 }
 
 

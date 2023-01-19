@@ -76,13 +76,12 @@ class User(AbstractUser):
         blank=True,
         null=True
     )
-    # For later use such as Email confirmation
     is_approved = models.BooleanField(default=False)
 
     objects = UserManager()
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']
 
     @classmethod
     def get_email_field_name(cls):
@@ -138,4 +137,4 @@ class LoginDevice(models.Model):
     objects = LoginDeviceManager()
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ['-id']

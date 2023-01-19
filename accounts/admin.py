@@ -1,6 +1,15 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
+from rest_framework.authtoken import (
+    admin as token_admin,
+    models as token_models,
+)
 
 from . import models
+
+
+admin.sites.site.unregister(Group)
+admin.sites.site.unregister(token_models.TokenProxy)
 
 
 @admin.register(models.User)
@@ -22,13 +31,15 @@ class UserAdmin(admin.ModelAdmin):
         'last_name',
     )
     ordering = (
-        'id',
-        'username',
+        '-id',
     )
     list_display_links = (
         'id',
         'username',
         'call_name',
+    )
+    list_filter = (
+        'is_approved',
     )
 
 
@@ -50,11 +61,18 @@ class LoginDeviceAdmin(admin.ModelAdmin):
         'ip_address',
     )
     ordering = (
-        'id',
-        'user',
+        '-id',
     )
     list_display_links = (
         'id',
         'user',
         'device',
+    )
+
+
+@admin.register(token_models.Token)
+class TokenAdmin(token_admin.TokenAdmin):
+    search_fields = (
+        'key',
+        'user__username',
     )

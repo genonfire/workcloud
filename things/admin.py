@@ -42,3 +42,22 @@ class HolidayAdmin(admin.ModelAdmin):
         'date',
         'name',
     )
+
+
+class OrderThingAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+        'order',
+        'thing_type',
+    )
+    search_fields = (
+        'name',
+    )
+    ordering = (
+        'order',
+        'id',
+    )
+    list_display_links = (
+        'name',
+    )
