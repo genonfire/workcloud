@@ -16,6 +16,15 @@ def get_object_from_dict(data, key='id', default=None):
     return default
 
 
+def true_or_false(param):
+    if param == 'true' or param == 'True':
+        return 'True'
+    elif param == 'false' or param == 'False':
+        return 'False'
+    else:
+        return None
+
+
 def normal_round(value):
     decimal.getcontext().rounding = decimal.ROUND_HALF_UP
     return decimal.Decimal(value).to_integral_value()

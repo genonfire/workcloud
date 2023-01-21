@@ -60,3 +60,14 @@ def is_holiday(date):
         return True
     else:
         return models.Holiday.objects.date_exist(date)
+
+
+def get_or_create_thing(model_thing, thing_type, name):
+    instance, created = model_thing.objects.get_or_create(
+        thing_type=thing_type,
+        name=name
+    )
+    if created:
+        Debug.trace('Creating a %s %s' % (thing_type, instance))
+
+    return instance

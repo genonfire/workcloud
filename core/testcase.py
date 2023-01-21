@@ -213,25 +213,30 @@ class TestCase(APITestCase):
     def create_user(
         self,
         username=None,
+        first_name=accounts.tools.Test.FIRST_NAME,
+        last_name=accounts.tools.Test.LAST_NAME,
+        call_name=accounts.tools.Test.CALL_NAME,
+        tel='010-1234-5678',
+        address='Seoul',
         is_staff=False,
         is_superuser=False,
+        is_approved=True,
     ):
         if not username:
             username = accounts.tools.Test.USERNAME
 
         self.username = username
         self.password = accounts.tools.Test.PASSWORD
-        self.first_name = accounts.tools.Test.FIRST_NAME
-        self.last_name = accounts.tools.Test.LAST_NAME
-        self.call_name = accounts.tools.Test.CALL_NAME
         self.user = accounts.models.User.objects.create_user(
             username=self.username,
             email=self.username,
             password=self.password,
-            first_name=self.first_name,
-            last_name=self.last_name,
-            call_name=self.call_name,
-            is_approved=True,
+            first_name=first_name,
+            last_name=last_name,
+            call_name=call_name,
+            tel=tel,
+            address=address,
+            is_approved=is_approved,
             is_staff=is_staff,
             is_superuser=is_superuser
         )

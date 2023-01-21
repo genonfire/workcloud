@@ -234,6 +234,26 @@ class UserSettingSerializer(ModelSerializer):
         }
 
 
+class UserAdminSerializer(ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'call_name',
+            'email',
+            'photo',
+            'tel',
+            'address',
+            'is_active',
+            'is_approved',
+            'date_joined',
+            'last_login',
+        ]
+
+
 class IAmSerializer(ModelSerializer):
     class Meta:
         model = models.User
@@ -301,3 +321,70 @@ class UserInfoSerializer(ModelSerializer):
             'date_joined',
             'last_login',
         ]
+
+
+class AuthCodeSerializer(ModelSerializer):
+    class Meta:
+        model = models.AuthCode
+        fields = [
+            'id',
+            'email',
+            'tel',
+            'code',
+            'wrong_input',
+            'is_used',
+            'created_at',
+            'tried_at',
+        ]
+
+
+class SMSAuthSerializer(ModelSerializer):
+    class Meta:
+        model = models.AuthCode
+        fields = [
+            'id',
+            'tel',
+            'created_at',
+        ]
+        read_only_fields = [
+            'created_at',
+        ]
+        extra_kwargs = {
+            'tel': Const.REQUIRED,
+        }
+
+
+class EmailAuthSerializer(ModelSerializer):
+    class Meta:
+        model = models.AuthCode
+        fields = [
+            'id',
+            'email',
+            'created_at',
+        ]
+        read_only_fields = [
+            'email',
+            'created_at',
+        ]
+
+
+class AuthCodeAnswerSerializer(ModelSerializer):
+    class Meta:
+        model = models.AuthCode
+        fields = [
+            'email',
+            'tel',
+            'code',
+        ]
+        read_only_fields = [
+            'email',
+            'tel',
+        ]
+        extra_kwargs = {
+            'code': {
+                'required': True,
+                'write_only': True,
+                'allow_null': False,
+                'allow_blank': False,
+            }
+        }

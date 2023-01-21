@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-19 17:09+0900\n"
+"POT-Creation-Date: 2023-01-21 17:11+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: frontend/templates/email_auth.html:7
 #: frontend/templates/password_reset.html:19
 #, python-format
 msgid "Dear %(call_name)s"
+msgstr ""
+
+#: frontend/templates/email_auth.html:13
+msgid "Please enter auth code below to complete email authentication."
+msgstr ""
+
+#: frontend/templates/email_auth.html:31
+msgid ""
+"To secure your personal information, this code is available within 3 minutes."
 msgstr ""
 
 #: frontend/templates/password_reset.html:25
@@ -86,26 +96,83 @@ msgstr ""
 msgid "alphabets and number only"
 msgstr ""
 
+#: utils/text.py:24
+msgid "Used auth code."
+msgstr ""
+
 #: utils/text.py:25
-msgid "This field is required."
+msgid "Expired auth code."
 msgstr ""
 
 #: utils/text.py:26
-msgid "Invalid value"
+msgid "Invalid auth code."
 msgstr ""
 
 #: utils/text.py:27
+#, python-format
+msgid "Authenticate code. %(code)s"
+msgstr ""
+
+#: utils/text.py:29
+msgid "This field is required."
+msgstr ""
+
+#: utils/text.py:30
+msgid "Invalid value"
+msgstr ""
+
+#: utils/text.py:31
 msgid "File too large"
 msgstr ""
 
-#: utils/text.py:28
+#: utils/text.py:32
 msgid "Already exists."
 msgstr ""
 
-#: workcloud/settings.py:246
+#: utils/text.py:34
+msgid "User"
+msgstr ""
+
+#: utils/text.py:35
+msgid "Username"
+msgstr ""
+
+#: utils/text.py:36
+msgid "First name"
+msgstr ""
+
+#: utils/text.py:37
+msgid "Last name"
+msgstr ""
+
+#: utils/text.py:38
+msgid "Call Name"
+msgstr ""
+
+#: utils/text.py:39
+msgid "Tel"
+msgstr ""
+
+#: utils/text.py:40
+msgid "Address"
+msgstr ""
+
+#: utils/text.py:41
+msgid "Active"
+msgstr ""
+
+#: utils/text.py:42
+msgid "Approved"
+msgstr ""
+
+#: utils/text.py:43
+msgid "Joined at"
+msgstr ""
+
+#: workcloud/settings.py:250
 msgid "Korean"
 msgstr ""
 
-#: workcloud/settings.py:247
+#: workcloud/settings.py:251
 msgid "English"
 msgstr ""

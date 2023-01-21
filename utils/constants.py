@@ -19,6 +19,8 @@ class _Const(object):
     DESC_MAX_LENGTH = 1024
     DIGITS_MAX_LENGTH = 12
     DECIMAL_PLACES_LENGTH = 6
+    AUTH_CODE_LENGTH = 6
+    AUTH_CODE_EXPIRATION_SECONDS = 180
 
     LENGTH_16 = 16
     LENGTH_32 = 32
@@ -34,17 +36,29 @@ class _Const(object):
     MAX_LOOP = 999
     MAX_WORKERS = 8
     DEFAULT_PRECISION = 6
-
     DEFAULT_LINK_COUNT = 10
+
+    QUERY_PARAM_TRUE = 'true'
+    QUERY_PARAM_FALSE = 'false'
+    QUERY_PARAM_ACTIVE = 'active'
     QUERY_PARAM_SEARCH = 'q'
     QUERY_PARAM_PK = 'pk'
     QUERY_PARAM_NAME = 'name'
     QUERY_PARAM_FORUM = 'forum'
+    QUERY_PARAM_USED = 'used'
+    QUERY_PARAM_SUCCESS = 'success'
+
+    QUERY_PARAM_SORT = 'sort'
+    QUERY_PARAM_SORT_LATEST = 'latest'
+    QUERY_PARAM_SORT_EARLIEST = 'earliest'
+    QUERY_PARAM_USERNAME_DSC = 'username_dsc'
+    QUERY_PARAM_USERNAME_ASC = 'username_asc'
 
     TIME_FORMAT_DEFAULT = '%I:%M %p'
     MIME_TYPE_XLSX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'  # noqa
     EXCEL_FILENAME_FORMAT = '%Y%m%d%H%M%S'
     CENSORED_DATA = '******'
+    CENSORED_EMAIL_DOMAIN = '@censo.red'
 
     MAX_REPLY_NESTING = 99
     PERMISSION_TYPE = ['all', 'member', 'staff']

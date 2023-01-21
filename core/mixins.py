@@ -147,9 +147,7 @@ class ResponseMixin():
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        Debug.trace(
-            'Destroying %s' % instance
-        )
+        Debug.trace('Destroying %s' % instance)
 
         if self.has_permission(instance):
             self.perform_destroy(instance)
@@ -159,9 +157,7 @@ class ResponseMixin():
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
-        Debug.trace(
-            'Deleting %s' % instance
-        )
+        Debug.trace('Deleting %s' % instance)
 
         if self.has_permission(instance):
             self.perform_delete(instance)

@@ -38,9 +38,6 @@ class UserAdmin(admin.ModelAdmin):
         'username',
         'call_name',
     )
-    list_filter = (
-        'is_approved',
-    )
 
 
 @admin.register(models.LoginDevice)

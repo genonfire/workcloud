@@ -72,7 +72,7 @@ class ExcelViewSet(ReadOnlyModelViewSet):
         ]
         return data, format_data
 
-    def set_sheets(self, request, data=None):
+    def set_sheets(self, request, data=None, one_data=None):
         self.sheet_names = [
             'sheet'
         ]
@@ -161,12 +161,9 @@ class ExcelViewSet(ReadOnlyModelViewSet):
             serializer.data
         )
 
-    def get_response(self, excel):
+    def get_response(self, excel, data=None):
         filename = self.get_filename()
         response = HttpResponse(excel, content_type=Const.MIME_TYPE_XLSX)
         response['Content-Disposition'] = 'attachment; ' + filename
-
-        Debug.trace(
-            'Exporting excel %s' % filename
-        )
+        Debug.trace('Exporting excel %s' % filename)
         return response

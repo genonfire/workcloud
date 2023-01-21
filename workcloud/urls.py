@@ -28,6 +28,7 @@ urlpatterns = i18n_patterns(
         include('communities.urls', namespace='communities')
     ),
     path('api/things/', include('things.urls', namespace='things')),
+    path('api/admin/', include('workcloud.admin_urls')),
     prefix_default_language=False
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

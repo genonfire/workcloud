@@ -59,19 +59,23 @@ urlpatterns = [
         name='deactivate'
     ),
     path(
+        'auth/sms/', views.SMSAuthViewSet.as_view({
+            'post': 'create',
+        }), name="sms_auth"
+    ),
+    path(
+        'auth/email/', views.EmailAuthViewSet.as_view({
+            'post': 'create',
+        }), name="email_auth"
+    ),
+    path(
+        'auth/<int:pk>/', views.AuthCodeAnswerViewSet.as_view({
+            'post': 'answer',
+        }), name="auth"
+    ),
+    path(
         'users/', views.UserListViewSet.as_view({
             'get': 'list',
         }), name='user_list'
-    ),
-    path(
-        'users/staff/', views.StaffListViewSet.as_view({
-            'get': 'list',
-        }), name='staff_list'
-    ),
-    path(
-        'users/<int:pk>/', views.UserAdminViewSet.as_view({
-            'patch': 'partial_update',
-            'delete': 'delete'
-        }), name='user_admin'
     ),
 ]

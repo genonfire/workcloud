@@ -11,7 +11,7 @@ from rest_framework.viewsets import (
 
 from core.response import Response
 from core.mixins import (ResponseMixin)
-from utils.debug import Debug
+from utils.debug import Debug  # noqa
 
 
 class APIView(_APIView):
@@ -30,7 +30,7 @@ class GenericAPIView(
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
-        Debug.trace(request.data)
+        self.request_log(request)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

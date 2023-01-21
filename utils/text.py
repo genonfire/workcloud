@@ -21,11 +21,26 @@ class _Text(object):
 
     INVALID_PERMISSION_TYPE = _("Invalid permission type")
     ALPHABETS_NUMBER_ONLY = _("alphabets and number only")
+    USED_AUTH_CODE = _("Used auth code.")
+    EXPIRED_AUTH_CODE = _("Expired auth code.")
+    INVALID_AUTH_CODE = _("Invalid auth code.")
+    MSG_SMS_AUTHENTICATE = _('Authenticate code. %(code)s')
 
     REQUIRED_FIELD = _("This field is required.")
     INVALID_VALUE = _("Invalid value")
     FILE_TOO_LARGE = _("File too large")
     ALREADY_EXISTS = _("Already exists.")
+
+    EXCEL_TITLE_USER = _("User")
+    EXCEL_TITLE_USERNAME = _("Username")
+    EXCEL_TITLE_FIRSTNAME = _("First name")
+    EXCEL_TITLE_LASTNAME = _("Last name")
+    EXCEL_TITLE_CALLNAME = _("Call Name")
+    EXCEL_TITLE_TEL = _("Tel")
+    EXCEL_TITLE_ADDRESS = _("Address")
+    EXCEL_TITLE_ACTIVE = _("Active")
+    EXCEL_TITLE_APPROVED = _("Approved")
+    EXCEL_TITLE_JOINED_DATE = _("Joined at")
 
     def __setattr__(self, name, value):
         raise AttributeError("cannot re-bind text(%s)" % name)

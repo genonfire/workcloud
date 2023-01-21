@@ -1,3 +1,8 @@
+from django.conf import settings
+from django.utils import timezone
+
+from rest_framework.serializers import ValidationError
+
 from core.viewsets import (
     APIView,
     CreateAPIView,
@@ -11,7 +16,14 @@ from core.permissions import (
     IsAuthenticated
 )
 from core.response import Response
+from core.wrapper import async_func
+from utils.constants import Const
+from utils.datautils import true_or_false
 from utils.debug import Debug  # noqa
+from utils.email import EmailHelper
+from utils.excel import ExcelViewSet
+from utils.sms import SMSHelper
+from utils.text import Text
 
 from . import (
     models,
@@ -99,7 +111,7 @@ class DeactivateAccountView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         models.LoginDevice.objects.filter(user=request.user).delete()
-        tools.deactivate_account(request.user)
+        tools.deactivate_account(request.user, models.AuthCode)
 
         return Response(status=Response.HTTP_200)
 
@@ -166,9 +178,39 @@ class ConnectView(UserLoginView):
         return self.get_response(user_serializer.data, login_device)
 
 
-class UserListViewSet(ModelViewSet):
-    serializer_class = serializers.UserInfoSerializer
+class _UserAdminViewSet(ModelViewSet):
+    serializer_class = serializers.IAmSerializer
     model = models.User
+    permission_classes = (IsAdminUser,)
+
+    def get_filters(self):
+        return self.model.objects.query_active(self.request.query_params)
+
+    def get_order(self):
+        sort = self.request.query_params.get(Const.QUERY_PARAM_SORT)
+
+        if sort == Const.QUERY_PARAM_USERNAME_DSC:
+            ordering = '-username'
+        elif sort == Const.QUERY_PARAM_USERNAME_ASC:
+            ordering = 'username'
+        elif sort == Const.QUERY_PARAM_SORT_EARLIEST:
+            ordering = 'id'
+        else:
+            ordering = '-id'
+        return ordering
+
+    def get_queryset(self):
+        return self.model.objects.search(
+            self.q, self.get_filters()
+        ).order_by(self.get_order())
+
+    def perform_delete(self, instance):
+        models.LoginDevice.objects.filter(user=instance).delete()
+        tools.deactivate_account(instance, models.AuthCode)
+
+
+class UserListViewSet(_UserAdminViewSet):
+    serializer_class = serializers.UserInfoSerializer
     permission_classes = (IsApproved,)
 
     def get_queryset(self):
@@ -184,14 +226,166 @@ class StaffListViewSet(ModelViewSet):
         return self.model.objects.staff_search(self.q)
 
 
-class UserAdminViewSet(ModelViewSet):
-    serializer_class = serializers.UserSettingSerializer
-    model = models.User
+class UserAdminViewSet(_UserAdminViewSet):
+    serializer_class = serializers.UserAdminSerializer
+
+    def get_filters(self):
+        return self.model.objects.query_anti_staff(self.request.query_params)
+
+
+class UserAdminExportViewSet(UserAdminViewSet, ExcelViewSet):
+    filename_prefix = 'user'
+    title = [
+        'id',
+        '%s' % Text.EXCEL_TITLE_USERNAME,
+        '%s' % Text.EXCEL_TITLE_FIRSTNAME,
+        '%s' % Text.EXCEL_TITLE_LASTNAME,
+        '%s' % Text.EXCEL_TITLE_CALLNAME,
+        '%s' % Text.EXCEL_TITLE_TEL,
+        '%s' % Text.EXCEL_TITLE_ADDRESS,
+        '%s' % Text.EXCEL_TITLE_ACTIVE,
+        '%s' % Text.EXCEL_TITLE_APPROVED,
+        '%s' % Text.EXCEL_TITLE_JOINED_DATE,
+    ]
+
+    def make_data(self, key=None, index=0):
+        data = [
+            self.title
+        ]
+        format_data = [
+            self.header_format
+        ]
+
+        for user in key:
+            user_data = [
+                user.get('id'),
+                user.get('username'),
+                self.get_not_null(user.get('first_name')),
+                self.get_not_null(user.get('last_name')),
+                self.get_not_null(user.get('call_name')),
+                self.get_not_null(user.get('tel')),
+                self.get_not_null(user.get('address')),
+                self.get_not_null(user.get('is_active')),
+                self.get_not_null(user.get('is_approved')),
+                user.get('date_joined').split('T')[0],
+            ]
+            data.append(user_data)
+            format_data.append(self.content_format)
+
+        return data, format_data
+
+
+class AuthCodeViewSet(ModelViewSet):
+    serializer_class = serializers.AuthCodeSerializer
+    model = models.AuthCode
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return self.model.objects.all()
+
+    def save_serializer(self, serializer):
+        return serializer.save()
+
+    def send_message(self, user, instance):
+        pass
+
+    def perform_create(self, serializer):
+        instance = self.save_serializer(serializer)
+        instance.code = tools.generate_auth_code()
+
+        self.language = Text.language()
+        self.send_message(self.request.user, instance)
+
+        instance.save()
+
+
+class AuthCodeAnswerViewSet(AuthCodeViewSet):
+    serializer_class = serializers.AuthCodeAnswerSerializer
+
+    def answer(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        now = timezone.localtime()
+        code = request.data.get('code')
+
+        if instance.is_used:
+            raise ValidationError({
+                'non_field_errors': [Text.USED_AUTH_CODE]
+            })
+
+        if now > instance.expired_at():
+            raise ValidationError({
+                'non_field_errors': [Text.EXPIRED_AUTH_CODE]
+            })
+
+        if code != instance.code:
+            instance.wrong_input = code
+            instance.is_used = True
+            instance.used_at = now
+            instance.save()
+
+            raise ValidationError({
+                'non_field_errors': [Text.INVALID_AUTH_CODE]
+            })
+
+        instance.is_used = True
+        instance.used_at = now
+        instance.save()
+
+        tools.approve_user(self.request.user, instance)
+        return Response(serializer.data)
+
+
+class SMSAuthViewSet(AuthCodeViewSet):
+    serializer_class = serializers.SMSAuthSerializer
+
+    @async_func
+    def send_message(self, user, instance):
+        Text.activate(self.language)
+        msg = Text.MSG_SMS_AUTHENTICATE % {
+            'code': instance.code
+        }
+
+        SMSHelper.send(
+            instance.tel,
+            msg
+        )
+
+
+class EmailAuthViewSet(AuthCodeViewSet):
+    serializer_class = serializers.EmailAuthSerializer
+
+    def save_serializer(self, serializer):
+        return serializer.save(email=self.request.user.username)
+
+    @async_func
+    def send_message(self, user, instance):
+        Text.activate(self.language)
+
+        EmailHelper.send(
+            subject='email_auth_subject.txt',
+            html_subject='email_auth_subject.txt',
+            body='email_auth.html',
+            to=user.username,
+            html_body='email_auth.html',
+            context={
+                'site_name': settings.SITE_NAME,
+                'call_name': user.call_name,
+                'auth_code': instance,
+            }
+        )
+
+
+class AuthCodeAdminViewSet(AuthCodeViewSet):
     permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
-        return self.model.objects.approved()
-
-    def perform_delete(self, instance):
-        models.LoginDevice.objects.filter(user=instance).delete()
-        tools.deactivate_account(instance)
+        used = true_or_false(
+            self.request.query_params.get(Const.QUERY_PARAM_USED)
+        )
+        success = true_or_false(
+            self.request.query_params.get(Const.QUERY_PARAM_SUCCESS)
+        )
+        return self.model.objects.search(self.q, used, success)

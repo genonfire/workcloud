@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-19 17:09+0900\n"
+"POT-Creation-Date: 2023-01-21 17:12+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: frontend/templates/email_auth.html:7
 #: frontend/templates/password_reset.html:19
 #, python-format
 msgid "Dear %(call_name)s"
 msgstr "%(call_name)s 님"
+
+#: frontend/templates/email_auth.html:13
+msgid "Please enter auth code below to complete email authentication."
+msgstr "이메일 인증을 완료하려면 아래의 인증번호를 입력해 주세요."
+
+#: frontend/templates/email_auth.html:31
+msgid ""
+"To secure your personal information, this code is available within 3 minutes."
+msgstr "개인정보 보호를 위해 이 인증번호는 3분간만 유효합니다."
 
 #: frontend/templates/password_reset.html:25
 msgid "Someone requested that the password for your account be reset."
@@ -88,26 +98,85 @@ msgstr "권한이 잘못되었습니다."
 msgid "alphabets and number only"
 msgstr "알파벳 대소문자와 숫자만 가능합니다."
 
+#: utils/text.py:24
+msgid "Used auth code."
+msgstr "사용한 인증코드입니다."
+
 #: utils/text.py:25
+msgid "Expired auth code."
+msgstr "만료된 인증코드입니다."
+
+#: utils/text.py:26
+msgid "Invalid auth code."
+msgstr "잘못된 인증코드입니다."
+
+#: utils/text.py:27
+#, python-format
+msgid "Authenticate code. %(code)s"
+msgstr ""
+"인증코드입니다.\n"
+" %(code)s"
+
+#: utils/text.py:29
 msgid "This field is required."
 msgstr "이 필드는 필수 항목입니다."
 
-#: utils/text.py:26
+#: utils/text.py:30
 msgid "Invalid value"
 msgstr "유효하지 않은 값입니다."
 
-#: utils/text.py:27
+#: utils/text.py:31
 msgid "File too large"
 msgstr "파일이 너무 큽니다."
 
-#: utils/text.py:28
+#: utils/text.py:32
 msgid "Already exists."
 msgstr "이미 존재합니다."
 
-#: workcloud/settings.py:246
+#: utils/text.py:34
+msgid "User"
+msgstr "멤버"
+
+#: utils/text.py:35
+msgid "Username"
+msgstr "아이디"
+
+#: utils/text.py:36
+msgid "First name"
+msgstr "이름"
+
+#: utils/text.py:37
+msgid "Last name"
+msgstr "성"
+
+#: utils/text.py:38
+msgid "Call Name"
+msgstr "닉네임"
+
+#: utils/text.py:39
+msgid "Tel"
+msgstr "전화번호"
+
+#: utils/text.py:40
+msgid "Address"
+msgstr "주소"
+
+#: utils/text.py:41
+msgid "Active"
+msgstr "활성"
+
+#: utils/text.py:42
+msgid "Approved"
+msgstr "승인됨"
+
+#: utils/text.py:43
+msgid "Joined at"
+msgstr "가입일"
+
+#: workcloud/settings.py:250
 msgid "Korean"
 msgstr "한국어"
 
-#: workcloud/settings.py:247
+#: workcloud/settings.py:251
 msgid "English"
 msgstr "영어"

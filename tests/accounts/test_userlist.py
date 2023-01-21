@@ -15,7 +15,7 @@ class UserListTest(TestCase):
         self.status(200)
 
         self.get(
-            '/api/accounts/users/staff/',
+            '/api/admin/users/staff/',
             auth=True
         )
         self.status(403)
@@ -26,7 +26,7 @@ class UserListTest(TestCase):
         self.status(401)
 
         self.get(
-            '/api/accounts/users/staff/',
+            '/api/admin/users/staff/',
         )
         self.status(401)
 
@@ -77,7 +77,7 @@ class UserListTest(TestCase):
         self.check(self.data[0].get('username'), 'blue@color.com')
 
         self.get(
-            '/api/accounts/users/staff/',
+            '/api/admin/users/staff/',
             auth=True
         )
         for index, staff in enumerate(reversed(staff_list)):
@@ -85,7 +85,7 @@ class UserListTest(TestCase):
             self.check(staff.username, self.data[index].get('username'))
 
         self.get(
-            '/api/accounts/users/staff/?q=e',
+            '/api/admin/users/staff/?q=e',
             auth=True
         )
         self.status(200)

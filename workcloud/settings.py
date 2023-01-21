@@ -67,6 +67,9 @@ try:
     EMAIL_HOST_USER = ''
     EMAIL_HOST_PASSWORD = ''
     EMAIL_ADDRESS = ''
+    SMS_KEY = ''
+    SMS_USER = ''
+    SMS_SENDER = ''
     HOLIDAY_SERVICE_KEY = ''
     SLACK_CHANNEL = ''
     SLACK_TOKEN = ''
@@ -98,6 +101,7 @@ REST_PAGINATION_SIZE_DEFAULT = 20
 DATE_TIME_FORMAT_DEFAULT = '%Y-%m-%dT%H:%M:%S%z'
 DATE_FORMAT_DEFAULT = '%Y-%m-%d'
 DO_NOT_SEND_EMAIL = False
+DO_NOT_SEND_SMS = True
 USER_DEFAULT_APPROVED = True
 
 # Load project configuration from CONFIG_PATH if exist. (config.json)
