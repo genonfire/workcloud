@@ -22,6 +22,9 @@ class UserManager(DjangoUserManager):
     def staff(self):
         return self.approved().filter(is_staff=True)
 
+    def query_staff(self, q):
+        return Q(is_staff=True)
+
     def query_anti_staff(self, q):
         return Q(is_staff=False)
 
@@ -47,8 +50,8 @@ class UserManager(DjangoUserManager):
     def user_serach(self, q):
         return self.approved().filter(self.user_query(q))
 
-    def staff_search(self, q):
-        return self.staff().filter(self.user_query(q))
+    # def staff_search(self, q):
+    #     return self.staff().filter(self.user_query(q))
 
     def search(self, q, filters):
         if not filters:

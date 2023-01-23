@@ -10,16 +10,23 @@ urlpatterns = [
         }), name='users'
     ),
     path(
-        'users/staff/', accounts_views.StaffListViewSet.as_view({
-            'get': 'list',
-        }), name='staff_list'
-    ),
-    path(
         'users/<int:pk>/', accounts_views.UserAdminViewSet.as_view({
             'get': 'retrieve',
             'patch': 'partial_update',
             'delete': 'delete'
         }), name='user_admin'
+    ),
+    path(
+        'users/staff/', accounts_views.StaffAdminViewSet.as_view({
+            'get': 'list',
+        }), name='staff_list'
+    ),
+    path(
+        'users/staff/<int:pk>/', accounts_views.StaffAdminViewSet.as_view({
+            'get': 'retrieve',
+            'patch': 'partial_update',
+            'delete': 'delete'
+        }), name='staff'
     ),
     path(
         'users/export/',

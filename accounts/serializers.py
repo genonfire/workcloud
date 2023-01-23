@@ -234,6 +234,26 @@ class UserSettingSerializer(ModelSerializer):
         }
 
 
+class IAmSerializer(ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'call_name',
+            'email',
+            'photo',
+            'tel',
+            'address',
+            'is_staff',
+            'is_approved',
+            'date_joined',
+            'last_login',
+        ]
+
+
 class UserAdminSerializer(ModelSerializer):
     class Meta:
         model = models.User
@@ -254,7 +274,7 @@ class UserAdminSerializer(ModelSerializer):
         ]
 
 
-class IAmSerializer(ModelSerializer):
+class StaffAdminSerializer(ModelSerializer):
     class Meta:
         model = models.User
         fields = [
@@ -263,12 +283,9 @@ class IAmSerializer(ModelSerializer):
             'first_name',
             'last_name',
             'call_name',
-            'email',
-            'photo',
-            'tel',
-            'address',
+            'is_active',
             'is_staff',
-            'is_approved',
+            'is_superuser',
             'date_joined',
             'last_login',
         ]

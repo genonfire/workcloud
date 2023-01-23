@@ -2,11 +2,15 @@ from core.testcase import TestCase
 from utils.constants import Const
 
 
-class UserAdminBasicTest(TestCase):
+class UserAdminTest(TestCase):
     def setUp(self):
         self.user_a = self.create_user(username='a@a.com')
         self.user_b = self.create_user(username='b@a.com')
-        self.create_user(is_staff=True, is_superuser=True)
+        self.staff = self.create_user(
+            username='c@a.com',
+            is_staff=True,
+            is_superuser=True,
+        )
 
     def test_user_admin_permission(self):
         self.patch(
@@ -27,7 +31,27 @@ class UserAdminBasicTest(TestCase):
         )
         self.status(401)
 
-        self.create_user(username='c@a.com')
+        self.get(
+            '/api/admin/users/staff/'
+        )
+        self.status(401)
+
+        self.get(
+            '/api/admin/users/staff/%d/' % self.staff.id
+        )
+        self.status(401)
+
+        self.patch(
+            '/api/admin/users/staff/%d/' % self.staff.id
+        )
+        self.status(401)
+
+        self.delete(
+            '/api/admin/users/staff/%d/' % self.staff.id
+        )
+        self.status(401)
+
+        self.create_user()
 
         self.patch(
             '/api/admin/users/%d/' % self.user_b.id,
@@ -46,6 +70,30 @@ class UserAdminBasicTest(TestCase):
 
         self.get(
             '/api/admin/users/export/',
+            auth=True
+        )
+        self.status(403)
+
+        self.get(
+            '/api/admin/users/staff/',
+            auth=True
+        )
+        self.status(403)
+
+        self.get(
+            '/api/admin/users/staff/%d/' % self.staff.id,
+            auth=True
+        )
+        self.status(403)
+
+        self.patch(
+            '/api/admin/users/staff/%d/' % self.staff.id,
+            auth=True
+        )
+        self.status(403)
+
+        self.delete(
+            '/api/admin/users/staff/%d/' % self.staff.id,
             auth=True
         )
         self.status(403)
@@ -97,6 +145,60 @@ class UserAdminBasicTest(TestCase):
             Const.MIME_TYPE_XLSX
         )
 
+    def test_users_admin_staff(self):
+        self.get(
+            '/api/admin/users/staff/',
+            auth=True
+        )
+        self.status(200)
+        self.check(len(self.data), 1)
+
+        self.patch(
+            '/api/admin/users/staff/%d/' % self.staff.id,
+            {
+                'username': 'staff@a.com',
+                'first_name': 'staff',
+                'last_name': 'stephen',
+                'call_name': 'st',
+                'is_active': True,
+                'is_staff': True,
+                'is_superuser': False,
+                'date_joined': '2021-12-31T09:00:00+0900'
+            },
+            auth=True
+        )
+        self.status(200)
+
+        self.patch(
+            '/api/admin/users/staff/%d/' % self.staff.id,
+            {
+                'first_name': 'step',
+                'is_superuser': True
+            },
+            auth=True
+        )
+        self.status(200)
+
+        self.get(
+            '/api/admin/users/staff/%d/' % self.staff.id,
+            auth=True
+        )
+        self.status(200)
+        self.check(self.data.get('username'), 'staff@a.com')
+        self.check(self.data.get('first_name'), 'step')
+        self.check(self.data.get('last_name'), 'stephen')
+        self.check(self.data.get('call_name'), 'st')
+        self.check(self.data.get('is_active'))
+        self.check(self.data.get('is_staff'))
+        self.check(self.data.get('is_superuser'))
+        self.check(self.data.get('date_joined'), '2021-12-31T09:00:00+0900')
+
+        self.delete(
+            '/api/admin/users/staff/%d/' % self.staff.id,
+            auth=True
+        )
+        self.status(200)
+
 
 class UserAdminListTest(TestCase):
     def setUp(self):
@@ -113,7 +215,7 @@ class UserAdminListTest(TestCase):
 
     def test_users_admin_sorting(self):
         self.get(
-            '/api/admin/users/',
+            '/api/admin/users/?q=user',
             auth=True
         )
         self.check(self.data[0].get('id'), self.cuser.id)

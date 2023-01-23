@@ -217,20 +217,18 @@ class UserListViewSet(_UserAdminViewSet):
         return self.model.objects.user_serach(self.q)
 
 
-class StaffListViewSet(ModelViewSet):
-    serializer_class = serializers.UsernameSerializer
-    model = models.User
-    permission_classes = (IsAdminUser,)
-
-    def get_queryset(self):
-        return self.model.objects.staff_search(self.q)
-
-
 class UserAdminViewSet(_UserAdminViewSet):
     serializer_class = serializers.UserAdminSerializer
 
     def get_filters(self):
         return self.model.objects.query_anti_staff(self.request.query_params)
+
+
+class StaffAdminViewSet(_UserAdminViewSet):
+    serializer_class = serializers.StaffAdminSerializer
+
+    def get_filters(self):
+        return self.model.objects.query_staff(self.request.query_params)
 
 
 class UserAdminExportViewSet(UserAdminViewSet, ExcelViewSet):
