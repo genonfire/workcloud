@@ -6,8 +6,11 @@ from utils.debug import Debug  # noqa
 
 def search_dict(key, value, list_of_dict):
     for item in list_of_dict:
-        if item[key] == value:
-            return item
+        try:
+            if item[key] == value:
+                return item
+        except KeyError:
+            return None
 
 
 def get_object_from_dict(data, key='id', default=None):

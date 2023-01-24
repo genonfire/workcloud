@@ -12,16 +12,16 @@ def daily_task():
     now = timezone.localtime()
     today = now.date()
 
-    Debug.trace('Staring %s daily task...' % today)
-    Debug.trace('%s daily task finished.' % today)
+    Debug.print('Staring %s daily task...' % today)
+    Debug.print('%s daily task finished.' % today)
 
     if today.day == 1:
         monthly_task()
 
 
 def monthly_task():
-    Debug.trace('Staring monthly task...')
-    Debug.trace('monthly task finished.')
+    Debug.print('Staring monthly task...')
+    Debug.print('monthly task finished.')
 
 
 def minute_task():
