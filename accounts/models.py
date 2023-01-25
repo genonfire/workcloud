@@ -50,9 +50,6 @@ class UserManager(DjangoUserManager):
     def user_serach(self, q):
         return self.approved().filter(self.user_query(q))
 
-    # def staff_search(self, q):
-    #     return self.staff().filter(self.user_query(q))
-
     def search(self, q, filters):
         if not filters:
             filters = Q()
@@ -99,17 +96,10 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    EMAIL_FIELD = "username"
+
     class Meta:
         ordering = ['-id']
-
-    @classmethod
-    def get_email_field_name(cls):
-        """
-        Do not use. Only For Django PasswordResetForm
-
-        Check django.contrib.auth.forms.PasswordResetForm
-        """
-        return cls.USERNAME_FIELD
 
     def token(self):
         return tools.get_auth_token(self)
