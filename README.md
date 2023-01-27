@@ -1,6 +1,7 @@
 # workcloud
 [![API](https://github.com/genonfire/workcloud/actions/workflows/backend.yml/badge.svg?branch=master)](https://github.com/genonfire/workcloud/actions/workflows/backend.yml)
 [![frontend](https://github.com/genonfire/workcloud/actions/workflows/frontend.yml/badge.svg?branch=master)](https://github.com/genonfire/workcloud/actions/workflows/frontend.yml)
+[![CodeQL](https://github.com/genonfire/workcloud/actions/workflows/codeql.yml/badge.svg)](https://github.com/genonfire/workcloud/actions/workflows/codeql.yml)
 [![codecov](https://codecov.io/gh/genonfire/workcloud/branch/master/graph/badge.svg)](https://codecov.io/gh/genonfire/workcloud)
 
 Template for building web apps with Django REST framework + Vue.js
