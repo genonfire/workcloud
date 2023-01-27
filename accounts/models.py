@@ -96,7 +96,7 @@ class User(AbstractUser):
 
     objects = UserManager()
 
-    EMAIL_FIELD = "username"
+    EMAIL_FIELD = 'username'
 
     class Meta:
         ordering = ['-id']
