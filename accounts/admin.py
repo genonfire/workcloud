@@ -67,6 +67,32 @@ class LoginDeviceAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(models.AuthCode)
+class AuthCodeAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'email',
+        'tel',
+        'code',
+        'is_used',
+        'wrong_input',
+        'created_at',
+        'tried_at',
+    )
+    search_fields = (
+        'email',
+        'tel',
+    )
+    ordering = (
+        '-id',
+    )
+    list_display_links = (
+        'id',
+        'email',
+        'tel',
+    )
+
+
 @admin.register(token_models.Token)
 class TokenAdmin(token_admin.TokenAdmin):
     search_fields = (
