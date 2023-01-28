@@ -1,28 +1,15 @@
 <template>
-  <div class="content">
-  </div>
+  <v-container>
+  </v-container>
 </template>
 
-<script>
-import { mapState } from 'vuex'
+<script setup>
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router';
 
-export default {
-  data () {
-    return {
-    }
-  },
-  computed: {
-    ...mapState([
-      'user'
-    ])
-  },
-  mounted () {
-    if (this.user) {
-      this.$router.push({ name: 'home' })
-    }
-    else {
-      this.$router.push({ name: 'accounts.login' })
-    }
-  }
-}
+const router = useRouter()
+
+onMounted(() => {
+  router.push({ 'name': 'home' })
+})
 </script>

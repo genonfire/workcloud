@@ -26,12 +26,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 16.13.x
-        cache: npm
-        cache-dependency-path: frontend/wc/package-lock.json
+        cache: yarn
+        cache-dependency-path: frontend/wc/yarn.lock
 
     - name: install packages
-      run: npm install
+      run: yarn install
     - name: lint
-      run: npm run lint
+      run: yarn lint
     - name: build
-      run: npm run build
+      run: yarn build

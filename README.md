@@ -40,7 +40,7 @@ Template for building web apps with Django REST framework + Vue.js
 
     $ ./serve.sh
     $ cd frontend/wc
-    $ npm run serve
+    $ yarn dev
 
 
 # unittest
