@@ -4,7 +4,7 @@
       <v-img
         contain
         height="300"
-        src="@/assets/logo.png"
+        src="@/assets/images/logo.png"
       />
     </v-responsive>
   </v-container>

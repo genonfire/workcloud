@@ -177,10 +177,10 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.45.tgz#a3fffa7489eafff38d984e23d0236e230c818bc2"
   integrity sha512-Ewzq5Yhimg7pSztDV+RH1UDKBzmtqieXQlpTVm2AwraoRL/Rks96mvd8Vgi7Lj+h+TH8dv7mXD3FRZR3TUvbSg==
 
-"@vuetify/loader-shared@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@vuetify/loader-shared/-/loader-shared-1.7.0.tgz#b3bea7f90795dd8efdb536b192335590d85bffdd"
-  integrity sha512-Db4K67wMhduDsbvdRBYkrYuomti+j0E/1vlz1lnDng5F9LYYBcXa60qypIazVGI6GX/CuY1vshN6XGtGQI4FKg==
+"@vuetify/loader-shared@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@vuetify/loader-shared/-/loader-shared-1.7.1.tgz#0f63a3d41b6df29a2db1ff438aa1819b237c37a3"
+  integrity sha512-kLUvuAed6RCvkeeTNJzuy14pqnkur8lTuner7v7pNE/kVhPR97TuyXwBSBMR1cJeiLiOfu6SF5XlCYbXByEx1g==
   dependencies:
     find-cache-dir "^3.3.2"
     upath "^2.0.1"
@@ -525,9 +525,9 @@ eslint-visitor-keys@^3.3.0:
   integrity sha512-mQ+suqKJVyeuwGYHAdjMFqjCyfl8+Ldnxuyp3ldiMBFKkvytrXUZWaiPCEav8qDHKty44bD+qV1IP4T+w+xXRA==
 
 eslint@^8.22.0:
-  version "8.32.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.32.0.tgz#d9690056bb6f1a302bd991e7090f5b68fbaea861"
-  integrity sha512-nETVXpnthqKPFyuY2FNjz/bEd6nbosRgKbkgS/y1C7LJop96gYHWpiguLecMHQ2XCPxn77DS0P+68WzG6vkZSQ==
+  version "8.33.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.33.0.tgz#02f110f32998cb598c6461f24f4d306e41ca33d7"
+  integrity sha512-WjOpFQgKK8VrCnAtl8We0SUOy/oVZ5NHykyMiagV1M9r8IFpIJX7DduK6n1mpfhlG7T1NLWm2SuD8QB7KFySaA==
   dependencies:
     "@eslint/eslintrc" "^1.4.1"
     "@humanwhocodes/config-array" "^0.11.8"
@@ -723,9 +723,9 @@ glob@^7.1.3:
     path-is-absolute "^1.0.0"
 
 globals@^13.19.0:
-  version "13.19.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-13.19.0.tgz#7a42de8e6ad4f7242fbcca27ea5b23aca367b5c8"
-  integrity sha512-dkQ957uSRWHw7CFXLUtUHQI3g3aWApYhfNR2O6jn/907riyTYKVBmxYVROkBcY614FSSeSJh7Xm7SrUWCxvJMQ==
+  version "13.20.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-13.20.0.tgz#ea276a1e508ffd4f1612888f9d1bad1e2717bf82"
+  integrity sha512-Qg5QtVkCy/kv3FUSlu4ukeZDVf9ee0iXLAUYX13gbR17bnejFTzr4iS9bY7kwCf1NztRNm1t91fjOiyx4CSwPQ==
   dependencies:
     type-fest "^0.20.2"
 
@@ -1231,11 +1231,11 @@ util-deprecate@^1.0.2:
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
 vite-plugin-vuetify@^1.0.0-alpha.12:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/vite-plugin-vuetify/-/vite-plugin-vuetify-1.0.1.tgz#dcdf78f804c0cc6c7ff90087fe2e8766598ce112"
-  integrity sha512-/xHsIDuHxq7f6fDqCBYxNascLhDi+X8dV3RzTwmo4mGPrSnGq9pHv8wJsXBIQIT3nY8s16V0lmd6sXMjm0F8wg==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vite-plugin-vuetify/-/vite-plugin-vuetify-1.0.2.tgz#d1777c63aa1b3a308756461b3d0299fd101ee8f4"
+  integrity sha512-MubIcKD33O8wtgQXlbEXE7ccTEpHZ8nPpe77y9Wy3my2MWw/PgehP9VqTp92BLqr0R1dSL970Lynvisx3UxBFw==
   dependencies:
-    "@vuetify/loader-shared" "^1.7.0"
+    "@vuetify/loader-shared" "^1.7.1"
     debug "^4.3.3"
     upath "^2.0.1"
 
