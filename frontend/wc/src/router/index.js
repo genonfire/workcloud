@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { nextTick } from 'vue'
 
 const routes = [
   {
@@ -22,6 +23,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+
+router.afterEach((to, from) => {
+  if (to.meta.title) {
+    nextTick(() => {
+      document.title = to.meta.title
+    })
+  }
 })
 
 export default router
