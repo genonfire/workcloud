@@ -25,7 +25,7 @@ const router = createRouter({
   routes,
 })
 
-router.afterEach((to, from) => {
+router.afterEach((to, from) => { // eslint-disable-line no-unused-vars
   if (to.meta.title) {
     nextTick(() => {
       document.title = to.meta.title
