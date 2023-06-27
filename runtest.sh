@@ -38,7 +38,7 @@ fi
 if [ "$flake8" = true ]; then
     echo "# checking flake8..."
     if flake8 --jobs=auto; then
-        echo "OK\n"
+        echo -e "OK\n"
     else
         exit
     fi
@@ -59,13 +59,13 @@ fi
 if [ "$clean" = false ] && [ "$flake8" = false ] && [ "$unittest" = false ] && [ "$testcase" = false ]; then
     echo "Usage: ./runtest.sh [options] ..."
     echo "* run all tests if no options provided"
-    echo "\nOptions:"
-    echo "flake8\t\t\t run flake8 only"
-    echo "unit, unittest\t\t run unit test only"
-    echo "case [case name]\t run a specific unit test in debug-mode"
-    echo " - example of case name\t [tests.accounts.test_login.LoginTest]"
-    echo "all\t\t\t run both flake8 and unit test"
-    echo "clean\t\t\t run unit test without --keepdb option"
+    echo -e "\nOptions:"
+    echo -e "flake8\t\t\t run flake8 only"
+    echo -e "unit, unittest\t\t run unit test only"
+    echo -e "case [case name]\t run a specific unit test in debug-mode"
+    echo -e " - example of case name\t [tests.accounts.test_login.LoginTest]"
+    echo -e "all\t\t\t run both flake8 and unit test"
+    echo -e "clean\t\t\t run unit test without --keepdb option"
 else
     duration=$SECONDS
     echo "# test finished in $duration seconds."
