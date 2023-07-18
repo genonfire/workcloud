@@ -1,7 +1,10 @@
+from django.conf import settings
+
 from core.response import Response
 from core.shortcuts import get_object_or_404
 from utils.constants import Const
 from utils.debug import Debug  # noqa
+from utils.text import Text
 
 
 class ResponseMixin():
@@ -18,7 +21,14 @@ class ResponseMixin():
     ]
 
     def request_log(self, request):
-        if request.path in Const.SENSITIVE_URLS:
+        lang = Text.language()
+
+        if lang == settings.LANGUAGE_CODE:
+            path = request.path
+        else:
+            path = '/%s' % request.path.split('/%s/' % lang)[1]
+
+        if path in Const.SENSITIVE_URLS:
             data = request.data.copy()
             for field in self.sensitive_parameters:
                 if data.get(field):
