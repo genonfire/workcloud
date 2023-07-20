@@ -14,6 +14,7 @@ else
     for argval in "$@"
     do
         if [ "$argval" == "clean" ]; then
+            flake8=true
             clean=true
         fi
         if [ "$argval" == "flake8" ]; then
