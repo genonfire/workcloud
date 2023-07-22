@@ -5,59 +5,59 @@ from . import models
 
 @admin.register(models.Attachment)
 class AttachmentAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         'id',
         'file',
         'content_type',
         'size',
         'user',
         'created_at',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'file',
-    ]
-    ordering = [
+    )
+    ordering = (
         '-id',
-    ]
-    list_display_links = [
+    )
+    list_display_links = (
         'id',
         'file',
-    ]
+    )
 
 
 @admin.register(models.Holiday)
 class HolidayAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         'date',
         'name',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'date',
         'name',
-    ]
-    ordering = [
+    )
+    ordering = (
         '-date',
-    ]
-    list_display_links = [
+    )
+    list_display_links = (
         'date',
         'name',
-    ]
+    )
 
 
 class OrderThingAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         'id',
         'name',
         'order',
         'thing_type',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'name',
-    ]
-    ordering = [
+    )
+    ordering = (
         'order',
         'id',
-    ]
-    list_display_links = [
+    )
+    list_display_links = (
         'name',
-    ]
+    )

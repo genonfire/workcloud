@@ -5,51 +5,51 @@ from . import models
 
 @admin.register(models.Option)
 class OptionAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         'id',
         'is_active',
         'permission_read',
         'permission_write',
         'permission_reply',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'id',
-    ]
-    ordering = [
+    )
+    ordering = (
         '-id',
-    ]
-    list_display_links = [
+    )
+    list_display_links = (
         'id',
-    ]
+    )
 
 
 @admin.register(models.Forum)
 class ForumAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         'id',
         'name',
         'title',
         'is_active',
         'created_at',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'name',
         'title',
         'description',
-    ]
-    ordering = [
+    )
+    ordering = (
         '-id',
-    ]
-    list_display_links = [
+    )
+    list_display_links = (
         'id',
         'name',
         'title',
-    ]
+    )
 
 
 @admin.register(models.Thread)
 class ThreadAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         'id',
         'title',
         'user',
@@ -59,23 +59,23 @@ class ThreadAdmin(admin.ModelAdmin):
         'is_deleted',
         'created_at',
         'modified_at',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'title',
         'content',
-    ]
-    ordering = [
+    )
+    ordering = (
         '-id',
-    ]
-    list_display_links = [
+    )
+    list_display_links = (
         'id',
         'title',
-    ]
+    )
 
 
 @admin.register(models.Reply)
 class ReplyAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         'id',
         'user',
         'name',
@@ -84,17 +84,17 @@ class ReplyAdmin(admin.ModelAdmin):
         'content',
         'is_deleted',
         'modified_at',
-    ]
-    search_fields = [
+    )
+    search_fields = (
         'user',
         'name',
         'content',
-    ]
-    ordering = [
+    )
+    ordering = (
         '-id',
-    ]
-    list_display_links = [
+    )
+    list_display_links = (
         'id',
         'user',
         'name',
-    ]
+    )
