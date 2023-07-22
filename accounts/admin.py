@@ -14,7 +14,7 @@ admin.sites.site.unregister(token_models.TokenProxy)
 
 @admin.register(models.User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = (
+    list_display = [
         'id',
         'username',
         'call_name',
@@ -22,27 +22,27 @@ class UserAdmin(admin.ModelAdmin):
         'last_login',
         'is_active',
         'is_staff',
-    )
-    search_fields = (
+    ]
+    search_fields = [
         'id',
         'username',
         'call_name',
         'first_name',
         'last_name',
-    )
-    ordering = (
+    ]
+    ordering = [
         '-id',
-    )
-    list_display_links = (
+    ]
+    list_display_links = [
         'id',
         'username',
         'call_name',
-    )
+    ]
 
 
 @admin.register(models.LoginDevice)
 class LoginDeviceAdmin(admin.ModelAdmin):
-    list_display = (
+    list_display = [
         'id',
         'user',
         'device',
@@ -51,25 +51,25 @@ class LoginDeviceAdmin(admin.ModelAdmin):
         'ip_address',
         'last_login',
         'is_registered',
-    )
-    search_fields = (
+    ]
+    search_fields = [
         'id',
         'user',
         'ip_address',
-    )
-    ordering = (
+    ]
+    ordering = [
         '-id',
-    )
-    list_display_links = (
+    ]
+    list_display_links = [
         'id',
         'user',
         'device',
-    )
+    ]
 
 
 @admin.register(models.AuthCode)
 class AuthCodeAdmin(admin.ModelAdmin):
-    list_display = (
+    list_display = [
         'id',
         'email',
         'tel',
@@ -78,24 +78,24 @@ class AuthCodeAdmin(admin.ModelAdmin):
         'wrong_input',
         'created_at',
         'tried_at',
-    )
-    search_fields = (
+    ]
+    search_fields = [
         'email',
         'tel',
-    )
-    ordering = (
+    ]
+    ordering = [
         '-id',
-    )
-    list_display_links = (
+    ]
+    list_display_links = [
         'id',
         'email',
         'tel',
-    )
+    ]
 
 
 @admin.register(token_models.Token)
 class TokenAdmin(token_admin.TokenAdmin):
-    search_fields = (
+    search_fields = [
         'key',
         'user__username',
-    )
+    ]

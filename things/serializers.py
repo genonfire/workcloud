@@ -105,8 +105,8 @@ class HolidaySerializer(ModelSerializer):
 class OrderThingSerializer(ModelSerializer):
     class Meta:
         model = models.OrderThing
-        fields = (
+        fields = [
             'id',
             'order',
             'name',
-        )
+        ]
