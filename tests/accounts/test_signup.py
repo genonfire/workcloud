@@ -1,6 +1,6 @@
 from rest_framework.test import APIClient
 
-from core.testcase import TestCase
+from accounts.tests import TestCase
 
 
 class SignupTest(TestCase):
