@@ -5,7 +5,7 @@ from django.utils.http import urlsafe_base64_encode
 from rest_framework.test import APIClient
 
 from accounts import models
-from core.testcase import TestCase
+from accounts.tests import TestCase
 
 
 class PasswordTest(TestCase):

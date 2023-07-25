@@ -1,4 +1,4 @@
-from core.testcase import TestCase
+from accounts.tests import TestCase
 from utils.constants import Const
 
 

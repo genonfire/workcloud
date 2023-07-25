@@ -1,4 +1,4 @@
-from core.testcase import TestCase
+from accounts.tests import TestCase
 
 
 class UserListTest(TestCase):
