@@ -4,6 +4,7 @@ config.json
 .DS_Store
 .coverage
 coverage.xml
+pyrightconfig.json
 
 /frontend/upload
 /frontend/wc_wip

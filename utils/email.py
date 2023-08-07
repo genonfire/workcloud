@@ -23,7 +23,7 @@ class _EmailHelper(object):
             return recipients
 
         data = []
-        for index, recipient in enumerate(recipients.split(',')):
+        for recipient in recipients.split(','):
             data.append(recipient.strip())
         return data
 
@@ -34,6 +34,8 @@ class _EmailHelper(object):
     ):
         if settings.DO_NOT_SEND_EMAIL:
             return
+        if settings.SEND_TEST_EMAIL:
+            to = [settings.TEST_EMAIL_ADDRESS]
         if not from_email:
             from_email = settings.DEFAULT_FROM_EMAIL
 

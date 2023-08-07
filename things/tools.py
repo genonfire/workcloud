@@ -34,7 +34,7 @@ def update_holiday(year, serializer_class):
         else:
             items = items.get('item')
 
-        if not type(items) == list:
+        if not items.isinstance(list):
             items = [items]
         for item in items:
             if item.get('isHoliday') == 'Y':
