@@ -17,7 +17,6 @@ REPLACE_FILES = [
     '.coveragerc',
     'manage.py',
     'README.md',
-    'setup.py',
     'tox.ini',
     'restore.sh',
     'load_fixtures.sh',
