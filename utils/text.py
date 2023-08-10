@@ -53,6 +53,9 @@ class _Text(object):
             language = self.language()
         return translation.activate(language)
 
+    def get(self, text):
+        return _(text)
+
 
 class _TextProject(_Text):
     """
