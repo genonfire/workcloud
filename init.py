@@ -19,6 +19,8 @@ REPLACE_FILES = [
     'README.md',
     'setup.py',
     'tox.ini',
+    'restore.sh',
+    'load_fixtures.sh',
 ]
 IGNORE_FILES = [
     '.pyc',

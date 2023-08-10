@@ -88,7 +88,7 @@ except IOError:
 # It is highly suggested to override in CONFIG_PATH to change configurations.
 # See tests/test_config.json
 
-SITE_NAME = 'Workcloud'
+SITE_NAME = 'workcloud'
 FRONTEND_URL = 'http://127.0.0.1:8080'
 DEFAULT_FROM_EMAIL = EMAIL_ADDRESS
 DEBUG = False
