@@ -40,6 +40,9 @@ class UserSignupView(CreateAPIView):
 class UserLoginView(GenericAPIView):
     serializer_class = serializers.LoginSerializer
     permission_classes = (AllowAny,)
+    sensitive_parameters = [
+        'password',
+    ]
 
     def login(self, request, user):
         ip_address = tools.get_ip_address(request)

@@ -13,7 +13,6 @@ class TestCase(CoreTestCase):
         file = self.file(name, content, content_type)
 
         self.attachment = models.Attachment.objects.create(
-            user=self.user,
             file=self.file(name, content, content_type),
             content_type=file.content_type,
             size=file.size

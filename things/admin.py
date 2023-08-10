@@ -10,7 +10,6 @@ class AttachmentAdmin(admin.ModelAdmin):
         'file',
         'content_type',
         'size',
-        'user',
         'created_at',
     )
     search_fields = (

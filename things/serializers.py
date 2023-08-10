@@ -1,5 +1,3 @@
-import accounts
-
 from django.conf import settings
 from rest_framework import serializers
 
@@ -16,8 +14,6 @@ from . import (
 
 
 class FileSerializer(ModelSerializer):
-    user = accounts.serializers.UsernameSerializer(required=False)
-
     class Meta:
         model = models.Attachment
         fields = [
@@ -26,7 +22,7 @@ class FileSerializer(ModelSerializer):
             'filename',
             'content_type',
             'size',
-            'user',
+            'created_at',
         ]
 
 
@@ -39,13 +35,11 @@ class FileUploadSerializer(FileSerializer):
             'filename',
             'content_type',
             'size',
-            'user',
         ]
         read_only_fields = [
             'filename',
             'content_type',
             'size',
-            'user',
         ]
         extra_kwargs = {
             'file': {'required': True, 'allow_null': False},
@@ -63,7 +57,6 @@ class FileUploadSerializer(FileSerializer):
         file = validated_data.get('file')
 
         instance = self.Meta.model.objects.create(
-            user=self.context.get('request').user,
             file=file,
             content_type=file.content_type,
             size=file.size
@@ -76,17 +69,6 @@ class FileIdSerializer(ModelSerializer):
         queryset=models.Attachment.objects.all(),
         required=False
     )
-
-    class Meta:
-        model = models.Attachment
-        fields = [
-            'id',
-            'file',
-            'filename',
-            'content_type',
-            'size',
-            'created_at',
-        ]
 
 
 class HolidaySerializer(ModelSerializer):
