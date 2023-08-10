@@ -2,7 +2,6 @@ import random
 
 from user_agents import parse
 
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.utils.crypto import get_random_string
@@ -10,6 +9,7 @@ from django.utils.crypto import get_random_string
 from rest_framework.authtoken.models import Token
 
 from utils.constants import Const
+from utils.text import Text
 from utils.debug import Debug  # noqa
 
 
@@ -25,22 +25,12 @@ class _Test:
 Test = _Test()
 
 
-def _should_surname_ahead(language_code):
-    languages_surname_ahead = [
-        'ko',
-    ]
+def get_call_name(first_name, last_name, language=None):
+    if not language:
+        language = Text.language()
 
-    if language_code in languages_surname_ahead:
-        return True
-    else:
-        return False
-
-
-def get_call_name(first_name, last_name, language_code=None):
-    if not language_code:
-        language_code = settings.LANGUAGE_CODE
-    if _should_surname_ahead(language_code):
-        call_name = '%s%s' % (last_name, first_name)
+    if language in Const.LANG_SURNAME_AHEAD:
+        call_name = '%s %s' % (last_name, first_name)
     else:
         call_name = '%s %s' % (first_name, last_name)
 

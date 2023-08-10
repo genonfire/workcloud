@@ -59,6 +59,9 @@ class ResponseMixin():
     def get_list_queryset(self, instance):
         return None
 
+    def get_filter_list(self):
+        return None
+
     def set_serializer(self, serializer_class, *args, **kwargs):
         kwargs['context'] = self.get_serializer_context()
         return serializer_class(*args, **kwargs)
@@ -129,6 +132,22 @@ class ResponseMixin():
                 serializer.data,
                 self.instance_name,
                 instance_serializer.data
+            )
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def filter_list(self, request, *args, **kwargs):
+        self.q = request.query_params.get(Const.QUERY_PARAM_SEARCH)
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(
+                serializer.data,
+                Const.FILTER_LIST_NAME,
+                self.get_filter_list()
             )
 
         serializer = self.get_serializer(queryset, many=True)

@@ -16,6 +16,7 @@ class _Const(object):
     NAME_MAX_LENGTH = 150
     EMAIL_MAX_LENGTH = 254
     ADDRESS_MAX_LENGTH = 254
+    URL_MAX_LENGTH = 1024
     DESC_MAX_LENGTH = 1024
     DIGITS_MAX_LENGTH = 12
     DECIMAL_PLACES_LENGTH = 6
@@ -37,6 +38,8 @@ class _Const(object):
     MAX_WORKERS = 8
     DEFAULT_PRECISION = 6
     DEFAULT_LINK_COUNT = 10
+
+    FILTER_LIST_NAME = 'filter'
 
     QUERY_PARAM_TRUE = 'true'
     QUERY_PARAM_FALSE = 'false'
@@ -60,12 +63,6 @@ class _Const(object):
     CENSORED_DATA = '******'
     CENSORED_EMAIL_DOMAIN = '@censo.red'
 
-    MAX_REPLY_NESTING = 99
-    PERMISSION_TYPE = ['all', 'member', 'staff']
-    P_READ = 'read'
-    P_WRITE = 'write'
-    P_REPLY = 'reply'
-
     REQUIRED = {'required': True, 'allow_null': False, 'allow_blank': False}
     NOT_NULL = {'allow_null': False, 'allow_blank': False}
 
@@ -79,6 +76,16 @@ class _ConstProject(_Const):
 
     Just for this project
     """
+
+    LANG_SURNAME_AHEAD = [
+        'ko',
+    ]
+
+    MAX_REPLY_NESTING = 99
+    PERMISSION_TYPE = ['all', 'member', 'staff']
+    P_READ = 'read'
+    P_WRITE = 'write'
+    P_REPLY = 'reply'
 
     SENSITIVE_URLS = [
         '/api/accounts/login/',
