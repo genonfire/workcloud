@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-21 17:12+0900\n"
+"POT-Creation-Date: 2023-08-10 18:01+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,10 @@ msgstr "이메일 인증을 완료하려면 아래의 인증번호를 입력해 
 msgid ""
 "To secure your personal information, this code is available within 3 minutes."
 msgstr "개인정보 보호를 위해 이 인증번호는 3분간만 유효합니다."
+
+#: frontend/templates/email_auth_subject.txt:2
+msgid "Email authentication"
+msgstr "이메일 인증"
 
 #: frontend/templates/password_reset.html:25
 msgid "Someone requested that the password for your account be reset."

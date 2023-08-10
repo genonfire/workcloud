@@ -23,13 +23,6 @@ class AttachmentManager(models.Manager):
 
 
 class Attachment(models.Model):
-    user = models.ForeignKey(
-        'accounts.User',
-        related_name='attachment_user',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
     file = models.FileField(
         upload_to=app_directory_path,
         max_length=Const.FILE_MAX_LENGTH,

@@ -17,8 +17,9 @@ REPLACE_FILES = [
     '.coveragerc',
     'manage.py',
     'README.md',
-    'setup.py',
     'tox.ini',
+    'restore.sh',
+    'load_fixtures.sh',
 ]
 IGNORE_FILES = [
     '.pyc',
@@ -31,11 +32,17 @@ DEFAULT_SECRETS = {
     "DB_NAME": "",
     "DB_USER": "",
     "DB_PASSWORD": "",
+    "RDS_HOST": "",
+    "RDS_PORT": "",
+    "RDS_NAME": "",
+    "RDS_USER": "",
     "EMAIL_HOST": "",
     "EMAIL_HOST_USER": "",
     "EMAIL_HOST_PASSWORD": "",
     "EMAIL_ADDRESS": "",
-    "HOLIDAY_SERVICE_KEY": "",
+    "SMS_KEY": "",
+    "SMS_USER": "",
+    "SMS_SENDER": "",
     "SLACK_CHANNEL": "",
     "SLACK_TOKEN": "",
     "AWS_ACCESS_KEY_ID": "",
@@ -44,12 +51,15 @@ DEFAULT_SECRETS = {
 }
 CONFIG_PATH = 'config.json'
 DEFAULT_CONFIG = {
+    "FRONTEND_URL": "http://127.0.0.1:8080",
     "DEBUG": True,
     "LOCAL_SERVER": True,
     "DEV_SERVER": False,
     "STAGING_SERVER": False,
     "TRACE_ENABLED": True,
-    "DO_NOT_SEND_EMAIL": True
+    "DO_NOT_SEND_EMAIL": True,
+    "SEND_TEST_EMAIL": False,
+    "DO_NOT_SEND_SMS": True
 }
 
 
@@ -67,7 +77,7 @@ def replace_project(project_name):
             f.write(content)
 
     for replace_dir in REPLACE_DIRS:
-        for dirname, dirs, files in os.walk(replace_dir):
+        for dirname, _, files in os.walk(replace_dir):
             for filename in files:
                 ignore = False
                 for ignore_string in IGNORE_FILES:

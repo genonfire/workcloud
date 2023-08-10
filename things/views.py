@@ -22,13 +22,16 @@ from . import (
 class AttachmentViewSet(ModelViewSet):
     serializer_class = serializers.FileUploadSerializer
     model = models.Attachment
-    permission_classes = (IsApproved,)
+
+    def get_permissions(self):
+        if self.action == 'create':
+            permission_classes = [IsApproved]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
 
     def get_queryset(self):
         return self.model.objects.all()
-
-    def has_ownership(self, instance):
-        return bool(self.request.user == instance.user)
 
     def perform_destroy(self, instance):
         tools.destroy_attachment(instance)

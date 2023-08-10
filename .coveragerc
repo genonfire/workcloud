@@ -6,7 +6,6 @@ show_missing = True
 omit =
     **/*apps.py*
     *manage.py*
-    *setup.py*
     *init.py*
     *tests.py*
     core/concurrent.py

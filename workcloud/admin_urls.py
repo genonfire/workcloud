@@ -17,6 +17,11 @@ urlpatterns = [
         }), name='user_admin'
     ),
     path(
+        'users/export/', accounts_views.UserAdminExportViewSet.as_view({
+            'get': 'list',
+        }), name='user_export'
+    ),
+    path(
         'users/staff/', accounts_views.StaffAdminViewSet.as_view({
             'get': 'list',
         }), name='staff_list'
@@ -27,12 +32,6 @@ urlpatterns = [
             'patch': 'partial_update',
             'delete': 'delete'
         }), name='staff'
-    ),
-    path(
-        'users/export/',
-        accounts_views.UserAdminExportViewSet.as_view({
-            'get': 'list',
-        }), name='user_export'
     ),
     path(
         'auth_codes/', accounts_views.AuthCodeAdminViewSet.as_view({

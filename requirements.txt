@@ -1,4 +1,5 @@
 codecov
+coreapi
 Django>=4.0
 djangorestframework
 django-cors-headers
@@ -7,14 +8,13 @@ django-storages
 drf-yasg
 flake8
 importlib-metadata
-mysqlclient
 packaging
 pillow
 psycopg2
 pur
 setuptools
-tblib
 six
+tblib
 tox
 user-agents
 XlsxWriter

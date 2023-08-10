@@ -28,8 +28,8 @@ class SignupTest(TestCase):
         self.check_in(
             self.data.get('call_name'),
             [
-                self.first_name + self.last_name,
-                self.last_name + self.first_name
+                '%s %s' % (self.first_name, self.last_name),
+                '%s %s' % (self.last_name, self.first_name)
             ]
         )
 
