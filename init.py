@@ -67,7 +67,7 @@ def replace_project(project_name):
             f.write(content)
 
     for replace_dir in REPLACE_DIRS:
-        for dirname, dirs, files in os.walk(replace_dir):
+        for dirname, _, files in os.walk(replace_dir):
             for filename in files:
                 ignore = False
                 for ignore_string in IGNORE_FILES:

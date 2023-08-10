@@ -147,7 +147,7 @@ def generate_auth_code(digit=0):
         digit = Const.AUTH_CODE_LENGTH
 
     code = ''
-    for i in range(digit):
+    for _ in range(digit):
         code += '%s' % random.randint(0, 9)
     return code
 
