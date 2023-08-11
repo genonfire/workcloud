@@ -24,20 +24,22 @@ jobs:
         include:
           - db: postgres
             db_port: 5432
+            db_user: wc
+            db_password: wc
 
     services:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: wc
-          POSTGRES_PASSWORD: wc
+          POSTGRES_USER: ${{ matrix.db_user }}
+          POSTGRES_PASSWORD: ${{ matrix.db_password }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5432:5432
+          - ${{ matrix.db_port }}:${{ matrix.db_port }}
 
     steps:
     - uses: actions/checkout@v3
@@ -56,7 +58,7 @@ jobs:
         DB: ${{ matrix.db }}
         DB_HOST: localhost
         DB_PORT: ${{ matrix.db_port }}
-        DB_PASSWORD: wc
+        DB_PASSWORD: ${{ matrix.db_password }}
       run: |
         tox
 
