@@ -19,7 +19,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.8]
+        python-version: ['3.10']
         db: [postgres]
         include:
           - db: postgres

@@ -51,7 +51,7 @@ class ExcelViewSet(ReadOnlyModelViewSet):
     def get_filename(self):
         filename = '%s_%s.xlsx' % (
             self.filename_prefix,
-            timezone.localtime().date().strftime(
+            timezone.localtime().strftime(
                 Const.EXCEL_FILENAME_FORMAT
             ),
         )
