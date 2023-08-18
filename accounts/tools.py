@@ -53,7 +53,7 @@ def get_user_agent(request):
         user_agent = parse(request.META.get('HTTP_USER_AGENT'))
         browser = user_agent.browser
         os = user_agent.os
-        device = user_agent.is_pc and "PC" or user_agent.device.family
+        device = user_agent.is_pc and 'PC' or user_agent.device.family
 
         return device, os.family, browser.family
     else:

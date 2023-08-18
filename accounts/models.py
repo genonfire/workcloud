@@ -77,7 +77,7 @@ class User(AbstractUser):
         null=True,
     )
     photo = models.ImageField(
-        upload_to="photo/",
+        upload_to='photo/',
         max_length=Const.FILE_MAX_LENGTH,
         blank=True,
         null=True,

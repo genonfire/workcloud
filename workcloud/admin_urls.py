@@ -36,11 +36,11 @@ urlpatterns = [
     path(
         'auth_codes/', accounts_views.AuthCodeAdminViewSet.as_view({
             'get': 'list',
-        }), name="auth_codes"
+        }), name='auth_codes'
     ),
     path(
         'auth_codes/<int:pk>/', accounts_views.AuthCodeAdminViewSet.as_view({
             'get': 'retrieve',
-        }), name="auth_code"
+        }), name='auth_code'
     ),
 ]

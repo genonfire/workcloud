@@ -102,11 +102,11 @@ class UserAdminTest(TestCase):
         self.patch(
             '/api/admin/users/%d/' % self.user_a.id,
             {
-                "first_name": "B",
-                "last_name": "Boy",
-                "call_name": "B-Boy",
-                "tel": "+82 10 1234 5678",
-                "address": "3245 146th PL SE"
+                'first_name': 'B',
+                'last_name': 'Boy',
+                'call_name': 'B-Boy',
+                'tel': '+82 10 1234 5678',
+                'address': '3245 146th PL SE'
             },
             auth=True
         )

@@ -61,17 +61,17 @@ urlpatterns = [
     path(
         'auth/sms/', views.SMSAuthViewSet.as_view({
             'post': 'create',
-        }), name="sms_auth"
+        }), name='sms_auth'
     ),
     path(
         'auth/email/', views.EmailAuthViewSet.as_view({
             'post': 'create',
-        }), name="email_auth"
+        }), name='email_auth'
     ),
     path(
         'auth/<int:pk>/', views.AuthCodeAnswerViewSet.as_view({
             'post': 'answer',
-        }), name="auth"
+        }), name='auth'
     ),
     path(
         'users/', views.UserListViewSet.as_view({

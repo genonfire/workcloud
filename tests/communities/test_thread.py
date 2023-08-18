@@ -19,7 +19,7 @@ class ThreadPermissionTest(TestCase):
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
-                'content': 'test"'
+                'content': 'test'
             }
         )
         self.status(401)
@@ -34,7 +34,7 @@ class ThreadPermissionTest(TestCase):
             '/api/communities/f/%s/write/' % self.forum.name,
             {
                 'title': 'test',
-                'content': 'test"'
+                'content': 'test'
             },
             auth=True
         )
