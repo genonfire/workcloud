@@ -7,8 +7,6 @@ coverage.xml
 pyrightconfig.json
 
 /frontend/upload
-/frontend/wc_wip
 /upload/
 /.tox/
 /*.egg-info/
-

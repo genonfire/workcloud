@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import json
 import os
-import subprocess
 import sys
 
 from django.core.management.utils import get_random_secret_key
@@ -37,6 +36,7 @@ DEFAULT_SECRETS = {
     "RDS_PORT": "",
     "RDS_NAME": "",
     "RDS_USER": "",
+    "RDS_PASSWORD": "",
     "EMAIL_HOST": "",
     "EMAIL_HOST_USER": "",
     "EMAIL_HOST_PASSWORD": "",
@@ -102,12 +102,11 @@ if __name__ == '__main__':
         project_name = os.path.split(os.getcwd())[1]
     replace_project(project_name)
     rename_directory(project_name)
-    subprocess.call(['sh', './trans.sh'])
 
     if not os.path.isfile(SECRETS_PATH):
         with open(SECRETS_PATH, 'w') as f:
-            f.write(json.dumps(DEFAULT_SECRETS, sort_keys=True, indent=4))
+            f.write(json.dumps(DEFAULT_SECRETS, sort_keys=False, indent=4))
 
     if not os.path.isfile(CONFIG_PATH):
         with open(CONFIG_PATH, 'w') as f:
-            f.write(json.dumps(DEFAULT_CONFIG, sort_keys=True, indent=4))
+            f.write(json.dumps(DEFAULT_CONFIG, sort_keys=False, indent=4))
