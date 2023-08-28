@@ -78,12 +78,6 @@ export default {
           icon: 'mdi-forum-outline',
           color: 'blue-grey darken-1',
           to: { name: 'communities.forum' }
-        },
-        {
-          text: this.$t('things.MANAGE_HOLIDAY'),
-          icon: 'mdi-calendar-month',
-          color: 'red darken-2',
-          to: { name: 'things.holiday' }
         }
       ]
     },

@@ -46,28 +46,6 @@ class Attachment(models.Model):
         return get_original_filename(self.file.url)
 
 
-class HolidayManager(models.Manager):
-    def year(self, year):
-        return self.filter(date__year=year)
-
-    def date_exist(self, date):
-        return self.filter(date=date).exists()
-
-
-class Holiday(models.Model):
-    date = models.DateField(unique=True)
-    name = models.CharField(
-        max_length=Const.NAME_MAX_LENGTH,
-        blank=True,
-        null=True,
-    )
-
-    objects = HolidayManager()
-
-    class Meta:
-        ordering = ['date']
-
-
 class OrderThingManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(

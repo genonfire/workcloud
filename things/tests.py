@@ -18,14 +18,3 @@ class TestCase(CoreTestCase):
             size=file.size
         )
         return self.attachment
-
-    def create_holiday(
-        self,
-        date='2021-12-25',
-        name='Christmas'
-    ):
-        self.holiday = models.Holiday.objects.create(
-            date=date,
-            name=name
-        )
-        return self.holiday

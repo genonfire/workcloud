@@ -20,16 +20,4 @@ urlpatterns = [
             'get': 'list',
         }), name='files_manage'
     ),
-    path(
-        'holiday/<int:pk>/', views.HolidayViewSet.as_view({
-            'patch': 'partial_update',
-            'delete': 'destroy',
-        }), name='holiday'
-    ),
-    path(
-        'holidays/<int:year>/', views.HolidayYearViewSet.as_view({
-            'post': 'update',
-            'get': 'list',
-        }), name='holidays'
-    ),
 ]

@@ -153,22 +153,6 @@ const APIs = {
     'method': 'get',
     'url': 'things/files/?q='
   },
-  HOLIDAY_LIST: {
-    'method': 'get',
-    'url': 'things/holidays/{year}/'
-  },
-  UPDATE_HOLIDAY: {
-    'method': 'post',
-    'url': 'things/holidays/{year}/'
-  },
-  EDIT_HOLIDAY: {
-    'method': 'patch',
-    'url': 'things/holiday/{pk}/'
-  },
-  DELETE_HOLIDAY: {
-    'method': 'delete',
-    'url': 'things/holiday/{pk}/'
-  },
 
   YOUTUBE_OEMBED: {
     'method': 'get',
