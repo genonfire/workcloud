@@ -103,8 +103,10 @@ class _PasswordChangeSerializer(Serializer):
         self.user.set_password(self.validated_data.get('new_password'))
         self.user.save(update_fields=['password'])
         self.user.token().delete()
-        devices = models.LoginDevice.objects.filter(user=self.user)
-        devices.delete()
+
+        if settings.USE_LOGIN_DEVICE:
+            devices = models.LoginDevice.objects.filter(user=self.user)
+            devices.delete()
 
 
 class PasswordChangeSerializer(_PasswordChangeSerializer):
@@ -251,6 +253,28 @@ class IAmSerializer(ModelSerializer):
             'is_approved',
             'date_joined',
             'last_login',
+        ]
+
+
+class UserIAMSerializer(Serializer):
+    key = serializers.CharField()
+    user = IAmSerializer()
+
+    class Meta:
+        fields = [
+            'key',
+            'user',
+        ]
+
+
+class LoginDeviceIAMSerializer(UserIAMSerializer):
+    login_device = LoginDeviceSerializer()
+
+    class Meta:
+        fields = [
+            'key',
+            'user',
+            'login_device',
         ]
 
 

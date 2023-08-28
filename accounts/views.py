@@ -41,65 +41,69 @@ class UserLoginView(GenericAPIView):
     serializer_class = serializers.LoginSerializer
     permission_classes = (AllowAny,)
 
+    def get_iam_serializer(self):
+        if settings.USE_LOGIN_DEVICE:
+            serializer = serializers.LoginDeviceIAMSerializer
+        else:
+            serializer = serializers.UserIAMSerializer
+        return serializer
+
     def login(self, request, user):
-        ip_address = tools.get_ip_address(request)
-        device, os, browser = tools.get_user_agent(request)
+        if settings.USE_LOGIN_DEVICE:
+            ip_address = tools.get_ip_address(request)
+            device, os, browser = tools.get_user_agent(request)
 
-        login_device, _ = models.LoginDevice.objects.get_or_create(
-            user=user,
-            device=device,
-            os=os,
-            browser=browser,
-            ip_address=ip_address
-        )
+            login_device, _ = models.LoginDevice.objects.get_or_create(
+                user=user,
+                device=device,
+                os=os,
+                browser=browser,
+                ip_address=ip_address
+            )
+            key = login_device.user.key()
+        else:
+            login_device = None
+            key = user.key()
 
-        tools.set_last_login(login_device)
-        return login_device
+        tools.set_last_login(login_device, user)
 
-    def get_response(self, user, login_device):
         data = {
-            'key': login_device.user.key(),
+            'key': key,
             'user': user,
-            'login_device': {
-                'id': login_device.id,
-                'device': login_device.device,
-                'os': login_device.os,
-                'browser': login_device.browser,
-                'ip_address': login_device.ip_address,
-                'is_registered': login_device.is_registered,
-            },
+            'login_device': login_device,
         }
-        return Response(data)
+        return data
 
     def post(self, request, *args, **kwargs):
         self.request_log(request)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        user = serializer.validated_data.get('user')
-        user_serializer = self.set_serializer(serializers.IAmSerializer, user)
-        login_device = self.login(request, user)
-
-        return self.get_response(user_serializer.data, login_device)
+        data = self.login(request, serializer.validated_data.get('user'))
+        iam_serializer = self.set_serializer(self.get_iam_serializer(), data)
+        return Response(iam_serializer.data)
 
 
 class UserLogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
-        ip_address = tools.get_ip_address(request)
-        device, os, browser = tools.get_user_agent(request)
+        if settings.USE_LOGIN_DEVICE:
+            ip_address = tools.get_ip_address(request)
+            device, os, browser = tools.get_user_agent(request)
 
-        login_device = models.LoginDevice.objects.filter(
-            user=request.user,
-            device=device,
-            os=os,
-            browser=browser,
-            ip_address=ip_address
-        ).first()
-        tools.delete_device(login_device)
+            login_device = models.LoginDevice.objects.filter(
+                user=request.user,
+                device=device,
+                os=os,
+                browser=browser,
+                ip_address=ip_address
+            ).first()
+            tools.delete_device(login_device)
+        else:
+            tools.delete_auth_token(request.user)
 
-        return Response(status=Response.HTTP_204)
+        return Response(status=Response.HTTP_200)
 
 
 class DeactivateAccountView(GenericAPIView):
@@ -110,9 +114,10 @@ class DeactivateAccountView(GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        models.LoginDevice.objects.filter(user=request.user).delete()
-        tools.deactivate_account(request.user, models.AuthCode)
+        if settings.USE_LOGIN_DEVICE:
+            models.LoginDevice.objects.filter(user=request.user).delete()
 
+        tools.deactivate_account(request.user, models.AuthCode)
         return Response(status=Response.HTTP_200)
 
 
@@ -171,11 +176,9 @@ class ConnectView(UserLoginView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
-        user = request.user
-        user_serializer = self.set_serializer(serializers.IAmSerializer, user)
-        login_device = self.login(request, user)
-
-        return self.get_response(user_serializer.data, login_device)
+        data = self.login(request, request.user)
+        iam_serializer = self.set_serializer(self.get_iam_serializer(), data)
+        return Response(iam_serializer.data)
 
 
 class _UserAdminViewSet(ModelViewSet):
@@ -205,7 +208,9 @@ class _UserAdminViewSet(ModelViewSet):
         ).order_by(self.get_order())
 
     def perform_delete(self, instance):
-        models.LoginDevice.objects.filter(user=instance).delete()
+        if settings.USE_LOGIN_DEVICE:
+            models.LoginDevice.objects.filter(user=instance).delete()
+
         tools.deactivate_account(instance, models.AuthCode)
 
 

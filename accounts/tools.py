@@ -86,16 +86,19 @@ def delete_device(login_device):
         login_device.delete()
 
 
-def set_last_login(login_device, user=None):
+def set_last_login(device=None, user=None):
     now = timezone.now()
 
-    login_device.last_login = now
-    login_device.save(update_fields=['last_login'])
+    if device:
+        device.last_login = now
+        device.save(update_fields=['last_login'])
 
-    if not user:
-        user = login_device.user
-    user.last_login = now
-    user.save(update_fields=['last_login'])
+        if not user:
+            user = device.user
+
+    if user:
+        user.last_login = now
+        user.save(update_fields=['last_login'])
 
 
 def get_auth_token(user):
@@ -158,8 +161,11 @@ def destroy_privacy(user):
     user.call_name = None
     user.tel = None
     user.address = None
+    if user.photo:
+        user.photo.delete()
 
     user.username = get_censored_username(user.username[0])
+    user.email = user.username
 
 
 def deactivate_account(user, authcode_model):

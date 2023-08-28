@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.conf import settings
 from django.contrib.auth.models import Group
 from rest_framework.authtoken import (
     admin as token_admin,
@@ -40,31 +41,32 @@ class UserAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(models.LoginDevice)
-class LoginDeviceAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'user',
-        'device',
-        'os',
-        'browser',
-        'ip_address',
-        'last_login',
-        'is_registered',
-    )
-    search_fields = (
-        'id',
-        'user',
-        'ip_address',
-    )
-    ordering = (
-        '-id',
-    )
-    list_display_links = (
-        'id',
-        'user',
-        'device',
-    )
+if settings.USE_LOGIN_DEVICE:
+    @admin.register(models.LoginDevice)
+    class LoginDeviceAdmin(admin.ModelAdmin):
+        list_display = (
+            'id',
+            'user',
+            'device',
+            'os',
+            'browser',
+            'ip_address',
+            'last_login',
+            'is_registered',
+        )
+        search_fields = (
+            'id',
+            'user',
+            'ip_address',
+        )
+        ordering = (
+            '-id',
+        )
+        list_display_links = (
+            'id',
+            'user',
+            'device',
+        )
 
 
 @admin.register(models.AuthCode)

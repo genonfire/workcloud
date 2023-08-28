@@ -1,9 +1,13 @@
+from django.conf import settings
+
 from accounts.tests import TestCase
 from utils.datautils import search_dict
 
 
 class DeviceTest(TestCase):
     def setUp(self):
+        settings.USE_LOGIN_DEVICE = True
+
         self.create_user()
         self.post(
             '/api/accounts/login/',
@@ -67,7 +71,7 @@ class DeviceTest(TestCase):
             '/api/accounts/logout/',
             auth=True
         )
-        self.status(204)
+        self.status(200)
 
         self.get(
             '/api/accounts/devices/',
