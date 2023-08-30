@@ -124,18 +124,6 @@ class UserAdminTest(TestCase):
         self.status(200)
 
         self.get(
-            '/api/accounts/users/',
-            auth=True
-        )
-        self.status(200)
-        self.check(len(self.data), 1)
-        self.check(self.data[0].get('first_name'), 'B')
-        self.check(self.data[0].get('last_name'), 'Boy')
-        self.check(self.data[0].get('call_name'), 'B-Boy')
-        self.check(self.data[0].get('tel'), '+82 10 1234 5678')
-        self.check(self.data[0].get('address'), '3245 146th PL SE')
-
-        self.get(
             '/api/admin/users/export/',
             auth=True
         )

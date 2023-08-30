@@ -471,8 +471,8 @@ export default {
       var vm = this
 
       axios({
-        method: this.$api('ACCOUNTS_STAFF_SEARCH').method,
-        url: this.$api('ACCOUNTS_STAFF_SEARCH').url
+        method: this.$api('ADMIN_STAFF_SEARCH').method,
+        url: this.$api('ADMIN_STAFF_SEARCH').url
       })
       .then(function (response) {
         vm.managerList = vm.managerToItem(response.data['data'])

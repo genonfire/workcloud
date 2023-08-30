@@ -344,26 +344,6 @@ class UsernameSerializer(ModelSerializer):
         ]
 
 
-class UserInfoSerializer(ModelSerializer):
-    class Meta:
-        model = models.User
-        fields = [
-            'id',
-            'username',
-            'first_name',
-            'last_name',
-            'call_name',
-            'email',
-            'photo',
-            'tel',
-            'address',
-            'is_staff',
-            'is_approved',
-            'date_joined',
-            'last_login',
-        ]
-
-
 class AuthCodeSerializer(ModelSerializer):
     class Meta:
         model = models.AuthCode

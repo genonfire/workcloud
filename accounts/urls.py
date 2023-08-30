@@ -73,9 +73,4 @@ urlpatterns = [
             'post': 'answer',
         }), name='auth'
     ),
-    path(
-        'users/', views.UserListViewSet.as_view({
-            'get': 'list',
-        }), name='user_list'
-    ),
 ]

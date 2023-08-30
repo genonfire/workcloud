@@ -12,7 +12,6 @@ from core.viewsets import (
 from core.permissions import (
     AllowAny,
     IsAdminUser,
-    IsApproved,
     IsAuthenticated
 )
 from core.response import Response
@@ -212,14 +211,6 @@ class _UserAdminViewSet(ModelViewSet):
             models.LoginDevice.objects.filter(user=instance).delete()
 
         tools.deactivate_account(instance, models.AuthCode)
-
-
-class UserListViewSet(_UserAdminViewSet):
-    serializer_class = serializers.UserInfoSerializer
-    permission_classes = (IsApproved,)
-
-    def get_queryset(self):
-        return self.model.objects.user_serach(self.q)
 
 
 class UserAdminViewSet(_UserAdminViewSet):

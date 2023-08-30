@@ -47,9 +47,6 @@ class UserManager(DjangoUserManager):
         else:
             return Q()
 
-    def user_serach(self, q):
-        return self.approved().filter(self.user_query(q))
-
     def search(self, q, filters):
         if not filters:
             filters = Q()

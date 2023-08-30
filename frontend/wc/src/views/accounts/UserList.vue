@@ -208,8 +208,8 @@ export default {
       var vm = this
 
       axios({
-        method: this.$api('ACCOUNTS_USER_EDIT').method,
-        url: this.$api('ACCOUNTS_USER_EDIT').url.replace(
+        method: this.$api('ADMIN_USER_EDIT').method,
+        url: this.$api('ADMIN_USER_EDIT').url.replace(
           '{pk}', person.id
         ),
         data: {
@@ -251,11 +251,11 @@ export default {
       var vm = this
 
       if (!url) {
-        url = this.$api('ACCOUNTS_USER_SEARCH').url + q
+        url = this.$api('ADMIN_USER_SEARCH').url + q
       }
 
       axios({
-        method: this.$api('ACCOUNTS_USER_SEARCH').method,
+        method: this.$api('ADMIN_USER_SEARCH').method,
         url: url
       })
       .then(function (response) {

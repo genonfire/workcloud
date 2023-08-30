@@ -51,21 +51,21 @@ const APIs = {
     'method': 'post',
     'url': '/accounts/deactivate/'
   },
-  ACCOUNTS_USER_SEARCH: {
+  ADMIN_USER_SEARCH: {
     'method': 'get',
-    'url': '/accounts/users/?q='
+    'url': '/admin/users/?q='
   },
-  ACCOUNTS_STAFF_SEARCH: {
+  ADMIN_STAFF_SEARCH: {
     'method': 'get',
-    'url': '/accounts/users/staff/'
+    'url': '/admin/users/staff/'
   },
-  ACCOUNTS_USER_EDIT: {
+  ADMIN_USER_EDIT: {
     'method': 'patch',
-    'url': '/accounts/users/{pk}/'
+    'url': '/admin/users/{pk}/'
   },
-  ACCOUNTS_USER_DELETE: {
+  ADMIN_USER_DELETE: {
     'method': 'delete',
-    'url': '/accounts/users/{pk}/'
+    'url': '/admin/users/{pk}/'
   },
 
   FORUM_CREATE: {
