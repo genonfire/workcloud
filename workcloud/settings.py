@@ -273,13 +273,20 @@ STATICFILES_DIRS = (
 # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY should be set in SECRETS_PATH
 
 if 'storages' in INSTALLED_APPS and not LOCAL_SERVER and not DEV_SERVER:
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"
+        }
+    }
     AWS_QUERYSTRING_AUTH = False
     AWS_DEFAULT_ACL = 'public-read'
-    AWS_DOMAIN = '.s3.ap-northeast-2.amazonaws.com'
     AWS_STORAGE_BUCKET_NAME = 'media'
+    AWS_DOMAIN = '.s3.ap-northeast-2.amazonaws.com'
     AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME + AWS_DOMAIN
     MEDIA_URL = 'https://' + AWS_S3_CUSTOM_DOMAIN + '/'
+    AWS_LOCATION = ''
+    if AWS_LOCATION:
+        MEDIA_URL += AWS_LOCATION + '/'
 else:
     MEDIA_URL = '/upload/'
 
