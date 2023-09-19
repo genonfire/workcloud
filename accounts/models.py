@@ -22,11 +22,18 @@ class UserManager(DjangoUserManager):
     def staff(self):
         return self.approved().filter(is_staff=True)
 
+    def query_active(self, query_params):
+        active = true_or_false(query_params.get(Const.QUERY_PARAM_ACTIVE))
+        if active:
+            return Q(is_active=active)
+        else:
+            return Q()
+
     def query_staff(self, q):
-        return Q(is_staff=True)
+        return Q(is_staff=True) & self.query_active(q)
 
     def query_anti_staff(self, q):
-        return Q(is_staff=False)
+        return Q(is_staff=False) & self.query_active(q)
 
     def user_query(self, q):
         search_query = Q()
@@ -39,13 +46,6 @@ class UserManager(DjangoUserManager):
                 Q(tel__icontains=q)
             )
         return search_query
-
-    def query_active(self, query_params):
-        active = true_or_false(query_params.get(Const.QUERY_PARAM_ACTIVE))
-        if active:
-            return Q(is_active=active)
-        else:
-            return Q()
 
     def search(self, q, filters):
         if not filters:
