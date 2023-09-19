@@ -162,7 +162,10 @@ class AuthCodeManager(models.Manager):
             used_query = Q()
 
         if success:
-            success_query = Q(wrong_input__isnull=bool(success == 'True'))
+            success_query = (
+                Q(is_used=True) &
+                Q(wrong_input__isnull=bool(success == 'True'))
+            )
         else:
             success_query = Q()
 
