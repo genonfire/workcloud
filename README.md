@@ -6,6 +6,10 @@
 
 Template for building web apps with Django REST framework + Vue.js
 
+This project is deprecated and a new version launched.
+
+https://github.com/genonfire/bbgo-core
+
 
 # Create database before setup
 
